@@ -1,0 +1,117 @@
+DROP DATABASE IF EXISTS apart;
+
+CREATE DATABASE apart;
+
+USE apart;
+
+-- 사용자 정보 테이블
+CREATE TABLE `User` (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) UNIQUE,
+    nickname VARCHAR(255),
+    password VARCHAR(255),
+    phone VARCHAR(20),
+    email VARCHAR(255) UNIQUE,
+    apartment VARCHAR(255),
+    approval BOOLEAN DEFAULT FALSE,
+    profile_picture VARCHAR(255),
+    email_verified BOOLEAN DEFAULT FALSE,
+    welcome_email_sent BOOLEAN DEFAULT FALSE,
+    kakao_id VARCHAR(255) UNIQUE
+);
+
+-- 공지사항 테이블
+CREATE TABLE Notice (
+    notice_id INT PRIMARY KEY AUTO_INCREMENT,
+    admin_id INT,
+    title VARCHAR(255),
+    content TEXT,
+    created_at DATETIME,
+    CONSTRAINT fk_notice_admin FOREIGN KEY (admin_id) REFERENCES User(user_id)
+);
+
+-- 신고 테이블
+CREATE TABLE Report (
+    report_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    notice_id INT,
+    content TEXT,
+    admin_reply TEXT,
+    created_at DATETIME,
+    CONSTRAINT fk_report_user FOREIGN KEY (user_id) REFERENCES User(user_id),
+    CONSTRAINT fk_report_notice FOREIGN KEY (notice_id) REFERENCES Notice(notice_id)
+);
+
+-- 입주자 커뮤니티 게시판 테이블
+CREATE TABLE Community (
+    post_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    title VARCHAR(255),
+    content TEXT,
+    likes INT DEFAULT 0,
+    created_at DATETIME,
+    CONSTRAINT fk_community_user FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+
+-- 커뮤니티 댓글 테이블
+CREATE TABLE CommunityReply (
+    reply_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    post_id INT,
+    content TEXT,
+    likes INT DEFAULT 0,
+    created_at DATETIME,
+    CONSTRAINT fk_community_reply_user FOREIGN KEY (user_id) REFERENCES User(user_id),
+    CONSTRAINT fk_community_reply_post FOREIGN KEY (post_id) REFERENCES Community(post_id)
+);
+
+-- 투표 테이블
+CREATE TABLE Vote (
+    vote_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    title VARCHAR(255),
+    option1 VARCHAR(255),
+    option2 VARCHAR(255),
+    created_at DATETIME,
+    closed_at DATETIME,
+    CONSTRAINT fk_vote_user FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+
+-- 일정 테이블
+CREATE TABLE Schedule (
+    schedule_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    category VARCHAR(255),
+    content TEXT,
+    target_dong VARCHAR(10),
+    start_date DATE,
+    end_date DATE,
+    created_at DATETIME,
+    CONSTRAINT fk_schedule_user FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+
+-- 관리자QA 테이블
+CREATE TABLE AdminQA (
+    qa_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    content TEXT,
+    is_secret BOOLEAN DEFAULT FALSE,
+    created_at DATETIME,
+    CONSTRAINT fk_admin_qa_user FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+
+-- 관리자 정보 테이블
+CREATE TABLE Admin (
+    admin_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) UNIQUE,
+    password VARCHAR(255)
+);
+
+-- 입주민 가입 신청 테이블
+CREATE TABLE ResidentApplication (
+    application_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    created_at DATETIME,
+    CONSTRAINT fk_resident_application_user FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+

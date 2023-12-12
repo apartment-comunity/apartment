@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'Bazzi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/Bazzi.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: "Bazzi";
+    text-underline-position: under;
+}
+
+h1 {
+    margin-top : 20px;
+    font-size : 5rem;
+    color : #ffc0c0;
+}
+
+div, h5 {
+    color : #ffc0c0;
+}
+li {
+    list-style-type: none;
+}
+
+a, td {
+  text-decoration-line: none;
+  color: #ffc0c0;
+}
+
+a:hover {
+  text-decoration-line: none;
+  color: violet;
+}
+
+.table-dark {
+  --bs-table-bg: #ffc0c0;
+  --bs-table-border-color: ffc0c0;
+}
+
+.btn-primary {
+  --bs-btn-bg: #ffc0c0;
+  --bs-btn-border-color: #ffc0c0;
+  --bs-btn-hover-bg: yellow;
+  --bs-btn-hover-border-color: yellow;
+  --bs-btn-active-bg: red;
+  --bs-btn-active-border-color: red;
+}
+
+h5, form, label, .card-text {
+  font-size: 2rem;
+}
+
+.alert-danger > div {
+  color: #fff;
+}
+
+.first-btn {
+  margin-right: 10px;
+}
