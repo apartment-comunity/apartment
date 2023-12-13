@@ -26,11 +26,9 @@ li {
     text-decoration: none;
     color: blue;
 }
-
-.fc-toolbar-title {
-    font-size: 2.5rem;
+div.fc-toolbar-title {
+    font-size: 3rem;
 }
-
 a, td {
   text-decoration-line: none;
   color: #ffc0c0;
