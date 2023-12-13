@@ -30,7 +30,7 @@ public class ScheduleController {
         model.addAttribute("scheduleList",scheduleFormList);
         model.addAttribute("today",today);
 
-        return "test";
+        return "test2";
     }
 
 }

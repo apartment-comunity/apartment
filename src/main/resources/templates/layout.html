@@ -27,7 +27,12 @@
 <!-- 네비게이션바 -->
 <nav th:replace="~{navbar :: navbarFragment}"></nav>
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-<th:block layout:fragment="content"></th:block>
+<th:block layout:fragment="content">
+    <!-- 이 부분은 content를 재정의하면서 style.css를 상속받지 않도록 제거 -->
+    <link rel="stylesheet" type="text/css" th:remove="tag" th:href="@{/style.css}">
+    <!-- test.html에서 작성한 내용을 여기에 넣어줌 -->
+    <div th:replace="test :: content"></div>
+</th:block>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 <!-- 자바스크립트 Start -->
 <th:block layout:fragment="script"></th:block>
