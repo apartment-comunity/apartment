@@ -4,7 +4,7 @@ import com.apartment.apart.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Schedule")
@@ -17,10 +17,12 @@ public class Schedule {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private SiteUser user;
-    private String category;
+
     private String content;
+
     private String targetDong;
-    private LocalDateTime startDate; // createdAt을 createDate로 변경
-    private LocalDateTime endDate; // createdAt을 createDate로 변경
-    private LocalDateTime createDate; // createdAt을 createDate로 변경
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
 }
