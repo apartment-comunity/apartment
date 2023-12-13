@@ -1,4 +1,4 @@
-package com.apartment.apart.admin;
+package com.apartment.apart.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,6 +12,6 @@ public class Admin {
     private Long adminId;
 
     @Column(unique = true)
-    private String username;
+    private String adminname;
     private String password;
 }

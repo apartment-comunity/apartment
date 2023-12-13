@@ -57,6 +57,11 @@ public class NoticeService {
         this.noticeRepository.delete(notice);
     }
 
+    public void vote(Notice notice, SiteUser siteUser) {
+        notice.getVoter().add(siteUser);
+        this.noticeRepository.save(notice);
+    }
+
     private Specification<Notice> search(String kw) {
         return new Specification<>() {
             private static final long serialVersionUID = 1L;

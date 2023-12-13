@@ -25,7 +25,7 @@ public class SiteUser {
     private String password;
 
     @Column(unique = true)
-    @Size(min = 10, max = 11, message = "전화번호 길이에 부합해야함.")
+//    @Size(min = 10, max = 11, message = "전화번호 길이에 부합해야함.")
     private String phone;
 
     @Column(unique = true)

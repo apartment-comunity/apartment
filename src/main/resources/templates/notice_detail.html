@@ -18,6 +18,10 @@
                 </div>
             </div>
             <div class="my-3">
+                <a onclick="return confirm('추천하시겠습니까?')" th:href="@{|/notice/vote/${notice.noticeId}|}"
+                   class="recommend btn btn-sm btn-outline-secondary">추천
+                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(notice.voter)}"></span>
+                </a>
                 <a th:href="@{|/notice/modify/${notice.noticeId}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${notice.author != null and #authentication.getPrincipal().getUsername() == notice.author.username}"
