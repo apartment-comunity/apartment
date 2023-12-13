@@ -89,4 +89,18 @@ public class NoticeController {
         this.noticeService.delete(notice);
         return "redirect:/";
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    @ResponseBody
+    public String noticeVote(Principal principal, @PathVariable("id") Integer id) {
+        Notice notice = this.noticeService.getNotice(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        this.noticeService.vote(notice, siteUser);
+
+        Notice votedNotice = this.noticeService.getNotice(id);
+        Integer count = votedNotice.getVoter().size();
+
+        return count.toString();
+    }
 }
