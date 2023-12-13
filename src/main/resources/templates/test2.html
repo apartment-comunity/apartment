@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/locales-all.js"></script>
-    <title>Title</title>
-
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
     <style>
         body {
             margin: 0;
@@ -29,9 +21,9 @@
             margin: 40px auto;
             padding: 0 10px;
         }
+
+
     </style>
-</head>
-<body>
 <!--<div id='top'>-->
 
 <!--    Locales:-->
@@ -41,7 +33,7 @@
 <div id='calendar'></div>
 
 
-</body>
+</div>
 </html>
 
 <script th:inline="javascript">
