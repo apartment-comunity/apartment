@@ -12,13 +12,19 @@ import java.time.LocalDateTime;
 public class Community {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long id; //게시글 아이디
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private SiteUser user;
-    private String title;
-    private String content;
-    private int likes;
-    private LocalDateTime createDate; // createdAt을 createDate로 변경
+    private SiteUser user; //작성자 정보
+    @Column(length = 50)
+    private String title; //게시글 제목
+    @Column(columnDefinition = "TEXT")
+    private String content;//게시글 내용
+
+    private int likeCount;//종아요 수
+
+    private LocalDateTime createDate;
+
+    private LocalDateTime modifyDate;
 }
