@@ -22,9 +22,12 @@ div, h5 {
 li {
     list-style-type: none;
 }
-.fc-col-header-cell-cushion , .fc-daygrid-day-number, .fc-toolbar-title  {
+.fc-col-header-cell-cushion , .fc-daygrid-day-number, .fc-toolbar-title, .fc-event-title,.fc-timegrid-slot-label-cushion,.fc-timegrid-axis-cushion,.schedule-create{
     text-decoration: none;
-    color: blue;
+    color: black;
+}
+.fc-event-title-container{
+    background : #EBFF82;
 }
 div.fc-toolbar-title {
     font-size: 3rem;
@@ -63,4 +66,8 @@ h5, form, label, .card-text {
 
 .first-btn {
   margin-right: 10px;
+
+}
+.schedule-alphabet{
+    color: black;
 }

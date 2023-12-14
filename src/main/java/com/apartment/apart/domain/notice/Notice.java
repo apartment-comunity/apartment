@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Table(name = "Notice")
@@ -25,7 +24,4 @@ public class Notice {
     private String content;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
-
-    @ManyToMany
-    Set<SiteUser> voter;
 }

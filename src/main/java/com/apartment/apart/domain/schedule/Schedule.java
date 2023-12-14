@@ -20,7 +20,7 @@ public class Schedule {
 
     private String content;
 
-    private String targetDong;
+    private int targetDong;
 
     private LocalDate startDate;
 
