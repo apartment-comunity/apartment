@@ -25,15 +25,14 @@ public class SiteUser {
     private String password;
 
     @Column(unique = true)
-//    @Size(min = 10, max = 11, message = "전화번호 길이에 부합해야함.")
+    @Size(min = 10, max = 11, message = "전화번호 길이에 부합해야함.")
     private String phone;
 
     @Column(unique = true)
     private String email;
 
-    @Column(unique = true)
-    private String apartment; // 동수입력
-
+    private int apartDong; // 동수입력
+    private int apartHo; //호수입력
     @Column(unique = true)
     private String kakaoId;
     private boolean approval;
