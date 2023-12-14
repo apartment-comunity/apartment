@@ -1,4 +1,4 @@
-package com.apartment.apart.schedule;
+package com.apartment.apart.domain.schedule;
 
 
 import lombok.Getter;

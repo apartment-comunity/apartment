@@ -1,4 +1,4 @@
-package com.apartment.apart.communityReply;
+package com.apartment.apart.domain.communityReply;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

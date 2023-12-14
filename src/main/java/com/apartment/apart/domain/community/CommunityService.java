@@ -1,7 +1,7 @@
-package com.apartment.apart.community;
+package com.apartment.apart.domain.community;
 
 import com.apartment.apart.DataNotException;
-import com.apartment.apart.user.SiteUser;
+import com.apartment.apart.domain.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

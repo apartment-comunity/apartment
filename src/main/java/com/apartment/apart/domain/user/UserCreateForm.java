@@ -1,4 +1,4 @@
-package com.apartment.apart.user;
+package com.apartment.apart.domain.user;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;

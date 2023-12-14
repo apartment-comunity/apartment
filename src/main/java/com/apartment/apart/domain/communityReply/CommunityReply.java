@@ -1,15 +1,17 @@
 package com.apartment.apart.domain.communityReply;
 
 import com.apartment.apart.domain.community.Community;
-import com.apartment.apart.user.SiteUser;
+import com.apartment.apart.domain.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "CommunityReply")
 @Data
 public class CommunityReply {

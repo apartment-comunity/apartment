@@ -1,11 +1,5 @@
-package com.apartment.apart.community;
+package com.apartment.apart.domain.community;
 
-import com.apartment.apart.communityReply.CommunityReply;
-import com.apartment.apart.communityReply.CommunityReplyForm;
-import com.apartment.apart.communityReply.CommunityReplyService;
-import com.apartment.apart.user.SiteUser;
-import com.apartment.apart.user.UserService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

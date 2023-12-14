@@ -1,7 +1,7 @@
 package com.apartment.apart.domain.adminQA;
 
 
-import com.apartment.apart.user.SiteUser;
+import com.apartment.apart.domain.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Data;
 

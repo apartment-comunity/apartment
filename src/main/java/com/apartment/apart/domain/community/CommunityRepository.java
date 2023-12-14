@@ -1,4 +1,4 @@
-package com.apartment.apart.community;
+package com.apartment.apart.domain.community;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

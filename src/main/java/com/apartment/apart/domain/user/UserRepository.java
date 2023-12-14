@@ -1,4 +1,4 @@
-package com.apartment.apart.user;
+package com.apartment.apart.domain.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

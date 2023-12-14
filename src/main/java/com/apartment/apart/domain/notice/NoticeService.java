@@ -1,6 +1,6 @@
-package com.apartment.apart.notice;
+package com.apartment.apart.domain.notice;
 
-import com.apartment.apart.user.SiteUser;
+import com.apartment.apart.domain.user.SiteUser;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

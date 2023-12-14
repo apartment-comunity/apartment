@@ -1,7 +1,7 @@
-package com.apartment.apart.notice;
+package com.apartment.apart.domain.notice;
 
-import com.apartment.apart.user.SiteUser;
-import com.apartment.apart.user.UserService;
+import com.apartment.apart.domain.user.SiteUser;
+import com.apartment.apart.domain.user.UserService;
 import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +38,12 @@ public class NoticeController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
-    public String noticeCreate(NoticeForm noticeForm) {
+    public String noticeCreate(com.apartment.apart.notice.NoticeForm noticeForm) {
         return "notice_form";
     }
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String noticeCreate(@Valid NoticeForm noticeForm, BindingResult bindingResult, Principal principal) {
+    public String noticeCreate(@Valid com.apartment.apart.notice.NoticeForm noticeForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "notice_form";
         }
@@ -54,7 +54,7 @@ public class NoticeController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String noticeModify(NoticeForm noticeForm, @PathVariable("id") Integer id, Principal principal) {
+    public String noticeModify(com.apartment.apart.notice.NoticeForm noticeForm, @PathVariable("id") Integer id, Principal principal) {
         Notice notice = this.noticeService.getNotice(id);
         if(!notice.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
@@ -66,8 +66,8 @@ public class NoticeController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String noticeModify(@Valid NoticeForm noticeForm, BindingResult bindingResult,
-                                Principal principal, @PathVariable("id") Integer id) {
+    public String noticeModify(@Valid com.apartment.apart.notice.NoticeForm noticeForm, BindingResult bindingResult,
+                               Principal principal, @PathVariable("id") Integer id) {
         if (bindingResult.hasErrors()) {
             return "notice_form";
         }

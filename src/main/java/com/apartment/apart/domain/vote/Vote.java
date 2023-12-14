@@ -1,6 +1,7 @@
-package com.apartment.apart.vote;
+package com.apartment.apart.domain.vote;
 
-import com.apartment.apart.user.SiteUser;
+
+import com.apartment.apart.domain.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Data;
 

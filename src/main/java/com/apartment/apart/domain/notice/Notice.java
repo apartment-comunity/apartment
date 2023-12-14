@@ -1,6 +1,7 @@
-package com.apartment.apart.notice;
+package com.apartment.apart.domain.notice;
 
-import com.apartment.apart.user.SiteUser;
+
+import com.apartment.apart.domain.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Data;
 
