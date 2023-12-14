@@ -22,7 +22,13 @@ div, h5 {
 li {
     list-style-type: none;
 }
-
+.fc-col-header-cell-cushion , .fc-daygrid-day-number, .fc-toolbar-title  {
+    text-decoration: none;
+    color: blue;
+}
+div.fc-toolbar-title {
+    font-size: 3rem;
+}
 a, td {
   text-decoration-line: none;
   color: #ffc0c0;
