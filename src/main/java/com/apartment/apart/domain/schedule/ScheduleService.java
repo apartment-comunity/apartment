@@ -1,6 +1,6 @@
 package com.apartment.apart.domain.schedule;
 
-import com.apartment.apart.user.SiteUser;
+import com.apartment.apart.domain.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

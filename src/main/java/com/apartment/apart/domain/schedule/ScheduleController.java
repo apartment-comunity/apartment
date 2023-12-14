@@ -1,11 +1,9 @@
-package com.apartment.apart.schedule;
+package com.apartment.apart.domain.schedule;
 
-import com.apartment.apart.user.SiteUser;
-import com.apartment.apart.user.UserService;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.apartment.apart.domain.user.UserService;
+import com.apartment.apart.domain.user.SiteUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -29,7 +27,7 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
     private final UserService userService;
 
-    @GetMapping("/test")
+    @GetMapping("/schedule/list")
     public String test(Model model, @RequestParam(value = "targetDong", defaultValue = "100") int targetDong) {
         if (targetDong == 100) {
             List<Schedule> scheduleList = this.scheduleService.findall();
@@ -43,8 +41,8 @@ public class ScheduleController {
             }
             model.addAttribute("scheduleList", scheduleFormList);
 
-            return "test2";
-        }else {
+            return "schedule_list";
+        } else {
             List<Schedule> scheduleList = this.scheduleService.findByTargetDong(targetDong);
             List<ScheduleForm> scheduleFormList = new ArrayList<>();
             for (Schedule schedule1 : scheduleList) {
@@ -55,7 +53,7 @@ public class ScheduleController {
                 scheduleFormList.add(sc1);
             }
             model.addAttribute("scheduleList", scheduleFormList);
-            return "test2";
+            return "schedule_list";
         }
 
     }
@@ -84,16 +82,8 @@ public class ScheduleController {
         schedule.setEndDate(LocalDate.parse(scheduleForm.getEnd()));
 
         this.scheduleService.save(schedule);
-        return "redirect:/test";
+        return "redirect:/schedule/list";
     }
-
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/schedule/delete")
-    public String delete() {
-        return "";
-    }
-
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/schedule/mySchedule")
@@ -105,7 +95,6 @@ public class ScheduleController {
         return "my_schedule";
     }
 
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/schedule/delete/{id}")
     public String delete(Principal principal, @PathVariable("id") Long id) {
@@ -115,7 +104,7 @@ public class ScheduleController {
         }
 
         this.scheduleService.delete(schedule);
-        return "redirect:/test";
+        return "redirect:/schedule/list";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -146,7 +135,7 @@ public class ScheduleController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.scheduleService.modify(schedule, scheduleForm.getTitle(), scheduleForm.getStart(), scheduleForm.getEnd());
-        return String.format("redirect:/test");
+        return String.format("redirect:/schedule/list");
     }
 
 }
