@@ -1,4 +1,4 @@
-package com.apartment.apart.community;
+package com.apartment.apart.domain.community;
 
 import com.apartment.apart.user.SiteUser;
 import jakarta.persistence.*;

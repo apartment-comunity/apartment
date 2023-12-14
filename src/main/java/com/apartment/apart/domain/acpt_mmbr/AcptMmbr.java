@@ -1,4 +1,4 @@
-package com.apartment.apart.acpt_mmbr;
+package com.apartment.apart.domain.acpt_mmbr;
 
 import com.apartment.apart.user.SiteUser;
 import jakarta.persistence.*;

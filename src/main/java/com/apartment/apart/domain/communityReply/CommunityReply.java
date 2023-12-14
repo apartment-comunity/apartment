@@ -1,6 +1,6 @@
-package com.apartment.apart.communityReply;
+package com.apartment.apart.domain.communityReply;
 
-import com.apartment.apart.community.Community;
+import com.apartment.apart.domain.community.Community;
 import com.apartment.apart.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Data;

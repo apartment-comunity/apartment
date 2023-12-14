@@ -1,7 +1,5 @@
-package com.apartment.apart.admin;
+package com.apartment.apart.domain.admin;
 
-import com.apartment.apart.user.SiteUser;
-import com.apartment.apart.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

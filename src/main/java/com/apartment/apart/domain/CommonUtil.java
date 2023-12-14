@@ -1,4 +1,4 @@
-package com.apartment.apart;
+package com.apartment.apart.domain;
 
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;

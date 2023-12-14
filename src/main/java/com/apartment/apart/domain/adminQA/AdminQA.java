@@ -1,4 +1,4 @@
-package com.apartment.apart.adminQA;
+package com.apartment.apart.domain.adminQA;
 
 
 import com.apartment.apart.user.SiteUser;

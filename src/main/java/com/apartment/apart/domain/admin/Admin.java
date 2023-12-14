@@ -1,4 +1,4 @@
-package com.apartment.apart.admin;
+package com.apartment.apart.domain.admin;
 
 import jakarta.persistence.*;
 import lombok.Data;
