@@ -11,9 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "CommunityReply")
-@Data
 public class CommunityReply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +41,8 @@ public class CommunityReply {
         this.createDate = LocalDateTime.now();
         this.modifyDate = LocalDateTime.now();
     }
-
+    public CommunityReply modify(String content) {
+        return new CommunityReply(this.user, this.community, content);
+    }
 
 }
