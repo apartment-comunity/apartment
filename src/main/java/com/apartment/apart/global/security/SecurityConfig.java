@@ -1,4 +1,4 @@
-package com.apartment.apart;
+package com.apartment.apart.domain;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

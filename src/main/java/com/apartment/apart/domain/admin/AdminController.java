@@ -1,4 +1,4 @@
-package com.apartment.apart.user;
+package com.apartment.apart.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
