@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class CommunityReply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long replyId;//댓글 아이디
+    private Long id;//댓글 아이디
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -23,21 +23,21 @@ public class CommunityReply {
 
     @ManyToOne//많은 댓글들이 게시글 하나에 작성된다
     @JoinColumn(name = "post_id")
-    private Community post;//댓글 작성한 게시글 정보
+    private Community community;//댓글 작성한 게시글 정보
 
     @Column(columnDefinition = "TEXT")
     private String content;//댓글 내용
 
-    private int likes;//댓글 좋아요 수
+    private int likeCount;//댓글 좋아요 수
 
     private LocalDateTime createDate;
 
     private LocalDateTime modifyDate;
-    public CommunityReply(SiteUser user, Community post, String content) {
+    public CommunityReply(SiteUser user, Community community, String content) {
         this.user = user;
-        this.post = post;
+        this.community = community;
         this.content = content;
-        this.likes = 0; // 좋아요 수 초기화
+        this.likeCount = 0; // 좋아요 수 초기화
         this.createDate = LocalDateTime.now();
         this.modifyDate = LocalDateTime.now();
     }

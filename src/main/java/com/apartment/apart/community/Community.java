@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Community {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId; //게시글 아이디
+    private Long id; //게시글 아이디
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -22,7 +22,7 @@ public class Community {
     @Column(columnDefinition = "TEXT")
     private String content;//게시글 내용
 
-    private int likes;//종아요 수
+    private int likeCount;//종아요 수
 
     private LocalDateTime createDate;
 
