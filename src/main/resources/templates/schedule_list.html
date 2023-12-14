@@ -24,21 +24,39 @@
 
 
     </style>
-<!--<div id='top'>-->
-
-<!--    Locales:-->
-<!--    <select id='locale-selector'></select>-->
-<!--</div>-->
-
-<div id='calendar'></div>
-
+    <form>
+        <select name="targetDong" onchange="this.form.submit()">
+            <option value="">동 선택</option>
+            <option value="100">전체 일정</option>
+            <option value="101">101동</option>
+            <option value="102">102동</option>
+            <option value="103">103동</option>
+            <option value="104">104동</option>
+            <option value="105">105동</option>
+            <option value="106">106동</option>
+            <option value="107">107동</option>
+            <option value="108">108동</option>
+            <option value="109">109동</option>
+        </select>
+    </form>
+    <div id='calendar'></div>
+    <div class="fc-toolbar-chunk">
+        <div class="fc-button-group">
+            <button class="btn btn-outline-secondary" type="button" style="background: #2C3E50 color : white"
+                    onclick="location.href='/schedule/create'">일정추가
+            </button>
+            <button class="btn btn-outline-secondary" type="button" style="background: #2C3E50 color : white"
+                    onclick="location.href='/schedule/mySchedule'">나의일정
+            </button>
+        </div>
+    </div>
 
 </div>
 </html>
 
 <script th:inline="javascript">
     var scheduleOBJ = [[${scheduleList}]];
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var initialLocaleCode = 'ko';
         var localeSelectorEl = document.getElementById('locale-selector');
         var calendarEl = document.getElementById('calendar');
@@ -61,7 +79,7 @@
         calendar.render();
 
         // build the locale selector's options
-        calendar.getAvailableLocaleCodes().forEach(function(localeCode) {
+        calendar.getAvailableLocaleCodes().forEach(function (localeCode) {
             var optionEl = document.createElement('option');
             optionEl.value = localeCode;
             optionEl.selected = localeCode == initialLocaleCode;
@@ -70,7 +88,7 @@
         });
 
         // when the selected option changes, dynamically change the calendar option
-        localeSelectorEl.addEventListener('change', function() {
+        localeSelectorEl.addEventListener('change', function () {
             if (this.value) {
                 calendar.setOption('locale', this.value);
             }
