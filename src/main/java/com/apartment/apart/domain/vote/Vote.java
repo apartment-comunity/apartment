@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "Vote")
@@ -13,14 +14,16 @@ import java.time.LocalDateTime;
 public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long voteId;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private SiteUser user;
+    @ManyToMany
+    private Set<SiteUser> voter;
+
     private String title;
-    private String option1;
-    private String option2;
-    private LocalDateTime createDate; // createdAt을 createDate로 변경
-    private LocalDateTime closedAt; // createdAt을 createDate로 변경
+
+    private String content;
+
+    private int vote;
+
+    private LocalDateTime createDate;
 }
