@@ -1,15 +1,13 @@
-package com.apartment.apart.domain.community;
+package com.apartment.apart.domain.report;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-public class CommunityForm {
+public class ReportForm {
     @NotEmpty(message = "제목은 필수입니다.")
     @Size(max = 200)
     private String title;

@@ -12,17 +12,17 @@
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
-                        <span th:if="${notice.author != null}" th:text="${notice.author.username}"></span>
+                        <span th:if="${notice.author != null}" th:text="${notice.author.nickname}"></span>
                     </div>
                     <div th:text="${#temporals.format(notice.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
                 </div>
             </div>
             <div class="my-3">
-                <a th:href="@{|/notice/modify/${notice.noticeId}|}" class="btn btn-sm btn-outline-secondary"
+                <a th:href="@{|/notice/modify/${notice.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${notice.author != null and #authentication.getPrincipal().getUsername() == notice.author.username}"
                    th:text="수정"></a>
-                <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/notice/delete/${notice.noticeId}|}"
+                <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/notice/delete/${notice.id}|}"
                    class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                    th:if="${notice.author != null and #authentication.getPrincipal().getUsername() == notice.author.username}"
                    th:text="삭제"></a>

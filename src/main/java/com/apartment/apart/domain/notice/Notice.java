@@ -2,26 +2,20 @@ package com.apartment.apart.domain.notice;
 
 
 import com.apartment.apart.domain.user.SiteUser;
+import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Entity
-@Table(name = "Notice")
 @Data
-public class Notice {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer noticeId;
+public class Notice extends BaseEntity {
+    @ManyToOne
+    private SiteUser user;
 
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private SiteUser admin;
-    @ManyToOne
-    private SiteUser author;
     private String title;
+
     private String content;
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
 }

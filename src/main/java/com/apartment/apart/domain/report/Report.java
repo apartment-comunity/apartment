@@ -1,28 +1,29 @@
 package com.apartment.apart.domain.report;
 
-import com.apartment.apart.domain.notice.Notice;
+import com.apartment.apart.domain.reportAnswer.ReportAnswer;
 import com.apartment.apart.domain.user.SiteUser;
+import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "Report")
 @Data
-public class Report {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reportId;
+public class Report extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private SiteUser user;
+    private SiteUser author;
 
-    @ManyToOne
-    @JoinColumn(name = "notice_id")
-    private Notice notice;
+    private String title;
+
     private String content;
-    private String adminReply;
-    private LocalDateTime createDate; // createdAt을 createDate로 변경
+
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
+    private List<ReportAnswer> answers = new ArrayList<>();
+
+    @ManyToMany
+    Set<SiteUser> likeCount;
 }

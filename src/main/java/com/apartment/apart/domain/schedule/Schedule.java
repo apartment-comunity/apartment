@@ -1,19 +1,15 @@
 package com.apartment.apart.domain.schedule;
 
 import com.apartment.apart.domain.user.SiteUser;
+import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Schedule")
 @Data
-public class Schedule {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long scheduleId;
-
+public class Schedule extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private SiteUser user;
