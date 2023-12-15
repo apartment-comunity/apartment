@@ -9,7 +9,7 @@ import lombok.Data;
 public class UserCreateForm {
 
     @NotEmpty(message = "사용자ID는 필수 입력 항목입니다.")
-    @Size(min = 6, max = 15, message = "사용자ID는 6자 이상 15자 이하로 입력해주세요.")
+    @Size(min = 3, max = 15, message = "사용자ID는 3자 이상 15자 이하로 입력해주세요.")
     private String username;
 
     @NotEmpty(message = "닉네임은 필수 입력 항목입니다.")
@@ -30,9 +30,6 @@ public class UserCreateForm {
     @NotEmpty(message = "이메일은 필수 입력 항목입니다.")
     private String email;
 
-    @Pattern(regexp = "\\d+동\\d+호", message = "올바른 형식의 아파트 정보를 입력하세요 (예: 101동101호)")
-//    @NotEmpty(message = "아파트 정보는 비어있을 수 없습니다.")
-//    @Size(min = 5, max = 15, message = "올바른 형식의 아파트 정보를 입력하세요 (예: 101동101호)")
     private int apartDong;
     private int apartHo;
 

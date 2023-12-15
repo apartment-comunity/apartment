@@ -1,16 +1,15 @@
-package com.apartment.apart.domain.communityReply;
+package com.apartment.apart.domain.reportAnswer;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CommunityReplyForm {
+public class ReportAnswerForm {
     @NotEmpty(message = "내용은 필수항목입니다.")
     private String content;
-    public CommunityReplyForm(String content) {
+    public ReportAnswerForm(String content) {
         this.content = content;
     }
 

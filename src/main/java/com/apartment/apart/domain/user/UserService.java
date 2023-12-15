@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -14,13 +15,14 @@ public class UserService {
 
     public SiteUser create(String username, String nickname, String password, String phone, String email, int apartDong,int apartHo) {
         SiteUser user = new SiteUser();
-        user.setUsername(username);
+        user.setUserId(username);
         user.setNickname(nickname);
         user.setPassword(passwordEncoder.encode(password));
         user.setPhone(phone);
         user.setEmail(email);
         user.setApartDong(apartDong);
         user.setApartHo(apartHo);
+        user.setCreateDate(LocalDateTime.now());
         this.userRepository.save(user);
         return user;
     }

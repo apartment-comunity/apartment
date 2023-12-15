@@ -1,7 +1,8 @@
-package com.apartment.apart.domain.communityReply;
+package com.apartment.apart.domain.reportAnswer;
 
 import com.apartment.apart.domain.community.Community;
 import com.apartment.apart.domain.community.CommunityService;
+import com.apartment.apart.domain.communityReply.CommunityReply;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import jakarta.validation.Valid;
@@ -22,15 +23,15 @@ import java.security.Principal;
 @RequestMapping("/communityReply")
 @RequiredArgsConstructor
 @Controller
-public class CommunityReplyController {
+public class ReportAnswerController {
     private final CommunityService communityService;
-    private final CommunityReplyService communityReplyService;
+    private final ReportAnswerService communityReplyService;
     private final UserService userService;
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
     public String createCommunityReply(Model model, @PathVariable("id") Integer id,
-                                       @Valid CommunityReplyForm communityReplyForm, BindingResult bindingResult, Principal principal) {
+                                       @Valid ReportAnswerForm communityReplyForm, BindingResult bindingResult, Principal principal) {
 
         // 답변 부모 질문 객체를 받아온다.
         Community community = this.communityService.getCommunity(id);
@@ -48,19 +49,19 @@ public class CommunityReplyController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String communityReplyModify(CommunityReplyForm communityReplyForm, @PathVariable("id") Integer id, Principal principal) {
+    public String communityReplyModify(ReportAnswerForm communityReplyForm, @PathVariable("id") Integer id, Principal principal) {
         CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
         if (!communityReply.getUser().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        communityReplyForm = new CommunityReplyForm(communityReply.getContent());
+        communityReplyForm = new ReportAnswerForm(communityReply.getContent());
 
         return "community_reply_form";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String communityReplyModify(@Valid CommunityReplyForm communityReplyForm, BindingResult bindingResult,
+    public String communityReplyModify(@Valid ReportAnswerForm communityReplyForm, BindingResult bindingResult,
                                        @PathVariable("id") Integer id, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "community_reply_form";

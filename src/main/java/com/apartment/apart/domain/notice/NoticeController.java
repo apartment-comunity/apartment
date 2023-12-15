@@ -22,6 +22,7 @@ import java.security.Principal;
 public class NoticeController {
     private final NoticeService noticeService;
     private final UserService userService;
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/list")
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
                        @RequestParam(value = "kw", defaultValue = "") String kw) {
@@ -29,7 +30,7 @@ public class NoticeController {
         model.addAttribute("paging", paging);
         return "notice_list";
     }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
         Notice notice = this.noticeService.getNotice(id);
@@ -38,12 +39,12 @@ public class NoticeController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
-    public String noticeCreate(com.apartment.apart.notice.NoticeForm noticeForm) {
+    public String noticeCreate(NoticeForm noticeForm) {
         return "notice_form";
     }
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String noticeCreate(@Valid com.apartment.apart.notice.NoticeForm noticeForm, BindingResult bindingResult, Principal principal) {
+    public String noticeCreate(@Valid NoticeForm noticeForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "notice_form";
         }
@@ -54,7 +55,7 @@ public class NoticeController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String noticeModify(com.apartment.apart.notice.NoticeForm noticeForm, @PathVariable("id") Integer id, Principal principal) {
+    public String noticeModify(NoticeForm noticeForm, @PathVariable("id") Integer id, Principal principal) {
         Notice notice = this.noticeService.getNotice(id);
         if(!notice.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
@@ -66,7 +67,7 @@ public class NoticeController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String noticeModify(@Valid com.apartment.apart.notice.NoticeForm noticeForm, BindingResult bindingResult,
+    public String noticeModify(@Valid NoticeForm noticeForm, BindingResult bindingResult,
                                Principal principal, @PathVariable("id") Integer id) {
         if (bindingResult.hasErrors()) {
             return "notice_form";
