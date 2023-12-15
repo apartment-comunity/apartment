@@ -29,4 +29,5 @@ public class CommunityReply extends BaseEntity {
 
     Set<SiteUser> likeCount;//댓글 좋아요 수
 
+
 }

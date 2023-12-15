@@ -41,15 +41,13 @@ public class CommunityService {
         Community a = new Community();
         a.setTitle(title);
         a.setContent(content);
-        a.setCreateDate(LocalDateTime.now());
-        a.setAuthor(nickname);
+        a.setUser(nickname);
         this.communityRepository.save(a);
     }
 
     public void modify(Community community, String title, String content) {
         community.setTitle(title);
         community.setContent(content);
-        community.setModifyDate(LocalDateTime.now());
         this.communityRepository.save(community);
     }
 
@@ -61,11 +59,11 @@ public class CommunityService {
         return new Specification<>() {
             private static final long serialVersionUID = 1L;
             @Override
-            public Predicate toPredicate(Root<Community> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<Community> communityRoot, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
-                Join<Community, SiteUser> u1 = q.join("author", JoinType.LEFT);
-                return cb.or(cb.like(q.get("title"), "%" + kw + "%"), // 제목
-                        cb.like(q.get("content"), "%" + kw + "%"),      // 내용
+                Join<Community, SiteUser> u1 = communityRoot.join("author", JoinType.LEFT);
+                return cb.or(cb.like(communityRoot.get("title"), "%" + kw + "%"), // 제목
+                        cb.like(communityRoot.get("content"), "%" + kw + "%"),      // 내용
                         cb.like(u1.get("nickname"), "%" + kw + "%"));    // 질문 작성자
             }
         };
