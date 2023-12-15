@@ -1,4 +1,4 @@
-package com.apartment.apart.notice;
+package com.apartment.apart.domain.notice;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;

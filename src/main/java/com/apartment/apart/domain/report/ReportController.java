@@ -1,5 +1,8 @@
-package com.apartment.apart.domain.community;
+package com.apartment.apart.domain.report;
 
+import com.apartment.apart.domain.community.Community;
+import com.apartment.apart.domain.community.CommunityForm;
+import com.apartment.apart.domain.community.CommunityService;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import jakarta.validation.Valid;
@@ -18,7 +21,7 @@ import java.security.Principal;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/community")
-public class CommunityController {
+public class ReportController {
     private final CommunityService communityService;
     private final UserService userService;
     @PreAuthorize("isAuthenticated()")
@@ -67,7 +70,7 @@ public class CommunityController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String communityModify(@Valid CommunityForm communityForm, BindingResult bindingResult,
-                               Principal principal, @PathVariable("id") Integer id) {
+                                  Principal principal, @PathVariable("id") Integer id) {
         if (bindingResult.hasErrors()) {
             return "community_form";
         }

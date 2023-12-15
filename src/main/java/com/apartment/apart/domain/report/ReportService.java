@@ -1,5 +1,7 @@
-package com.apartment.apart.domain.community;
+package com.apartment.apart.domain.report;
 
+import com.apartment.apart.domain.community.Community;
+import com.apartment.apart.domain.community.CommunityRepository;
 import com.apartment.apart.domain.user.SiteUser;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CommunityService {
+public class ReportService {
     private final CommunityRepository communityRepository;
 
     public Page<Community> getList(int page, String kw) {

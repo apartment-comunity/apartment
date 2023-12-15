@@ -1,5 +1,6 @@
 package com.apartment.apart.domain.schedule;
 
+import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import com.apartment.apart.domain.user.SiteUser;
 import jakarta.validation.Valid;
@@ -26,7 +27,7 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
     private final UserService userService;
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/schedule/list")
     public String test(Model model, @RequestParam(value = "targetDong", defaultValue = "100") int targetDong) {
         if (targetDong == 100) {

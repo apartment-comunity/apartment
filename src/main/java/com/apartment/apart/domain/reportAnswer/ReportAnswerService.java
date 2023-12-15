@@ -1,16 +1,17 @@
-package com.apartment.apart.domain.communityReply;
+package com.apartment.apart.domain.reportAnswer;
 
 import com.apartment.apart.DataNotException;
 import com.apartment.apart.domain.community.Community;
+import com.apartment.apart.domain.communityReply.CommunityReply;
 import com.apartment.apart.domain.user.SiteUser;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class CommunityReplyService {
-    private final CommunityReplyRepository communityReplyRepository;
+public class ReportAnswerService {
+    private final ReportAnswerRepository communityReplyRepository;
 
-    public CommunityReplyService(CommunityReplyRepository communityReplyRepository) {
+    public CommunityReplyService(ReportAnswerRepository communityReplyRepository) {
         this.communityReplyRepository = communityReplyRepository;
     }
 
@@ -21,7 +22,7 @@ public class CommunityReplyService {
         return communityReply;
     }
 
-    public CommunityReply getCommunityReply(Integer id) {
+    public ReportAnswer getReportAnswer(Integer id) {
         return this.communityReplyRepository.findById(id)
                 .orElseThrow(() -> new DataNotException("답변을 찾을 수 없습니다."));
     }

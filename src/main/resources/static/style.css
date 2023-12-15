@@ -71,3 +71,7 @@ h5, form, label, .card-text {
 .schedule-alphabet{
     color: black;
 }
+
+.nav-link {
+    font-size: 20px;
+}
