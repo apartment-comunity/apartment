@@ -6,7 +6,6 @@ import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,8 +20,8 @@ public class Report extends BaseEntity {
 
     private String content;
 
-    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
-    private List<ReportAnswer> answers = new ArrayList<>();
+    @OneToMany(mappedBy = "report", cascade = CascadeType.REMOVE)
+    private List<ReportAnswer> answers;
 
     @ManyToMany
     Set<SiteUser> likeCount;

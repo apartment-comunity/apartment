@@ -14,11 +14,19 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
-    public List<Schedule> findall() {
+    public List<Schedule> findAll() {
         return this.scheduleRepository.findAll();
     }
 
-    public void save(Schedule schedule) {
+    public void save(ScheduleForm scheduleForm,SiteUser siteUser) {
+        Schedule schedule =  Schedule.builder()
+                .user(siteUser)
+                .title(scheduleForm.getTitle())
+                .targetDong(siteUser.getApartDong())
+                .startDate(LocalDate.parse(scheduleForm.getStart()))
+                .endDate(LocalDate.parse(scheduleForm.getEnd()))
+                .build();
+
         this.scheduleRepository.save(schedule);
     }
 
@@ -35,11 +43,16 @@ public class ScheduleService {
         this.scheduleRepository.delete(schedule);
     }
 
-    public void modify(Schedule schedule, String title, String start, String end) {
-        schedule.setContent(title);
-        schedule.setStartDate(LocalDate.parse(start));
-        schedule.setEndDate(LocalDate.parse(end));
-        this.scheduleRepository.save(schedule);
+    public void modify(Schedule schedule, String content, String start, String end) {
+        Schedule modifySchedule = Schedule.builder()
+                .id(schedule.getId())
+                .user(schedule.getUser())
+                .title(content)
+                .startDate(LocalDate.parse(start))
+                .endDate(LocalDate.parse(end))
+                .targetDong(schedule.getTargetDong())
+                .build();
+        this.scheduleRepository.save(modifySchedule);
     }
 
     public List<Schedule> findByTargetDong(int targetDong) {

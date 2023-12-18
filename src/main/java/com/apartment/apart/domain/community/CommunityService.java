@@ -38,19 +38,27 @@ public class CommunityService {
     }
 
     public void create(String title, String content, SiteUser nickname) {
-        Community a = new Community();
-        a.setTitle(title);
-        a.setContent(content);
-        a.setCreateDate(LocalDateTime.now());
-        a.setAuthor(nickname);
+        Community a = Community.builder()
+                .title(title)
+                .content(content)
+                .user(nickname).build();
         this.communityRepository.save(a);
     }
 
     public void modify(Community community, String title, String content) {
-        community.setTitle(title);
-        community.setContent(content);
-        community.setModifyDate(LocalDateTime.now());
-        this.communityRepository.save(community);
+        Community community1 = Community.builder()
+                .id(community.getId())
+                .answers(community.getAnswers())
+                .likeCount(community.getLikeCount())
+                .user(community.getUser())
+                .content(content)
+                .title(title)
+                .createDate(community.getCreateDate())
+                .modifiedDate(LocalDateTime.now())
+                .build();
+
+
+        this.communityRepository.save(community1);
     }
 
     public void delete(Community community) {
@@ -60,10 +68,11 @@ public class CommunityService {
     private Specification<Community> search(String kw) {
         return new Specification<>() {
             private static final long serialVersionUID = 1L;
+
             @Override
             public Predicate toPredicate(Root<Community> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
-                Join<Community, SiteUser> u1 = q.join("author", JoinType.LEFT);
+                Join<Community, SiteUser> u1 = q.join("user", JoinType.LEFT);
                 return cb.or(cb.like(q.get("title"), "%" + kw + "%"), // 제목
                         cb.like(q.get("content"), "%" + kw + "%"),      // 내용
                         cb.like(u1.get("nickname"), "%" + kw + "%"));    // 질문 작성자

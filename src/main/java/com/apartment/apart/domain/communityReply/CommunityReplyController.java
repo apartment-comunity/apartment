@@ -50,10 +50,10 @@ public class CommunityReplyController {
     @GetMapping("/modify/{id}")
     public String communityReplyModify(CommunityReplyForm communityReplyForm, @PathVariable("id") Integer id, Principal principal) {
         CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
-        if (!communityReply.getUser().getUsername().equals(principal.getName())) {
+        if (!communityReply.getUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        communityReplyForm = new CommunityReplyForm(communityReply.getContent());
+        communityReplyForm.setContent(communityReply.getContent());
 
         return "community_reply_form";
     }
@@ -66,7 +66,7 @@ public class CommunityReplyController {
             return "community_reply_form";
         }
         CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
-        if (!communityReply.getUser().getUsername().equals(principal.getName())) {
+        if (!communityReply.getUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.communityReplyService.modify(communityReply, communityReplyForm.getContent());
@@ -77,7 +77,7 @@ public class CommunityReplyController {
     @GetMapping("/delete/{id}")
     public String communityReplyDelete(Principal principal, @PathVariable("id") Integer id) {
         CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
-        if (!communityReply.getUser().getUsername().equals(principal.getName())) {
+        if (!communityReply.getUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         this.communityReplyService.delete(communityReply);

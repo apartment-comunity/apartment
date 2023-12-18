@@ -17,7 +17,7 @@
                 <div th:with="a=${today}, b=${vote.getStartDate()}, c=${vote.getEndDate()}">
 
                     <!-- 날짜 비교 -->
-                    <div th:if="${a.isBefore(b) or a.isAfter(c)}">
+                    <div class="warning" th:if="${a.isBefore(b) or a.isAfter(c)}" >
                         <p>투표 기간이 아닙니다.</p>
                     </div>
                     <div th:unless="${a.isBefore(b) or a.isAfter(c)}">
@@ -33,10 +33,20 @@
                 </div>
 
 
-
             </div>
         </div>
     </div>
+    <div class="fc-toolbar-chunk">
+        <div class="fc-button-group">
+            <button class="btn btn-outline-secondary" type="button" style="background: #2C3E50 color : white"
+                    onclick="location.href='/vote/create'">투표 추가
+            </button>
+            <button class="btn btn-outline-secondary" type="button" style="background: #2C3E50 color : white"
+                    onclick="location.href='/vote/manage'">투표 관리
+            </button>
+        </div>
+    </div>
+</div>
 
 
 </div>
