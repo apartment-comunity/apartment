@@ -4,10 +4,13 @@ import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
-@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SiteUser extends BaseEntity {
 
     @Column(unique = true)

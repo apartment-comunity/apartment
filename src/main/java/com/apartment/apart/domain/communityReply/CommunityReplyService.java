@@ -15,9 +15,9 @@ public class CommunityReplyService {
     }
 
     public CommunityReply create(Community community, String content, SiteUser nickname) {
-        CommunityReply cr = new CommunityReply();
-        cr.setContent(content);
-        cr.setUser(nickname);
+        CommunityReply cr = CommunityReply.builder()
+                .content(content)
+                .user(nickname).build();
         this.communityReplyRepository.save(cr);
 
         return cr;

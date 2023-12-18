@@ -12,13 +12,14 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @SuperBuilder
-@RequiredArgsConstructor
 @AllArgsConstructor
-@Data
+@NoArgsConstructor
+@ToString
+@Getter
 public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @CreatedDate
     private LocalDateTime createDate;

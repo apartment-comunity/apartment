@@ -13,9 +13,9 @@ public class ReportAnswerService {
     private final ReportAnswerRepository reportAnswerRepository;
 
     public ReportAnswer create(Report report, String content, SiteUser nickname) {
-        ReportAnswer reportAnswer = new ReportAnswer();
-        reportAnswer.setContent(content);
-        reportAnswer.setUser(nickname);
+        ReportAnswer reportAnswer = ReportAnswer.builder()
+                .content(content)
+                .user(nickname).build();
         this.reportAnswerRepository.save(reportAnswer);
 
         return reportAnswer;
@@ -27,8 +27,9 @@ public class ReportAnswerService {
     }
 
     public void modify(ReportAnswer reportAnswer, String content) {
-        reportAnswer.setContent(content);
-        this.reportAnswerRepository.save(reportAnswer);
+        ReportAnswer reportAnswerModify = ReportAnswer.builder()
+                .content(content).build();
+        this.reportAnswerRepository.save(reportAnswerModify);
     }
 
     public void delete(ReportAnswer reportAnswer) {

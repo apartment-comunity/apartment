@@ -40,16 +40,17 @@ public class ReportService {
     }
 
     public void create(String title, String content, SiteUser nickname) {
-        Report a = new Report();
-        a.setTitle(title);
-        a.setContent(content);
-        a.setUser(nickname);
+        Report a = Report.builder()
+                .title(title)
+                .content(content)
+                .user(nickname).build();
         this.reportRepository.save(a);
     }
 
     public void modify(Report report, String title, String content) {
-        report.setTitle(title);
-        report.setContent(content);
+        Report modifyReport = Report.builder()
+                .title(title)
+                .content(content).build();
         this.reportRepository.save(report);
     }
 

@@ -7,11 +7,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@SuperBuilder
 public class ReportAnswer extends BaseEntity {
     @JoinColumn(name = "user_id")
     private SiteUser user;

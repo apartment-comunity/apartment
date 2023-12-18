@@ -38,17 +38,18 @@ public class CommunityService {
     }
 
     public void create(String title, String content, SiteUser nickname) {
-        Community a = new Community();
-        a.setTitle(title);
-        a.setContent(content);
-        a.setUser(nickname);
-        this.communityRepository.save(a);
+        Community community = Community.builder()
+                        .title(title)
+                        .content(content)
+                        .user(nickname).build();
+        this.communityRepository.save(community);
     }
 
     public void modify(Community community, String title, String content) {
-        community.setTitle(title);
-        community.setContent(content);
-        this.communityRepository.save(community);
+        Community modifyCommunity = Community.builder()
+                .title(title)
+                .content(content).build();
+        this.communityRepository.save(modifyCommunity);
     }
 
     public void delete(Community community) {

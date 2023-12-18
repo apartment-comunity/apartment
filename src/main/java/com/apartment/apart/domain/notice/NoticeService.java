@@ -38,17 +38,18 @@ public class NoticeService {
     }
 
     public void create(String title, String content, SiteUser nickname) {
-        Notice a = new Notice();
-        a.setTitle(title);
-        a.setContent(content);
-        a.setUser(nickname);
+        Notice a = Notice.builder()
+                        .title(title)
+                        .content(content)
+                        .user(nickname).build();
         this.noticeRepository.save(a);
     }
 
     public void modify(Notice notice, String title, String content) {
-        notice.setTitle(title);
-        notice.setContent(content);
-        this.noticeRepository.save(notice);
+        Notice modifyNotice = Notice.builder()
+                        .title(title)
+                        .content(content).build();
+        this.noticeRepository.save(modifyNotice);
     }
 
     public void delete(Notice notice) {
