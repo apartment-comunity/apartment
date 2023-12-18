@@ -41,15 +41,13 @@ public class CommunityService {
         Community a = new Community();
         a.setTitle(title);
         a.setContent(content);
-        a.setCreateDate(LocalDateTime.now());
-        a.setAuthor(nickname);
+        a.setUser(nickname);
         this.communityRepository.save(a);
     }
 
     public void modify(Community community, String title, String content) {
         community.setTitle(title);
         community.setContent(content);
-        community.setModifyDate(LocalDateTime.now());
         this.communityRepository.save(community);
     }
 

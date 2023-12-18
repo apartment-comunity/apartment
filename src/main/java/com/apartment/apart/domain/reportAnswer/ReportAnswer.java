@@ -11,11 +11,8 @@ import lombok.Setter;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
 @Data
 public class ReportAnswer extends BaseEntity {
-    @ManyToOne
     @JoinColumn(name = "user_id")
     private SiteUser user;
 

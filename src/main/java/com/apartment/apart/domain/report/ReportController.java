@@ -59,7 +59,7 @@ public class ReportController {
     @GetMapping("/modify/{id}")
     public String communityModify(CommunityForm communityForm, @PathVariable("id") Integer id, Principal principal) {
         Community community = this.communityService.getCommunity(id);
-        if(!community.getAuthor().getUsername().equals(principal.getName())) {
+        if(!community.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         communityForm.setTitle(community.getTitle());
@@ -75,7 +75,7 @@ public class ReportController {
             return "community_form";
         }
         Community community = this.communityService.getCommunity(id);
-        if (!community.getAuthor().getUsername().equals(principal.getName())) {
+        if (!community.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.communityService.modify(community, communityForm.getTitle(), communityForm.getContent());
@@ -86,7 +86,7 @@ public class ReportController {
     @GetMapping("/delete/{id}")
     public String communityDelete(Principal principal, @PathVariable("id") Integer id) {
         Community community = this.communityService.getCommunity(id);
-        if (!community.getAuthor().getUsername().equals(principal.getName())) {
+        if (!community.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         this.communityService.delete(community);

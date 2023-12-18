@@ -10,10 +10,8 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@Table(name = "Vote")
 @Data
 public class Vote extends BaseEntity {
-    @ManyToOne
     @JoinColumn(name = "user_id")
     private SiteUser user;
 

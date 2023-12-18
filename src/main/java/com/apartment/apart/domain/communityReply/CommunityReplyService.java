@@ -15,10 +15,12 @@ public class CommunityReplyService {
     }
 
     public CommunityReply create(Community community, String content, SiteUser nickname) {
-        CommunityReply communityReply = new CommunityReply(nickname, community, content);
-        this.communityReplyRepository.save(communityReply);
+        CommunityReply cr = new CommunityReply();
+        cr.setContent(content);
+        cr.setUser(nickname);
+        this.communityReplyRepository.save(cr);
 
-        return communityReply;
+        return cr;
     }
 
     public CommunityReply getCommunityReply(Integer id) {
@@ -27,8 +29,12 @@ public class CommunityReplyService {
     }
 
     public void modify(CommunityReply communityReply, String content) {
-        CommunityReply modifiedCommunityReply = communityReply.modify(content);
-        this.communityReplyRepository.save(modifiedCommunityReply);
+        communityReply.setContent(content);
+        CommunityReply modified = this.communityReplyRepository.save(communityReply);
+    }
+    public void modify(CommunityReply communityReply, String title, String content) {
+        communityReply.setContent(content);
+        this.communityReplyRepository.save(communityReply);
     }
     public void delete(CommunityReply communityReply) {
         this.communityReplyRepository.delete(communityReply);

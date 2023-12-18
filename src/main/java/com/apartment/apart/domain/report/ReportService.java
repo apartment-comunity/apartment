@@ -1,7 +1,7 @@
 package com.apartment.apart.domain.report;
 
-import com.apartment.apart.domain.community.Community;
-import com.apartment.apart.domain.community.CommunityRepository;
+import com.apartment.apart.domain.report.Report;
+import com.apartment.apart.domain.report.ReportRepository;
 import com.apartment.apart.domain.user.SiteUser;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
@@ -20,52 +20,50 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ReportService {
-    private final CommunityRepository communityRepository;
+    private final ReportRepository reportRepository;
 
-    public Page<Community> getList(int page, String kw) {
+    public Page<Report> getList(int page, String kw) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        Specification<Community> spec = search(kw);
-        return this.communityRepository.findAll(spec, pageable);
+        Specification<Report> spec = search(kw);
+        return this.reportRepository.findAll(spec, pageable);
     }
 
-    public Community getCommunity(Integer id) {
-        Optional<Community> community = this.communityRepository.findById(id);
-        if (community.isPresent()) {
-            return community.get();
+    public Report getReport(Integer id) {
+        Optional<Report> report = this.reportRepository.findById(id);
+        if (report.isPresent()) {
+            return report.get();
         } else {
             throw new RuntimeException("error");
         }
     }
 
     public void create(String title, String content, SiteUser nickname) {
-        Community a = new Community();
+        Report a = new Report();
         a.setTitle(title);
         a.setContent(content);
-        a.setCreateDate(LocalDateTime.now());
-        a.setAuthor(nickname);
-        this.communityRepository.save(a);
+        a.setUser(nickname);
+        this.reportRepository.save(a);
     }
 
-    public void modify(Community community, String title, String content) {
-        community.setTitle(title);
-        community.setContent(content);
-        community.setModifyDate(LocalDateTime.now());
-        this.communityRepository.save(community);
+    public void modify(Report report, String title, String content) {
+        report.setTitle(title);
+        report.setContent(content);
+        this.reportRepository.save(report);
     }
 
-    public void delete(Community community) {
-        this.communityRepository.delete(community);
+    public void delete(Report report) {
+        this.reportRepository.delete(report);
     }
 
-    private Specification<Community> search(String kw) {
+    private Specification<Report> search(String kw) {
         return new Specification<>() {
             private static final long serialVersionUID = 1L;
             @Override
-            public Predicate toPredicate(Root<Community> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<Report> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
-                Join<Community, SiteUser> u1 = q.join("author", JoinType.LEFT);
+                Join<Report, SiteUser> u1 = q.join("author", JoinType.LEFT);
                 return cb.or(cb.like(q.get("title"), "%" + kw + "%"), // 제목
                         cb.like(q.get("content"), "%" + kw + "%"),      // 내용
                         cb.like(u1.get("nickname"), "%" + kw + "%"));    // 질문 작성자

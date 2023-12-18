@@ -13,9 +13,7 @@ import java.util.Set;
 @Entity
 @Data
 public class Report extends BaseEntity {
-
-    @ManyToOne
-    private SiteUser author;
+    private SiteUser user;
 
     private String title;
 

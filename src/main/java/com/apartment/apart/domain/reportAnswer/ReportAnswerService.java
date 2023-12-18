@@ -1,38 +1,38 @@
 package com.apartment.apart.domain.reportAnswer;
 
 import com.apartment.apart.DataNotException;
-import com.apartment.apart.domain.community.Community;
-import com.apartment.apart.domain.communityReply.CommunityReply;
+import com.apartment.apart.domain.report.Report;
 import com.apartment.apart.domain.user.SiteUser;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class ReportAnswerService {
-    private final ReportAnswerRepository communityReplyRepository;
+    private final ReportAnswerRepository reportAnswerRepository;
 
-    public CommunityReplyService(ReportAnswerRepository communityReplyRepository) {
-        this.communityReplyRepository = communityReplyRepository;
-    }
+    public ReportAnswer create(Report report, String content, SiteUser nickname) {
+        ReportAnswer reportAnswer = new ReportAnswer();
+        reportAnswer.setContent(content);
+        reportAnswer.setUser(nickname);
+        this.reportAnswerRepository.save(reportAnswer);
 
-    public CommunityReply create(Community community, String content, SiteUser nickname) {
-        CommunityReply communityReply = new CommunityReply(nickname, community, content);
-        this.communityReplyRepository.save(communityReply);
-
-        return communityReply;
+        return reportAnswer;
     }
 
     public ReportAnswer getReportAnswer(Integer id) {
-        return this.communityReplyRepository.findById(id)
+        return this.reportAnswerRepository.findById(id)
                 .orElseThrow(() -> new DataNotException("답변을 찾을 수 없습니다."));
     }
 
-    public void modify(CommunityReply communityReply, String content) {
-        CommunityReply modifiedCommunityReply = communityReply.modify(content);
-        this.communityReplyRepository.save(modifiedCommunityReply);
+    public void modify(ReportAnswer reportAnswer, String content) {
+        reportAnswer.setContent(content);
+        this.reportAnswerRepository.save(reportAnswer);
     }
-    public void delete(CommunityReply communityReply) {
-        this.communityReplyRepository.delete(communityReply);
+
+    public void delete(ReportAnswer reportAnswer) {
+        this.reportAnswerRepository.delete(reportAnswer);
     }
 
 }

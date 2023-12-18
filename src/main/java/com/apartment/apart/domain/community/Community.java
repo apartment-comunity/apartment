@@ -5,6 +5,9 @@ import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +15,6 @@ import java.util.Set;
 @Entity
 @Data
 public class Community extends BaseEntity {
-    @ManyToOne
     @JoinColumn(name = "user_id")
     private SiteUser user; //작성자 정보
     @Column(length = 50)

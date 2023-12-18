@@ -100,7 +100,7 @@ public class ScheduleController {
     @GetMapping("/schedule/delete/{id}")
     public String delete(Principal principal, @PathVariable("id") Long id) {
         Schedule schedule = this.scheduleService.getSchedule(id);
-        if (!schedule.getUser().getUsername().equals(principal.getName())) {
+        if (!schedule.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
 
@@ -113,7 +113,7 @@ public class ScheduleController {
     public String scheduleModify(@PathVariable Long id, Principal principal, ScheduleForm scheduleForm) {
         Schedule schedule = this.scheduleService.getSchedule(id);
 
-        if (!schedule.getUser().getUsername().equals(principal.getName())) {
+        if (!schedule.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
 
@@ -132,7 +132,7 @@ public class ScheduleController {
             return "schedule_form";
         }
         Schedule schedule = this.scheduleService.getSchedule(id);
-        if (!schedule.getUser().getUsername().equals(principal.getName())) {
+        if (!schedule.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.scheduleService.modify(schedule, scheduleForm.getTitle(), scheduleForm.getStart(), scheduleForm.getEnd());

@@ -12,11 +12,8 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
 @Data
 public class CommunityReply extends BaseEntity {
-    @ManyToOne
     @JoinColumn(name = "user_id")
     private SiteUser user;//작성자 정보
 

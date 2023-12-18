@@ -1,8 +1,7 @@
 package com.apartment.apart.domain.reportAnswer;
 
-import com.apartment.apart.domain.community.Community;
-import com.apartment.apart.domain.community.CommunityService;
-import com.apartment.apart.domain.communityReply.CommunityReply;
+import com.apartment.apart.domain.report.Report;
+import com.apartment.apart.domain.report.ReportService;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import jakarta.validation.Valid;
@@ -20,68 +19,68 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
-@RequestMapping("/communityReply")
+@RequestMapping("/reportAnswer")
 @RequiredArgsConstructor
 @Controller
 public class ReportAnswerController {
-    private final CommunityService communityService;
-    private final ReportAnswerService communityReplyService;
+    private final ReportService reportService;
+    private final ReportAnswerService reportAnswerService;
     private final UserService userService;
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
-    public String createCommunityReply(Model model, @PathVariable("id") Integer id,
-                                       @Valid ReportAnswerForm communityReplyForm, BindingResult bindingResult, Principal principal) {
+    public String createReportAnswer(Model model, @PathVariable("id") Integer id,
+                                       @Valid ReportAnswerForm reportAnswerForm, BindingResult bindingResult, Principal principal) {
 
         // 답변 부모 질문 객체를 받아온다.
-        Community community = this.communityService.getCommunity(id);
+        Report report = this.reportService.getReport(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("community", community);
-            return "community_detail";
+            model.addAttribute("report", report);
+            return "report_detail";
         }
 
-        CommunityReply communityReply = this.communityReplyService.create(community, communityReplyForm.getContent(), siteUser);
+        ReportAnswer reportAnswer = this.reportAnswerService.create(report, reportAnswerForm.getContent(), siteUser);
 
-        return "redirect:/community/detail/%d".formatted(id);
+        return "redirect:/report/detail/%d".formatted(id);
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String communityReplyModify(ReportAnswerForm communityReplyForm, @PathVariable("id") Integer id, Principal principal) {
-        CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
-        if (!communityReply.getUser().getUsername().equals(principal.getName())) {
+    public String reportAnswerModify(ReportAnswerForm reportAnswerForm, @PathVariable("id") Integer id, Principal principal) {
+        ReportAnswer reportAnswer = this.reportAnswerService.getReportAnswer(id);
+        if (!reportAnswer.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        communityReplyForm = new ReportAnswerForm(communityReply.getContent());
+        reportAnswerForm = new ReportAnswerForm(reportAnswer.getContent());
 
-        return "community_reply_form";
+        return "report_reply_form";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String communityReplyModify(@Valid ReportAnswerForm communityReplyForm, BindingResult bindingResult,
+    public String reportAnswerModify(@Valid ReportAnswerForm reportAnswerForm, BindingResult bindingResult,
                                        @PathVariable("id") Integer id, Principal principal) {
         if (bindingResult.hasErrors()) {
-            return "community_reply_form";
+            return "report_reply_form";
         }
-        CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
-        if (!communityReply.getUser().getUsername().equals(principal.getName())) {
+        ReportAnswer reportAnswer = this.reportAnswerService.getReportAnswer(id);
+        if (!reportAnswer.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        this.communityReplyService.modify(communityReply, communityReplyForm.getContent());
-        return String.format("redirect:/community/detail/%s", communityReply.getCommunity().getId());
+        this.reportAnswerService.modify(reportAnswer, reportAnswerForm.getContent());
+        return String.format("redirect:/report/detail/%s", reportAnswer.getReport().getId());
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String communityReplyDelete(Principal principal, @PathVariable("id") Integer id) {
-        CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
-        if (!communityReply.getUser().getUsername().equals(principal.getName())) {
+    public String reportAnswerDelete(Principal principal, @PathVariable("id") Integer id) {
+        ReportAnswer reportAnswer = this.reportAnswerService.getReportAnswer(id);
+        if (!reportAnswer.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
-        this.communityReplyService.delete(communityReply);
-        return String.format("redirect:/community/detail/%s", communityReply.getCommunity().getId());
+        this.reportAnswerService.delete(reportAnswer);
+        return String.format("redirect:/report/detail/%s", reportAnswer.getReport().getId());
     }
 }

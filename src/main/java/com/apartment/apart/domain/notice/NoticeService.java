@@ -41,15 +41,13 @@ public class NoticeService {
         Notice a = new Notice();
         a.setTitle(title);
         a.setContent(content);
-        a.setCreateDate(LocalDateTime.now());
-        a.setAuthor(nickname);
+        a.setUser(nickname);
         this.noticeRepository.save(a);
     }
 
     public void modify(Notice notice, String title, String content) {
         notice.setTitle(title);
         notice.setContent(content);
-        notice.setModifyDate(LocalDateTime.now());
         this.noticeRepository.save(notice);
     }
 

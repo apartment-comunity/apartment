@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Entity
 @Data
 public class Schedule extends BaseEntity {
-    @ManyToOne
     @JoinColumn(name = "user_id")
     private SiteUser user;
 
