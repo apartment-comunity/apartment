@@ -7,14 +7,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Getter
-@Setter
-@Data
+@SuperBuilder
 public class CommunityReply extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")

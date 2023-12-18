@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @SuperBuilder
-@Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class BaseEntity {
 
     @Id
