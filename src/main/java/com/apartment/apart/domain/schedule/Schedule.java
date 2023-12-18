@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Schedule extends BaseEntity {
-    @JoinColumn(name = "user_id")
+    @ManyToOne
     private SiteUser user;
 
     private String content;

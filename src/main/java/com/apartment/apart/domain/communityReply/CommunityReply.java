@@ -16,16 +16,16 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommunityReply extends BaseEntity {
-    @JoinColumn(name = "user_id")
+    @ManyToOne
     private SiteUser user;//작성자 정보
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
     private Community community;
 
     @Column(columnDefinition = "TEXT")
     private String content;//댓글 내용
 
+    @ManyToMany
     Set<SiteUser> likeCount;//댓글 좋아요 수
 
 }

@@ -35,10 +35,11 @@ public class ScheduleService {
         this.scheduleRepository.delete(schedule);
     }
 
-    public void modify(Schedule schedule, String title, String start, String end) {
-        schedule.setContent(title);
-        schedule.setStartDate(LocalDate.parse(start));
-        schedule.setEndDate(LocalDate.parse(end));
+    public void modify(Schedule schedule, String content, String start, String end) {
+        Schedule modifySchedule = Schedule.builder()
+                .content(content)
+                .startDate(LocalDate.parse(start))
+                .endDate(LocalDate.parse(end)).build();
         this.scheduleRepository.save(schedule);
     }
 

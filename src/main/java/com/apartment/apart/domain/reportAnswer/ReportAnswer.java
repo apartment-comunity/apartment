@@ -15,11 +15,10 @@ import java.util.Set;
 @Getter
 @SuperBuilder
 public class ReportAnswer extends BaseEntity {
-    @JoinColumn(name = "user_id")
+    @ManyToOne
     private SiteUser user;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
     private Report report;
 
     @Column(columnDefinition = "TEXT")

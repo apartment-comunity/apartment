@@ -17,13 +17,14 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Community extends BaseEntity {
-    @JoinColumn(name = "user_id")
+    @ManyToOne
     private SiteUser user; //작성자 정보
     @Column(length = 50)
     private String title; //게시글 제목
     @Column(columnDefinition = "TEXT")
     private String content;//게시글 내용
 
+    @ManyToMany
     Set<SiteUser> likeCount;//종아요 수
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)

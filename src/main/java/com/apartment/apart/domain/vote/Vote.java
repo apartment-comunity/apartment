@@ -19,15 +19,17 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Vote extends BaseEntity {
-    @JoinColumn(name = "user_id")
+    @ManyToOne
     private SiteUser user;
 
     private String title;
 
     private String content;
 
+    @ManyToMany
     Set<SiteUser> agree;
 
+    @ManyToMany
     Set<SiteUser> disagree;
 
     private LocalDate startDate;

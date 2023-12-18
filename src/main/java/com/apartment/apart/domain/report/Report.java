@@ -20,6 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Report extends BaseEntity {
+    @ManyToOne
     private SiteUser user;
 
     private String title;

@@ -15,9 +15,9 @@ public class UserService {
 
     public SiteUser create(String username, String nickname, String password, String phone, String email, int apartDong,int apartHo) {
         SiteUser user = SiteUser.builder()
-                .userId(username)
+                .username(username)
                 .nickname(nickname)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .phone(phone)
                 .email(email)
                 .apartDong(apartDong)

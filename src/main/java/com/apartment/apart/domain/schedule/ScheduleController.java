@@ -66,25 +66,25 @@ public class ScheduleController {
         return "schedule_form";
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/schedule/create")
-    public String create(@Valid ScheduleForm scheduleForm, BindingResult bindingResult, Principal principal) {
-        if (bindingResult.hasErrors()) {
-            return "schedule_form";
-        }
-
-        SiteUser siteUser = userService.getUser(principal.getName());
-
-        Schedule schedule = new Schedule();
-        schedule.setUser(siteUser);
-        schedule.setContent(scheduleForm.getTitle());
-        schedule.setTargetDong(siteUser.getApartDong());
-        schedule.setStartDate(LocalDate.parse(scheduleForm.getStart()));
-        schedule.setEndDate(LocalDate.parse(scheduleForm.getEnd()));
-
-        this.scheduleService.save(schedule);
-        return "redirect:/schedule/list";
-    }
+//    @PreAuthorize("isAuthenticated()")
+//    @PostMapping("/schedule/create")
+//    public String create(@Valid ScheduleForm scheduleForm, BindingResult bindingResult, Principal principal) {
+//        if (bindingResult.hasErrors()) {
+//            return "schedule_form";
+//        }
+//
+//        SiteUser siteUser = userService.getUser(principal.getName());
+//
+//        Schedule schedule = new Schedule();
+//        schedule.setUser(siteUser);
+//        schedule.setContent(scheduleForm.getTitle());
+//        schedule.setTargetDong(siteUser.getApartDong());
+//        schedule.setStartDate(LocalDate.parse(scheduleForm.getStart()));
+//        schedule.setEndDate(LocalDate.parse(scheduleForm.getEnd()));
+//
+//        this.scheduleService.save(schedule);
+//        return "redirect:/schedule/list";
+//    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/schedule/mySchedule")

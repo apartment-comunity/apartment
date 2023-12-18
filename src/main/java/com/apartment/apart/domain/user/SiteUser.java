@@ -9,12 +9,9 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Getter
 @SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
 public class SiteUser extends BaseEntity {
-
     @Column(unique = true)
-    private String userId;
+    private String username;
 
     @Column(unique = true)
     private String nickname;
@@ -22,7 +19,6 @@ public class SiteUser extends BaseEntity {
     private String password;
 
     @Column(unique = true)
-    @Size(min = 10, max = 11, message = "전화번호 길이에 부합해야함.")
     private String phone;
 
     @Column(unique = true)
