@@ -7,20 +7,18 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
 
 @Entity
 @Getter
-@Setter
-@Data
+@SuperBuilder
 public class ReportAnswer extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private SiteUser user;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
     private Report report;
 
     @Column(columnDefinition = "TEXT")

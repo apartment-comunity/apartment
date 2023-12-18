@@ -14,15 +14,16 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@Getter
 public abstract class BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @CreatedDate
-    private LocalDateTime createDate = LocalDateTime.now();
+    private LocalDateTime createDate;
 
     @LastModifiedDate
-    private LocalDateTime modifiedDate = LocalDateTime.now();
+    private LocalDateTime modifiedDate;
 }

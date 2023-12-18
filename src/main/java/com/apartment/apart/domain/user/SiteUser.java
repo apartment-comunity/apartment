@@ -4,14 +4,14 @@ import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
-@Data
+@SuperBuilder
 public class SiteUser extends BaseEntity {
-
     @Column(unique = true)
-    private String userId;
+    private String username;
 
     @Column(unique = true)
     private String nickname;
@@ -19,7 +19,6 @@ public class SiteUser extends BaseEntity {
     private String password;
 
     @Column(unique = true)
-    @Size(min = 10, max = 11, message = "전화번호 길이에 부합해야함.")
     private String phone;
 
     @Column(unique = true)

@@ -57,7 +57,7 @@ public class NoticeController {
     @GetMapping("/modify/{id}")
     public String noticeModify(NoticeForm noticeForm, @PathVariable("id") Integer id, Principal principal) {
         Notice notice = this.noticeService.getNotice(id);
-        if(!notice.getAuthor().getUsername().equals(principal.getName())) {
+        if(!notice.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         noticeForm.setTitle(notice.getTitle());
@@ -73,7 +73,7 @@ public class NoticeController {
             return "notice_form";
         }
         Notice notice = this.noticeService.getNotice(id);
-        if (!notice.getAuthor().getUsername().equals(principal.getName())) {
+        if (!notice.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.noticeService.modify(notice, noticeForm.getTitle(), noticeForm.getContent());
@@ -84,7 +84,7 @@ public class NoticeController {
     @GetMapping("/delete/{id}")
     public String noticeDelete(Principal principal, @PathVariable("id") Integer id) {
         Notice notice = this.noticeService.getNotice(id);
-        if (!notice.getAuthor().getUsername().equals(principal.getName())) {
+        if (!notice.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         this.noticeService.delete(notice);
