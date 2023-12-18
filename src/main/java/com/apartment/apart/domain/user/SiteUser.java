@@ -2,7 +2,6 @@ package com.apartment.apart.domain.user;
 
 import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -11,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class SiteUser extends BaseEntity {
     @Column(unique = true)
-    private String username;
+    private String userId;
 
     @Column(unique = true)
     private String nickname;
