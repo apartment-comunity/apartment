@@ -10,7 +10,7 @@ public class UserCreateForm {
 
     @NotEmpty(message = "사용자ID는 필수 입력 항목입니다.")
     @Size(min = 3, max = 15, message = "사용자ID는 3자 이상 15자 이하로 입력해주세요.")
-    private String userId;
+    private String username;
 
     @NotEmpty(message = "닉네임은 필수 입력 항목입니다.")
     @Size(min = 3, max = 15, message = "사용자명은 3자 이상 15자 이하로 입력해주세요.")
@@ -31,15 +31,6 @@ public class UserCreateForm {
     private String email;
 
     private int apartDong;
+
     private int apartHo;
-
-    private String kakaoId;
-
-    private boolean approval;
-
-    private String profilePicture;
-
-    private boolean emailVerified;
-
-    private boolean welcomeEmailSent;
 }

@@ -13,9 +13,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public SiteUser create(String userId, String nickname, String password, String phone, String email, int apartDong,int apartHo) {
+    public SiteUser create(String username, String nickname, String password, String phone, String email, int apartDong,int apartHo) {
         SiteUser user = SiteUser.builder()
-                .userId(userId)
+                .userId(username)
                 .nickname(nickname)
                 .password(passwordEncoder.encode(password))
                 .phone(phone)
@@ -26,8 +26,8 @@ public class UserService {
         return user;
     }
 
-    public SiteUser getUser(String userId) {
-        Optional<SiteUser> siteUser = this.userRepository.findByuserId(userId);
+    public SiteUser getUser(String username) {
+        Optional<SiteUser> siteUser = this.userRepository.findByUserId(username);
         if (siteUser.isPresent()) {
             return siteUser.get();
         } else {

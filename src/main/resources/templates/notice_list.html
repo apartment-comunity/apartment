@@ -28,7 +28,7 @@
             <td class="text-start">
                 <a th:href="@{|/notice/detail/${notice.id}|}" th:text="${notice.title}"></a>
             </td>
-            <td><span th:if="${notice.author != null}" th:text="${notice.author.nickname}"></span></td>
+            <td><span th:if="${notice.user != null}" th:text="${notice.user.nickname}"></span></td>
             <td th:text="${#temporals.format(notice.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></td>
         </tr>
         </tbody>
