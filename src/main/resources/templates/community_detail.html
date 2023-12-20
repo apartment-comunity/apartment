@@ -1,4 +1,10 @@
-<html layout:decorate="~{layout}">
+<!-- /resources/templates/community/detail.html -->
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- head 부분에 추가된 코드 -->
+    <title th:text="${community.title}"></title>
+</head>
+<body>
 <div layout:fragment="content" class="container my-3">
     <!-- 질문 -->
     <h2 class="border-bottom py-2" th:text="${community.title}"></h2>
@@ -6,29 +12,34 @@
         <div class="card-body">
             <div class="card-text" th:utext="${@commonUtil.markdown(community.content)}"></div>
             <div class="d-flex justify-content-end">
-                <div th:if="${community.modifyDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                <!-- 수정된 부분 -->
+                <div th:if="${community.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
                     <div class="mb-2">수정됨</div>
-                    <div th:text="${#temporals.format(community.modifyDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
+                    <div th:text="${#temporals.format(community.modifiedDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
-                        <span th:if="${community.author != null}" th:text="${community.author.username}"></span>
+                        <!-- 수정된 부분 -->
+                        <span th:if="${community.user != null}" th:text="${community.user.nickname}"></span>
                     </div>
                     <div th:text="${#temporals.format(community.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
                 </div>
             </div>
             <div class="my-3">
+                <!-- 수정된 부분 -->
                 <a th:href="@{|/community/modify/${community.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
-                   th:if="${community.author != null and #authentication.getPrincipal().getUsername() == community.author.username}"
+                   th:if="${community.user != null and #authentication.getPrincipal().getUsername() == community.user.userId}"
                    th:text="수정"></a>
+
                 <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/community/delete/${community.id}|}"
                    class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
-                   th:if="${community.author != null and #authentication.getPrincipal().getUsername() == community.author.username}"
+                   th:if="${community.user != null and #authentication.getPrincipal().getUsername() == community.user.userId}"
                    th:text="삭제"></a>
             </div>
         </div>
     </div>
     <a th:href="@{/community/list}" class="btn btn-primary">목록보기</a>
 </div>
+</body>
 </html>

@@ -37,11 +37,11 @@ public class CommunityService {
         }
     }
 
-    public void create(String title, String content, SiteUser nickname) {
+    public void create(String title, String content, SiteUser user) {
         Community community = Community.builder()
                 .title(title)
                 .content(content)
-                .user(nickname)
+                .user(user)
                 .build();
         this.communityRepository.save(community);
     }
@@ -51,7 +51,7 @@ public class CommunityService {
                 .title(title)
                 .content(content)
                 .build();
-        this.communityRepository.save(community);
+        this.communityRepository.save(modifyCommunity);
     }
 
     public void delete(Community community) {
@@ -61,13 +61,17 @@ public class CommunityService {
     private Specification<Community> search(String kw) {
         return new Specification<>() {
             private static final long serialVersionUID = 1L;
+
             @Override
             public Predicate toPredicate(Root<Community> communityRoot, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
-                Join<Community, SiteUser> u1 = communityRoot.join("author", JoinType.LEFT);
-                return cb.or(cb.like(communityRoot.get("title"), "%" + kw + "%"), // 제목
-                        cb.like(communityRoot.get("content"), "%" + kw + "%"),      // 내용
-                        cb.like(u1.get("nickname"), "%" + kw + "%"));    // 질문 작성자
+                Join<Community, SiteUser> userJoin = communityRoot.join("user", JoinType.LEFT);
+
+                return cb.or(
+                        cb.like(communityRoot.get("title"), "%" + kw + "%"), // 제목
+                        cb.like(communityRoot.get("content"), "%" + kw + "%"), // 내용
+                        cb.like(userJoin.get("nickname"), "%" + kw + "%") // 질문 작성자
+                );
             }
         };
     }
