@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Getter
 @SuperBuilder
+@NoArgsConstructor
 public class SiteUser extends BaseEntity {
     @Column(unique = true)
     private String userId;
@@ -23,9 +24,9 @@ public class SiteUser extends BaseEntity {
     @Column(unique = true)
     private String email;
 
-    private int apartDong; // 동수입력
+    private int apartDong;
 
-    private int apartHo; //호수입력
+    private int apartHo;
 
     private boolean approval;
 

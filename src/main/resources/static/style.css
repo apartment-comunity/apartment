@@ -75,3 +75,7 @@ h5, form, label, .card-text {
 .nav-link {
     font-size: 20px;
 }
+
+.menu-bar {
+    text-align: left;
+}

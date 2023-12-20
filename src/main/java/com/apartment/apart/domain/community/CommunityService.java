@@ -62,7 +62,7 @@ public class CommunityService {
             @Override
             public Predicate toPredicate(Root<Community> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
-                Join<Community, SiteUser> u1 = q.join("author", JoinType.LEFT);
+                Join<Community, SiteUser> u1 = q.join("user", JoinType.LEFT);
                 return cb.or(cb.like(q.get("title"), "%" + kw + "%"), // 제목
                         cb.like(q.get("content"), "%" + kw + "%"),      // 내용
                         cb.like(u1.get("nickname"), "%" + kw + "%"));    // 질문 작성자
