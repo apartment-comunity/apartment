@@ -10,10 +10,6 @@
                 <div class="schedule-alphabet" th:text="'시작일자 : '+ ${vote.getStartDate()}"></div>
                 <div class="schedule-alphabet" th:text="'종료일자 : '+ ${vote.getEndDate()}"></div>
                 <div class="my-3">
-                    <a th:href="@{|/vote/modify/${vote.Id}|}" class="btn btn-sm btn-outline-secondary"
-                       sec:authorize="isAuthenticated()"
-                       th:if="${vote.user != null and #authentication.getPrincipal().getUsername() == vote.user.userId}"
-                       th:text="수정"></a>
                     <a href="javascript:void(0);" th:data-uri="@{|/vote/delete/${vote.Id}|}"
                        class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                        th:if="${vote.user != null and #authentication.getPrincipal().getUsername() == vote.user.userId}"
@@ -21,6 +17,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="col-6" style="margin-top: 20px">
+        <a th:href="@{/vote/list}" class="btn btn-primary">목록</a>
     </div>
 </div>
 

@@ -28,13 +28,17 @@ public class VoteController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/list")
-    public String list(Model model) {
+    public String list(Model model,Principal principal) {
         List<Vote> voteList = voteService.findAll();
         Collections.reverse(voteList);
 
         LocalDate today = LocalDate.now();
+
+        SiteUser loginUser = this.userService.getUser(principal.getName());
+
         model.addAttribute("voteList", voteList);
         model.addAttribute("today", today);
+        model.addAttribute("loginUser",loginUser);
         return "vote_list";
     }
 
@@ -58,7 +62,7 @@ public class VoteController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/manage")
-    public String myvote(Model model, Principal principal) {
+    public String manage(Model model, Principal principal) {
         List<Vote> votelist = this.voteService.findAll();
         model.addAttribute("votelist", votelist);
         return "vote_manage";
@@ -67,7 +71,7 @@ public class VoteController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/delete/{id}")
     public String delete(Principal principal, @PathVariable("id") Long id) {
-        Vote vote = this.voteService.getVote(id);
+        Vote vote = this.voteService.findById(id);
         if (!vote.getUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
@@ -76,35 +80,6 @@ public class VoteController {
         return "redirect:/vote/list";
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/vote/modify/{id}")
-    public String voteModify(@PathVariable Long id, Principal principal, VoteForm voteForm) {
-        Vote vote = this.voteService.getVote(id);
 
-        if (!vote.getUser().getUserId().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
 
-        voteForm.setTitle(vote.getTitle());
-        voteForm.setStart(String.valueOf(vote.getStartDate()));
-        voteForm.setEnd(String.valueOf(vote.getEndDate()));
-
-        return "vote_form";
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/vote/modify/{id}")
-    public String voteModify(@Valid VoteForm voteForm, BindingResult bindingResult,
-                                 Principal principal, @PathVariable("id") Long id) {
-        if (bindingResult.hasErrors()) {
-            return "vote_form";
-        }
-        Vote vote = this.voteService.getVote(id);
-        if (!vote.getUser().getUserId().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
-        SiteUser siteUser = userService.getUser(principal.getName());
-        this.voteService.modify(vote,voteForm,siteUser);
-        return String.format("redirect:/vote/list");
-    }
 }

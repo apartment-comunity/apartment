@@ -26,44 +26,39 @@
                         <p>투표 기간이 아닙니다.</p>
                     </div>
                     <div th:unless="${a.isBefore(b) or a.isAfter(c)}">
-
-                        <div class="warning" th:if="${vote.isVoted(loginUser.getId())}">
-                            <p>이미 투표에 참여햐셨습니다.</p>
-                        </div>
-
-                        <div th:unless="${vote.isVoted(loginUser.getId())}">
-                            <div class="my-3">
-                                <a href="javascript:void(0);" th:data-uri="@{|/vote/agree/${vote.Id}|}"
-                                   class="agreement btn btn-sm btn-outline-secondary"
-                                   sec:authorize="isAuthenticated()"
-                                   th:text="찬성"></a>
-                                <a href="javascript:void(0);" th:data-uri="@{|/vote/disagree/${vote.Id}|}"
-                                   class="opposition btn btn-sm btn-outline-secondary"
-                                   sec:authorize="isAuthenticated()"
-                                   th:text="반대"></a>
+                        <div th:each="item : ${vote.getVoteTotal()}">
+                            <!-- 이미 투표한 경우 -->
+                            <div th:if="${item.getVoter().equals(loginUser)}">
+                                <p>이미 투표에 참여했습니다.</p>
+                            </div>
+                            <!-- 투표하지 않은 경우 -->
+                            <div th:unless="${item.getVoter().equals(loginUser)}">
+                                <div class="my-3">
+                                    <a th:href="@{|/vote/agree/${vote.id}|}"
+                                       class="agreement btn btn-sm btn-outline-secondary"
+                                       sec:authorize="isAuthenticated()" th:text="찬성"></a>
+                                    <a th:href="@{|/vote/disagree/${vote.id}|}"
+                                       class="opposition btn btn-sm btn-outline-secondary"
+                                       sec:authorize="isAuthenticated()" th:text="반대"></a>
+                                </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
     <div class="fc-toolbar-chunk">
         <div class="fc-button-group">
-            <button class="btn btn-outline-secondary" type="button" style="background: #2C3E50 color : white"
-                    onclick="location.href='/vote/create'">투표 추가
+            <button class="btn btn-outline-secondary" type="button"
+                    style="background: #2C3E50; color: white" onclick="location.href='/vote/create'">투표 추가
             </button>
-            <button class="btn btn-outline-secondary" type="button" style="background: #2C3E50 color : white"
-                    onclick="location.href='/vote/manage'">투표 관리
+            <button class="btn btn-outline-secondary" type="button"
+                    style="background: #2C3E50; color: white" onclick="location.href='/vote/manage'">투표 관리
             </button>
         </div>
     </div>
 </div>
-
 
 <script layout:fragment="script" type='text/javascript'>
     const opposition_elements = document.getElementsByClassName("opposition");
@@ -72,7 +67,6 @@
             if (confirm("정말로 반대하시겠습니까?")) {
                 location.href = this.dataset.uri;
             }
-            ;
         });
     });
     const agreement_elements = document.getElementsByClassName("agreement");
@@ -81,10 +75,8 @@
             if (confirm("정말로 찬성하시겠습니까?")) {
                 location.href = this.dataset.uri;
             }
-            ;
         });
     });
 </script>
-
 
 </html>

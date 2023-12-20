@@ -26,7 +26,10 @@
           <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/schedule/list}">일정표</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/qna/list}">QnA</a>
+          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/vote/list}">주민 투표</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/report/list}">건의사항</a>
         </li>
       </ul>
     </div>

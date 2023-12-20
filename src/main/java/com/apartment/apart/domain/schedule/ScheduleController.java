@@ -27,7 +27,27 @@ public class ScheduleController {
     private final UserService userService;
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/schedule/list")
-    public String test(Model model, @RequestParam(value = "targetDong", defaultValue = "100") int targetDong) {
+    public String list(Model model, @RequestParam(value = "targetDong", required = false) Integer targetDong, Principal principal) {
+
+        if(targetDong == null) {
+            int userDong = this.userService.getUser(principal.getName()).getApartDong();
+            List<Schedule> scheduleList = this.scheduleService.findByTargetDong(userDong);
+            List<ScheduleForm> scheduleFormList = new ArrayList<>();
+            for (Schedule schedule1 : scheduleList) {
+                ScheduleForm sc1 = new ScheduleForm();
+                sc1.setTitle(schedule1.getTitle());
+                sc1.setStart(schedule1.getStartDate().toString());
+                sc1.setEnd(schedule1.getEndDate().plusDays(1).toString());
+                scheduleFormList.add(sc1);
+            }
+
+            String nowDong = userDong+"동 일정";
+            model.addAttribute("scheduleList", scheduleFormList);
+            model.addAttribute("nowDong",nowDong);
+            return "schedule_list";
+        }
+
+
         if (targetDong == 100) {
             List<Schedule> scheduleList = this.scheduleService.findAll();
             List<ScheduleForm> scheduleFormList = new ArrayList<>();
@@ -38,8 +58,9 @@ public class ScheduleController {
                 sc1.setEnd(schedule1.getEndDate().plusDays(1).toString());
                 scheduleFormList.add(sc1);
             }
+            String nowDong ="전체 일정";
             model.addAttribute("scheduleList", scheduleFormList);
-
+            model.addAttribute("nowDong",nowDong);
             return "schedule_list";
         } else {
             List<Schedule> scheduleList = this.scheduleService.findByTargetDong(targetDong);
@@ -51,7 +72,10 @@ public class ScheduleController {
                 sc1.setEnd(schedule1.getEndDate().plusDays(1).toString());
                 scheduleFormList.add(sc1);
             }
+
+            String nowDong = targetDong+"동 일정";
             model.addAttribute("scheduleList", scheduleFormList);
+            model.addAttribute("nowDong",nowDong);
             return "schedule_list";
         }
 
@@ -96,36 +120,4 @@ public class ScheduleController {
         this.scheduleService.delete(schedule);
         return "redirect:/schedule/list";
     }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/schedule/modify/{id}")
-    public String scheduleModify(@PathVariable Long id, Principal principal, ScheduleForm scheduleForm) {
-        Schedule schedule = this.scheduleService.getSchedule(id);
-
-        if (!schedule.getUser().getUserId().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
-
-        scheduleForm.setTitle(schedule.getTitle());
-        scheduleForm.setStart(String.valueOf(schedule.getStartDate()));
-        scheduleForm.setEnd(String.valueOf(schedule.getEndDate()));
-
-        return "schedule_form";
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/schedule/modify/{id}")
-    public String scheduleModify(@Valid ScheduleForm scheduleForm, BindingResult bindingResult,
-                                 Principal principal, @PathVariable("id") Long id) {
-        if (bindingResult.hasErrors()) {
-            return "schedule_form";
-        }
-        Schedule schedule = this.scheduleService.getSchedule(id);
-        if (!schedule.getUser().getUserId().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
-        this.scheduleService.modify(schedule, scheduleForm.getTitle(), scheduleForm.getStart(), scheduleForm.getEnd());
-        return String.format("redirect:/schedule/list");
-    }
-
 }

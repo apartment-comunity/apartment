@@ -31,7 +31,7 @@ public class VoteService {
         this.voteRepository.save(vote);
     }
 
-    public Vote getVote(Long id) {
+    public Vote findById(Long id) {
         Optional<Vote> ov = this.voteRepository.findById(id);
         return ov.get();
     }
@@ -40,14 +40,4 @@ public class VoteService {
         this.voteRepository.delete(vote);
     }
 
-    public void modify(Vote vote, VoteForm voteForm, SiteUser siteuser) {
-        Vote modifyVote = Vote.builder()
-                .id(vote.getId())
-                .user(siteuser)
-                .title(voteForm.getTitle())
-                .content(voteForm.getContent())
-                .startDate(LocalDate.parse(voteForm.getStart()))
-                .endDate(LocalDate.parse(voteForm.getEnd()))
-                .build();
-    }
 }
