@@ -1,4 +1,4 @@
-package com.apartment.apart.domain.reportAnswer;
+package com.apartment.apart.domain.reportReply;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -6,10 +6,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ReportAnswerForm {
+public class ReportReplyForm {
     @NotEmpty(message = "내용은 필수항목입니다.")
     private String content;
-    public ReportAnswerForm(String content) {
+    public ReportReplyForm(String content) {
         this.content = content;
     }
 

@@ -34,7 +34,7 @@ public class ReportController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Long id) {
         Report report = this.reportService.getReport(id);
         model.addAttribute("report", report);
         return "report_detail";
@@ -57,7 +57,7 @@ public class ReportController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String reportModify(ReportForm reportForm, @PathVariable("id") Integer id, Principal principal) {
+    public String reportModify(ReportForm reportForm, @PathVariable("id") Long id, Principal principal) {
         Report report = this.reportService.getReport(id);
         if(!report.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
@@ -70,7 +70,7 @@ public class ReportController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String reportModify(@Valid ReportForm reportForm, BindingResult bindingResult,
-                                  Principal principal, @PathVariable("id") Integer id) {
+                                  Principal principal, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
             return "report_form";
         }
@@ -84,7 +84,7 @@ public class ReportController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String reportDelete(Principal principal, @PathVariable("id") Integer id) {
+    public String reportDelete(Principal principal, @PathVariable("id") Long id) {
         Report report = this.reportService.getReport(id);
         if (!report.getUser().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");

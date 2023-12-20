@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Cache;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class Notice extends BaseEntity {
     @ManyToOne
     private SiteUser user;
 
+    @Column(columnDefinition = "TEXT")
     private String title;
 
     private String content;

@@ -28,7 +28,7 @@ public class NoticeService {
         return this.noticeRepository.findAll(spec, pageable);
     }
 
-    public Notice getNotice(Integer id) {
+    public Notice getNotice(Long id) {
         Optional<Notice> notice = this.noticeRepository.findById(id);
         if (notice.isPresent()) {
             return notice.get();
@@ -46,7 +46,11 @@ public class NoticeService {
     }
 
     public void modify(Notice notice, String title, String content) {
+        Optional<Notice> existingNotice = this.noticeRepository.findById(notice.getId());
         Notice modifyNotice = Notice.builder()
+                        .id(existingNotice.get().getId())
+                        .user(existingNotice.get().getUser())
+                        .createDate(existingNotice.get().getCreateDate())
                         .title(title)
                         .content(content).build();
         this.noticeRepository.save(modifyNotice);

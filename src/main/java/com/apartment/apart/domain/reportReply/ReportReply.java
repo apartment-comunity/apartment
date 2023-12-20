@@ -1,12 +1,10 @@
-package com.apartment.apart.domain.reportAnswer;
+package com.apartment.apart.domain.reportReply;
 
 import com.apartment.apart.domain.report.Report;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
@@ -14,7 +12,7 @@ import java.util.Set;
 @Entity
 @Getter
 @SuperBuilder
-public class ReportAnswer extends BaseEntity {
+public class ReportReply extends BaseEntity {
     @ManyToOne
     private SiteUser user;
 

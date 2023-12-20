@@ -1,11 +1,10 @@
 package com.apartment.apart.domain.report;
 
-import com.apartment.apart.domain.reportAnswer.ReportAnswer;
+import com.apartment.apart.domain.reportReply.ReportReply;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -28,7 +27,7 @@ public class Report extends BaseEntity {
     private String content;
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
-    private List<ReportAnswer> answers = new ArrayList<>();
+    private List<ReportReply> answers = new ArrayList<>();
 
     @ManyToMany
     Set<SiteUser> likeCount;
