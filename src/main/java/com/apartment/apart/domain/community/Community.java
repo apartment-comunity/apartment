@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Community extends BaseEntity {
@@ -29,5 +29,5 @@ public class Community extends BaseEntity {
     Set<SiteUser> likeCount;//종아요 수
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
-    private List<CommunityReply> answers = new ArrayList<>();
+    private List<CommunityReply> replyList = new ArrayList<>();
 }

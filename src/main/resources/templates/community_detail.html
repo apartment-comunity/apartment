@@ -1,7 +1,6 @@
 <!-- /resources/templates/community/detail.html -->
 <html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- head 부분에 추가된 코드 -->
     <title th:text="${community.title}"></title>
 </head>
 <body>
@@ -12,26 +11,22 @@
         <div class="card-body">
             <div class="card-text" th:utext="${@commonUtil.markdown(community.content)}"></div>
             <div class="d-flex justify-content-end">
-                <!-- 수정된 부분 -->
                 <div th:if="${community.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
                     <div class="mb-2">수정됨</div>
                     <div th:text="${#temporals.format(community.modifiedDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
-                        <!-- 수정된 부분 -->
                         <span th:if="${community.user != null}" th:text="${community.user.nickname}"></span>
                     </div>
                     <div th:text="${#temporals.format(community.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
                 </div>
             </div>
             <div class="my-3">
-                <!-- 수정된 부분 -->
                 <a th:href="@{|/community/modify/${community.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${community.user != null and #authentication.getPrincipal().getUsername() == community.user.userId}"
                    th:text="수정"></a>
-
                 <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/community/delete/${community.id}|}"
                    class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                    th:if="${community.user != null and #authentication.getPrincipal().getUsername() == community.user.userId}"
@@ -40,6 +35,71 @@
         </div>
     </div>
     <a th:href="@{/community/list}" class="btn btn-primary">목록보기</a>
+    <!-- 답변의 갯수 표시 -->
+    <h5 class="border-bottom my-3 py-2"
+        th:text="|${#lists.size(community.replyList)}개의 답변이 있습니다.|"></h5>
+
+    <!-- 답변 반복 시작 -->
+    <div class="card my-3" th:each="communityReply : ${community.replyList}">
+        <a th:id="|communityReply_${communityReply.id}|"></a>
+        <div class="card-body">
+            <div class="card-text" th:utext="${@commonUtil.markdown(communityReply.content)}"></div>
+            <div class="d-flex justify-content-end">
+                <div th:if="${communityReply.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div th:text="${#temporals.format(communityReply.modifiedDate, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">
+                        <span th:if="${communityReply.user != null}" th:text="${communityReply.user.username}"></span>
+                    </div>
+                    <div th:text="${#temporals.format(communityReply.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+            </div>
+            <div class="my-3">
+                <a
+                        class="communityReply_recommend recommend btn btn-sm btn-outline-secondary"
+                >
+                    <input name="communityReply_id" type= "hidden" th:value="${communityReply.id}">
+                    추천
+                    <span class="recommend_communityReply_count badge rounded-pill bg-success" th:text="${#lists.size(communityReply.voter)}"></span>
+                </a>
+                <a th:href="@{|/communityReply/modify/${communityReply.id}|}" class="btn btn-sm btn-outline-secondary"
+                   sec:authorize="isAuthenticated()"
+                   th:if="${communityReply.user != null and #authentication.getPrincipal().getUsername() == communityReply.user.username}"
+                   th:text="수정"></a>
+                <a onclick="return confirm('정말 삭제 하시겠습니까?');" th:href="@{|/communityReply/delete/${communityReply.id}|}"
+                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                   th:if="${communityReply.user != null and #authentication.getPrincipal().getUsername() == communityReply.user.username}"
+                   th:text="삭제"></a>
+            </div>
+        </div>
+    </div>
+    <!-- 답변 반복 끝  -->
+
+    <!-- 답변 작성 -->
+    <form th:action="@{|/communityReply/create/${community.id}|}" th:object="${communityReplyForm}" method="post" class="my-3">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <textarea
+                required
+                maxlength="2000"
+                placeholder="내용을 2,000자 이하로 입력하세요"
+                sec:authorize="isAnonymous()" disabled
+                th:field="*{content}"
+                class="form-control"
+                rows="10"
+        ></textarea>
+        <textarea
+                required
+                maxlength="2000"
+                placeholder="내용을 2,000자 이하로 입력하세요"
+                sec:authorize="isAuthenticated()"
+                th:field="*{content}"
+                class="form-control"
+                rows="10"
+        ></textarea>
+        <input type="submit" value="답변등록" class="btn btn-primary my-2">
+    </form>
 </div>
 </body>
 </html>

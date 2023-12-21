@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,11 +46,12 @@ public class CommunityService {
     }
 
     public void modify(Community community, String title, String content) {
-        Community modifyCommunity = Community.builder()
+        Community modifiyCommunity = community.toBuilder()
                 .title(title)
                 .content(content)
                 .build();
-        this.communityRepository.save(modifyCommunity);
+
+        this.communityRepository.save(modifiyCommunity);
     }
 
     public void delete(Community community) {

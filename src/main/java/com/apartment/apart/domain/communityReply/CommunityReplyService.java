@@ -31,7 +31,7 @@ public class CommunityReplyService {
     }
 
     public void modify(CommunityReply communityReply, String content) {
-        CommunityReply modifyCommunityReply = CommunityReply.builder()
+        CommunityReply modifyCommunityReply = communityReply.toBuilder()
                 .content(content)
                 .build();
         this.communityReplyRepository.save(modifyCommunityReply);
