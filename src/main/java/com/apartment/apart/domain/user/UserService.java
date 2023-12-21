@@ -5,7 +5,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -14,7 +13,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public SiteUser create(String username, String nickname, String password, String phone, String email, int apartDong,int apartHo) {
+    public SiteUser create(String username, String nickname, String password, String phone, String email, int apartDong, int apartHo) {
         SiteUser user = SiteUser.builder()
                 .userId(username)
                 .nickname(nickname)
@@ -42,7 +41,7 @@ public class UserService {
 
         if (opUser.isPresent()) return opUser.get();
         // 소셜 로그인를 통한 가입시 비번은 없다.
-        return create(username, nickname, "", "", "", "",""); // 최초 로그인 시 딱 한번 실행
+        return create(username, nickname, "", "", "", 0, 0); // 최초 로그인 시 딱 한번 실행
     }
 
     private Optional<SiteUser> findByUsername(String username) {
