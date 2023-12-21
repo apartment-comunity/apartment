@@ -39,12 +39,12 @@ public class UserService {
     public SiteUser whenSocialLogin(String providerTypeCode, String username, String nickname) {
         Optional<SiteUser> opUser = userRepository.findByUserId(username);
 
-        if (opUser.isPresent()) return opUser.get();
+        // 최초 로그인 시 딱 한번 실행
+        return opUser.orElseGet(() -> create(username, nickname, "", "", "", 0, 0));
         // 소셜 로그인를 통한 가입시 비번은 없다.
-        return create(username, nickname, "", "", "", 0, 0); // 최초 로그인 시 딱 한번 실행
     }
 
-    private Optional<SiteUser> findByUsername(String username) {
+    private Optional<SiteUser> findByUserId(String username) {
         return userRepository.findByUserId(username);
     }
 }

@@ -4,12 +4,16 @@ import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
 @SuperBuilder
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class SiteUser extends BaseEntity {
+    @Comment("유저아이디")
     @Column(unique = true)
     private String userId;
 
