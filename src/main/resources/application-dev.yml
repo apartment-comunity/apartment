@@ -1,7 +1,7 @@
 server:
   port: 8080
+
 spring:
-  spring:
   datasource:
     url: jdbc:mariadb://127.0.0.1:3306/apart?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
     username: root
@@ -18,6 +18,6 @@ spring:
 logging:
   level:
     org.hibernate.SQL: DEBUG
-    #org.hibernate.type: TRACE
+    org.hibernate.type: TRACE
     org.hibernate.orm.jdbc.bind: TRACE
     org.hibernate.orm.jdbc.extract: TRACE

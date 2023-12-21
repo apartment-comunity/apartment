@@ -38,3 +38,9 @@ out/
 
 ##
 application-secret.yml
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride

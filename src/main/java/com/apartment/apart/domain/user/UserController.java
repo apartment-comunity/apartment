@@ -1,5 +1,6 @@
 package com.apartment.apart.domain.user;
 
+import com.apartment.apart.domain.email.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final EmailService emailService;
 
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm){
@@ -31,7 +33,10 @@ public class UserController {
         }
 
         try {
-            userService.create(userCreateForm.getUsername(),userCreateForm.getNickname(), userCreateForm.getPassword1(), userCreateForm.getPhone(),userCreateForm.getEmail(),userCreateForm.getApartDong(),userCreateForm.getApartHo());
+            userService.create(userCreateForm.getUsername(),userCreateForm.getNickname(), userCreateForm.getPassword1(), userCreateForm.getPhone(),userCreateForm.getEmail(),userCreateForm.getApartDong(),userCreateForm.getApartHo(), false);
+
+            emailService.send(userCreateForm.getEmail(),"서비스 가입을 환영합니다.","회원가입 환영 메일");
+
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");

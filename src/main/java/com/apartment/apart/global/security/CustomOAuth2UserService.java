@@ -3,18 +3,12 @@ package com.apartment.apart.global.security;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -41,25 +35,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         SiteUser siteUser = userService.whenSocialLogin(providerTypeCode, username, nickname);
 
-        List<GrantedAuthority> authorityList = new ArrayList<>();
-
-        return new CustomOAuth2User(siteUser.getUserId(), siteUser.getPassword(), authorityList);
+        return CustomOAuth2User.create(siteUser);
     }
 }
 
-class CustomOAuth2User extends User implements OAuth2User {
-
-    public CustomOAuth2User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return getUsername();
-    }
-}

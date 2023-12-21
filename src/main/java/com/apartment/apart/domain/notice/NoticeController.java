@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,7 @@ public class NoticeController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String noticeCreate(NoticeForm noticeForm) {
+
         return "notice_form";
     }
     @PreAuthorize("isAuthenticated()")

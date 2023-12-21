@@ -14,10 +14,12 @@ public class Dev {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-//    @Bean
-//    public ApplicationRunner init(UserService memberService) {
-//        return args -> {
-//            memberService.create("admin", "관리자", "admin", "01099999999","admin@apart.com",110,1501);
-//        };
-//    }
+    @Bean
+    public ApplicationRunner init(UserService memberService) {
+        return args -> {
+//            memberService.create("admin1", "관리자1", "admin", "01000000001","admin1@apart.com",001,001,true);
+//            memberService.create("admin2", "관리자2", "admin", "01000000002","admin2@apart.com",002,002,true);
+//            memberService.create("admin3", "관리자3", "admin", "01000000003","admin3@apart.com",003,003,true);
+        };
+    }
 }
