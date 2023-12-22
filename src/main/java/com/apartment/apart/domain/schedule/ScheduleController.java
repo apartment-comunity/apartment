@@ -2,6 +2,7 @@ package com.apartment.apart.domain.schedule;
 
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,8 @@ public class ScheduleController {
     private final UserService userService;
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/schedule/list")
-    public String list(Model model, @RequestParam(value = "targetDong", required = false) Integer targetDong, Principal principal) {
+    public String list(Model model, @RequestParam(value = "targetDong", required = false) Integer targetDong, Principal principal,
+                       HttpServletRequest request) {
 
         if(targetDong == null) {
             int userDong = this.userService.getUser(principal.getName()).getApartDong();
@@ -44,6 +46,7 @@ public class ScheduleController {
             String nowDong = userDong+"동 일정";
             model.addAttribute("scheduleList", scheduleFormList);
             model.addAttribute("nowDong",nowDong);
+            model.addAttribute("request", request);
             return "schedule_list";
         }
 
@@ -61,6 +64,7 @@ public class ScheduleController {
             String nowDong ="전체 일정";
             model.addAttribute("scheduleList", scheduleFormList);
             model.addAttribute("nowDong",nowDong);
+            model.addAttribute("request", request);
             return "schedule_list";
         } else {
             List<Schedule> scheduleList = this.scheduleService.findByTargetDong(targetDong);
@@ -76,6 +80,7 @@ public class ScheduleController {
             String nowDong = targetDong+"동 일정";
             model.addAttribute("scheduleList", scheduleFormList);
             model.addAttribute("nowDong",nowDong);
+            model.addAttribute("request", request);
             return "schedule_list";
         }
 
@@ -83,8 +88,10 @@ public class ScheduleController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/schedule/create")
-    public String create(Model model) {
+    public String create(Model model,
+                         HttpServletRequest request) {
         model.addAttribute("scheduleForm", new ScheduleForm());
+        model.addAttribute("request", request);
         return "schedule_form";
     }
 
@@ -101,11 +108,13 @@ public class ScheduleController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/schedule/mySchedule")
-    public String mySchedule(Model model, Principal principal) {
+    public String mySchedule(Model model, Principal principal,
+                             HttpServletRequest request) {
         SiteUser siteUser = userService.getUser(principal.getName());
         List<Schedule> scheduleList = this.scheduleService.findByUser(siteUser);
 
         model.addAttribute("mySchedule", scheduleList);
+        model.addAttribute("request", request);
         return "my_schedule";
     }
 

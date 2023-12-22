@@ -3,6 +3,9 @@ package com.apartment.apart.domain.vote;
 import com.apartment.apart.domain.user.SiteUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -38,6 +41,11 @@ public class VoteService {
 
     public void delete(Vote vote) {
         this.voteRepository.delete(vote);
+    }
+
+    public Page<Vote> getPageList(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return this.voteRepository.findAll(pageable);
     }
 
 }
