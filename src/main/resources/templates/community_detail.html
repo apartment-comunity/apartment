@@ -19,7 +19,6 @@
                     <div class="mb-2">
                         <span th:if="${community.user != null}" th:text="${community.user.nickname}"></span>
                     </div>
-                    <div th:text="${#temporals.format(community.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
                 </div>
             </div>
             <div class="my-3">
