@@ -28,21 +28,21 @@ public class CommunityReplyController {
     private final UserService userService;
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
-    public String createCommunityReply(Model model, @PathVariable("id") Integer id,
-                                       @Valid CommunityReplyForm communityReplyForm, BindingResult bindingResult, Principal principal) {
+    public String create(Model model, @PathVariable("id") Integer id,
+                               @Valid CommunityReplyForm communityReplyForm, BindingResult bindingResult, Principal principal) {
 
+        //답변 부모 질문객체를 받아온다.
         Community community = this.communityService.getCommunity(id);
-        SiteUser siteUser = this.userService.getUser(principal.getName());
+        SiteUser user = this.userService.getUser(principal.getName());
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("community", community);
-            model.addAttribute("communityReplyForm", communityReplyForm); // 에러 발생 시 폼 데이터를 다시 모델에 추가
             return "community_detail";
         }
 
-        CommunityReply communityReply = this.communityReplyService.create(community, communityReplyForm.getContent(), siteUser);
+        CommunityReply communityReply = this.communityReplyService.create(community, communityReplyForm.getContent(), user);
 
-        return "redirect:/community/detail/%d".formatted(id);
+        return "redirect:/community/detail/%d#communityReply_%s".formatted(id, communityReply.getId());
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -52,10 +52,13 @@ public class CommunityReplyController {
         if (!communityReply.getUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        model.addAttribute("communityReplyForm", new CommunityReplyForm(communityReply.getContent())); // 수정 폼에 초기값으로 내용을 설정
+        CommunityReplyForm communityReplyForm = new CommunityReplyForm();
+        communityReplyForm.setContent(communityReply.getContent());
+
+        model.addAttribute("communityReplyForm", communityReplyForm); // 수정 폼에 초기값으로 내용을 설정
         model.addAttribute("communityReplyId", id); // 수정 대상의 ID를 모델에 추가
 
-        return "communityReply_form";
+        return "community_reply_form";
     }
 
     @PreAuthorize("isAuthenticated()")

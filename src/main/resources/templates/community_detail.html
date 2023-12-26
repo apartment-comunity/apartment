@@ -51,7 +51,7 @@
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
-                        <span th:if="${communityReply.user != null}" th:text="${communityReply.user.username}"></span>
+                        <span th:if="${communityReply.user != null}" th:text="${communityReply.user.userId}"></span>
                     </div>
                     <div th:text="${#temporals.format(communityReply.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
@@ -62,33 +62,23 @@
                 >
                     <input name="communityReply_id" type= "hidden" th:value="${communityReply.id}">
                     추천
-                    <span class="recommend_communityReply_count badge rounded-pill bg-success" th:text="${#lists.size(communityReply.voter)}"></span>
+
                 </a>
                 <a th:href="@{|/communityReply/modify/${communityReply.id}|}" class="btn btn-sm btn-outline-secondary"
-                   sec:authorize="isAuthenticated()"
-                   th:if="${communityReply.user != null and #authentication.getPrincipal().getUsername() == communityReply.user.username}"
+                   sec:userize="isAuthenticated()"
+                   th:if="${communityReply.user != null and #authentication.getPrincipal().getUsername() == communityReply.user.userId}"
                    th:text="수정"></a>
                 <a onclick="return confirm('정말 삭제 하시겠습니까?');" th:href="@{|/communityReply/delete/${communityReply.id}|}"
                    class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
-                   th:if="${communityReply.user != null and #authentication.getPrincipal().getUsername() == communityReply.user.username}"
+                   th:if="${communityReply.user != null and #authentication.getPrincipal().getUsername() == communityReply.user.userId}"
                    th:text="삭제"></a>
             </div>
         </div>
     </div>
     <!-- 답변 반복 끝  -->
-
     <!-- 답변 작성 -->
     <form th:action="@{|/communityReply/create/${community.id}|}" th:object="${communityReplyForm}" method="post" class="my-3">
         <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-        <textarea
-                required
-                maxlength="2000"
-                placeholder="내용을 2,000자 이하로 입력하세요"
-                sec:authorize="isAnonymous()" disabled
-                th:field="*{content}"
-                class="form-control"
-                rows="10"
-        ></textarea>
         <textarea
                 required
                 maxlength="2000"
@@ -100,6 +90,7 @@
         ></textarea>
         <input type="submit" value="답변등록" class="btn btn-primary my-2">
     </form>
+
 </div>
 </body>
 </html>

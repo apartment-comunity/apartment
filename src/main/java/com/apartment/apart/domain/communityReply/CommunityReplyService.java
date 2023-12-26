@@ -3,6 +3,7 @@ package com.apartment.apart.domain.communityReply;
 import com.apartment.apart.DataNotException;
 import com.apartment.apart.domain.community.Community;
 import com.apartment.apart.domain.user.SiteUser;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 
@@ -13,13 +14,13 @@ public class CommunityReplyService {
     public CommunityReplyService(CommunityReplyRepository communityReplyRepository) {
         this.communityReplyRepository = communityReplyRepository;
     }
-
-    public CommunityReply create(Community community, String content, SiteUser nickname) {
+    @Transactional
+    public CommunityReply create(Community community, String content, SiteUser user) {
 
         CommunityReply createCommunityReply = CommunityReply.builder()
                 .content(content)
                         .community(community)
-                                .user(nickname)
+                                .user(user)
                                         .build();
         this.communityReplyRepository.save(createCommunityReply);
         return createCommunityReply;
