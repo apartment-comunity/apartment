@@ -1,0 +1,82 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container">
+    <h2>주민 투표</h2>
+    <div th:if="${#lists.size(voteList)} == 0">
+        <div class="card my-3" style="text-align: center">
+            <div class="card-body">
+                <div class="warning" style="font-size: 3rem">진행중인 투표가 없습니다.</div>
+            </div>
+        </div>
+    </div>
+    <div th:if="${#lists.size(voteList)} != 0" th:each="vote : ${voteList}">
+        <div class="card my-3">
+            <div class="card-body">
+                <div class="schedule-alphabet" th:text="'제목 : '+${vote.getTitle()}"></div>
+                <br/>
+                <div class="schedule-alphabet" th:text="'내용 : '+${vote.getContent()}"></div>
+                <br/><br/>
+                <div class="schedule-alphabet"
+                     th:text="'게시일 : '+${#temporals.format(vote.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                <div class="schedule-alphabet" th:text="'투표 시작일 : '+${vote.getStartDate()}"></div>
+                <div class="schedule-alphabet" th:text="'투표 마감일 : '+${vote.getEndDate()}"></div>
+
+                <div th:with="a=${today}, b=${vote.getStartDate()}, c=${vote.getEndDate()}">
+                    <!-- 날짜 비교 -->
+                    <div class="warning" th:if="${a.isBefore(b) or a.isAfter(c)}">
+                        <p>투표 기간이 아닙니다.</p>
+                    </div>
+                    <div th:unless="${a.isBefore(b) or a.isAfter(c)}">
+                        <div th:each="item : ${vote.getVoteTotal()}">
+                            <!-- 이미 투표한 경우 -->
+                            <div th:if="${item.getVoter().equals(loginUser)}">
+                                <p>이미 투표에 참여했습니다.</p>
+                            </div>
+                            <!-- 투표하지 않은 경우 -->
+                            <div th:unless="${item.getVoter().equals(loginUser)}">
+                                <div class="my-3">
+                                    <a th:href="@{|/vote/agree/${vote.id}|}"
+                                       class="agreement btn btn-sm btn-outline-secondary"
+                                       sec:authorize="isAuthenticated()" th:text="찬성"></a>
+                                    <a th:href="@{|/vote/disagree/${vote.id}|}"
+                                       class="opposition btn btn-sm btn-outline-secondary"
+                                       sec:authorize="isAuthenticated()" th:text="반대"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fc-toolbar-chunk">
+        <div class="fc-button-group">
+            <button class="btn btn-outline-secondary" type="button"
+                    style="background: #2C3E50; color: white" onclick="location.href='/vote/create'">투표 추가
+            </button>
+            <button class="btn btn-outline-secondary" type="button"
+                    style="background: #2C3E50; color: white" onclick="location.href='/vote/manage'">투표 관리
+            </button>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" type='text/javascript'>
+    const opposition_elements = document.getElementsByClassName("opposition");
+    Array.from(opposition_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if (confirm("정말로 반대하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            }
+        });
+    });
+    const agreement_elements = document.getElementsByClassName("agreement");
+    Array.from(agreement_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if (confirm("정말로 찬성하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            }
+        });
+    });
+</script>
+
+</html>

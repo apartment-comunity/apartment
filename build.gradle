@@ -8,7 +8,7 @@ group = 'com.apartment'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility = '19'
 }
 
 configurations {
@@ -32,7 +32,8 @@ dependencies {
 // mariadb
 	implementation 'org.mariadb.jdbc:mariadb-java-client:3.3.0'
 // thymeleaf
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
+	implementation 'org.thymeleaf:thymeleaf:3.1.2.RELEASE'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 // Bootstrap
 	implementation 'org.springframework.boot:spring-boot-starter-validation'

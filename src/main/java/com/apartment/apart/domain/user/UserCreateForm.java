@@ -29,6 +29,7 @@ public class UserCreateForm {
     @NotEmpty(message = "이메일은 필수 입력 항목입니다.")
     private String email;
 
+
     private int apartDong;
 
     private int apartHo;

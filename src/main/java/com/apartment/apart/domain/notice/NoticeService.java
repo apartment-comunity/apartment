@@ -38,23 +38,24 @@ public class NoticeService {
     }
 
     public void create(String title, String content, SiteUser nickname) {
-        Notice a = Notice.builder()
-                        .title(title)
-                        .content(content)
-                        .user(nickname).build();
-        this.noticeRepository.save(a);
+        Notice notice = Notice.builder()
+                .title(title)
+                .content(content)
+                .user(nickname)
+                .build();
+        this.noticeRepository.save(notice);
     }
 
     public void modify(Notice notice, String title, String content) {
-        Optional<Notice> existingNotice = this.noticeRepository.findById(notice.getId());
-        Notice modifyNotice = Notice.builder()
-                        .id(existingNotice.get().getId())
-                        .user(existingNotice.get().getUser())
-                        .createDate(existingNotice.get().getCreateDate())
-                        .title(title)
-                        .content(content)
-                        .build();
-        this.noticeRepository.save(modifyNotice);
+        Notice modiftNotice = Notice.builder()
+                .id(notice.getId())
+                .createDate(notice.getCreateDate())
+                .modifiedDate(LocalDateTime.now())
+                .title(title)
+                .content(content)
+                .user(notice.getUser())
+                .build();
+        this.noticeRepository.save(modiftNotice);
     }
 
     public void delete(Notice notice) {

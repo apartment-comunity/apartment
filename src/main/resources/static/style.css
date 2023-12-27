@@ -1,13 +1,13 @@
 @font-face {
-    font-family: 'Bazzi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/Bazzi.woff') format('woff');
+    font-family: "GmarketSansMedium";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
-* {
-    font-family: "Bazzi";
-    text-underline-position: under;
+html > body {
+    font-family: "GmarketSansMedium";
 }
 
 h1 {
@@ -15,18 +15,13 @@ h1 {
     color : #ffc0c0;
 }
 
-div, h5 {
-    color : #ffc0c0;
-}
-li {
-    list-style-type: none;
-}
 .fc-col-header-cell-cushion , .fc-daygrid-day-number, .fc-toolbar-title, .fc-event-title,.fc-timegrid-slot-label-cushion,.fc-timegrid-axis-cushion,.schedule-create{
     text-decoration: none;
     color: black;
 }
 .fc-event-title-container{
     background : #EBFF82;
+    font-size: 1rem;
 }
 div.fc-toolbar-title {
     font-size: 3rem;
@@ -90,4 +85,8 @@ h5, .card-text {
 
 .form-label {
     font-size: 20px;
+}
+
+.warning{
+    color: red;
 }

@@ -1,0 +1,39 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container">
+
+
+    <div th:each="vote,loop : ${votelist}">
+        <div class="card my-3">
+            <div class="card-body">
+                <div class="schedule-alphabet" th:text="'제목 : '+ ${vote.getTitle()}"></div>
+                <div class="schedule-alphabet" th:text="'내용 : '+ ${vote.getContent()}"></div>
+                <div class="schedule-alphabet" th:text="'시작일자 : '+ ${vote.getStartDate()}"></div>
+                <div class="schedule-alphabet" th:text="'종료일자 : '+ ${vote.getEndDate()}"></div>
+                <div class="my-3">
+                    <a href="javascript:void(0);" th:data-uri="@{|/vote/delete/${vote.Id}|}"
+                       class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                       th:if="${vote.user != null and #authentication.getPrincipal().getUsername() == vote.user.userId}"
+                       th:text="삭제"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6" style="margin-top: 20px">
+        <a th:href="@{/vote/list}" class="btn btn-primary">목록</a>
+    </div>
+</div>
+
+<script layout:fragment="script" type='text/javascript'>
+    const delete_elements = document.getElementsByClassName("delete");
+    Array.from(delete_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if (confirm("정말로 삭제하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            }
+            ;
+        });
+    });
+</script>
+
+</html>
