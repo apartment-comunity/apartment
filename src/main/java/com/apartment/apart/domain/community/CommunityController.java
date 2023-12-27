@@ -1,5 +1,6 @@
 package com.apartment.apart.domain.community;
 
+import com.apartment.apart.domain.communityReply.CommunityReplyForm;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import jakarta.validation.Valid;
@@ -31,7 +32,7 @@ public class CommunityController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, CommunityReplyForm communityReplyForm) {
         Community community = this.communityService.getCommunity(id);
         model.addAttribute("community", community);
         return "community_detail";
@@ -89,4 +90,5 @@ public class CommunityController {
         this.communityService.delete(community);
         return "redirect:/community/list";
     }
+
 }

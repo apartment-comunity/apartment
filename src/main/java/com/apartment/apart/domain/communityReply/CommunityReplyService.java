@@ -3,6 +3,7 @@ package com.apartment.apart.domain.communityReply;
 import com.apartment.apart.DataNotException;
 import com.apartment.apart.domain.community.Community;
 import com.apartment.apart.domain.user.SiteUser;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 
@@ -13,14 +14,16 @@ public class CommunityReplyService {
     public CommunityReplyService(CommunityReplyRepository communityReplyRepository) {
         this.communityReplyRepository = communityReplyRepository;
     }
+    @Transactional
+    public CommunityReply create(Community community, String content, SiteUser user) {
 
-    public CommunityReply create(Community community, String content, SiteUser nickname) {
-        CommunityReply cr = CommunityReply.builder()
+        CommunityReply createCommunityReply = CommunityReply.builder()
                 .content(content)
-                .user(nickname).build();
-        this.communityReplyRepository.save(cr);
-
-        return cr;
+                        .community(community)
+                                .user(user)
+                                        .build();
+        this.communityReplyRepository.save(createCommunityReply);
+        return createCommunityReply;
     }
 
     public CommunityReply getCommunityReply(Integer id) {
@@ -29,9 +32,10 @@ public class CommunityReplyService {
     }
 
     public void modify(CommunityReply communityReply, String content) {
-        CommunityReply modifyCr = CommunityReply.builder()
-                .content(content).build();
-        this.communityReplyRepository.save(modifyCr);
+        CommunityReply modifyCommunityReply = communityReply.toBuilder()
+                .content(content)
+                .build();
+        this.communityReplyRepository.save(modifyCommunityReply);
     }
     public void delete(CommunityReply communityReply) {
         this.communityReplyRepository.delete(communityReply);

@@ -13,11 +13,12 @@ import java.util.Set;
 
 @Entity
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Community extends BaseEntity {
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private SiteUser user; //작성자 정보
     @Column(length = 50)
     private String title; //게시글 제목
@@ -28,5 +29,5 @@ public class Community extends BaseEntity {
     Set<SiteUser> likeCount;//종아요 수
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
-    private List<CommunityReply> answers = new ArrayList<>();
+    private List<CommunityReply> replyList = new ArrayList<>();
 }
