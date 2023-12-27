@@ -52,7 +52,8 @@ public class NoticeService {
                         .user(existingNotice.get().getUser())
                         .createDate(existingNotice.get().getCreateDate())
                         .title(title)
-                        .content(content).build();
+                        .content(content)
+                        .build();
         this.noticeRepository.save(modifyNotice);
     }
 

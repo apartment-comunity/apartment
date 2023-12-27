@@ -32,7 +32,5 @@ public class SiteUser extends BaseEntity {
 
     private int apartHo;
 
-    private boolean approval;
-
     private Boolean adminCheck;
 }

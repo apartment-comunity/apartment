@@ -12,7 +12,6 @@
 
 h1 {
     margin-top : 20px;
-    font-size : 5rem;
     color : #ffc0c0;
 }
 
@@ -54,9 +53,10 @@ a:hover {
   --bs-btn-hover-border-color: yellow;
   --bs-btn-active-bg: red;
   --bs-btn-active-border-color: red;
+  margin-bottom: 10px;
 }
 
-h5, form, label, .card-text {
+h5, .card-text {
   font-size: 2rem;
 }
 
@@ -86,4 +86,8 @@ h5, form, label, .card-text {
 
 .navbar-brand {
     margin-left: 20px;
+}
+
+.form-label {
+    font-size: 20px;
 }

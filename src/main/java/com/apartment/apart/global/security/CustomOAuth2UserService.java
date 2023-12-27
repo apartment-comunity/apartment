@@ -3,12 +3,16 @@ package com.apartment.apart.global.security;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,15 +31,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
         Map attributesProperties = (Map) attributes.get("properties");
-        String nickname = (String) attributesProperties.get("nickname");
 
+        String nickname = null;
+
+        if (attributesProperties != null) {
+            nickname = (String) attributesProperties.get("nickname");
+        }
         String providerTypeCode = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
 
         String username = providerTypeCode + "__%s".formatted(oauthId);
 
         SiteUser siteUser = userService.whenSocialLogin(providerTypeCode, username, nickname);
 
-        return CustomOAuth2User.create(siteUser);
+        List<GrantedAuthority> authorityList = new ArrayList<>();
+
+        return new CustomOAuth2User(siteUser.getUserId(), siteUser.getPassword(), authorityList);
     }
 }
+
 

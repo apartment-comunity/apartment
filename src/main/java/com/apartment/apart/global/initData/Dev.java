@@ -15,7 +15,7 @@ public class Dev {
     PasswordEncoder passwordEncoder;
 
     @Bean
-    public ApplicationRunner init(UserService memberService) {
+    public ApplicationRunner init(UserService userService) {
         return args -> {
 //            memberService.create("admin1", "관리자1", "admin", "01000000001","admin1@apart.com",001,001,true);
 //            memberService.create("admin2", "관리자2", "admin", "01000000002","admin2@apart.com",002,002,true);
