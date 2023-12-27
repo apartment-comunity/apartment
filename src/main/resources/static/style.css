@@ -99,3 +99,7 @@ h5, .card-text {
     font-size: 3rem;
     color: #ffc0c0;
 }
+
+.vote-button {
+    margin: 20px 25px;
+}
