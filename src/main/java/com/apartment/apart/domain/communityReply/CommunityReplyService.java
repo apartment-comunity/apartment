@@ -40,5 +40,8 @@ public class CommunityReplyService {
     public void delete(CommunityReply communityReply) {
         this.communityReplyRepository.delete(communityReply);
     }
-
+    public void like(CommunityReply communityReply, SiteUser siteUser) {
+        communityReply.getLikeCount().add(siteUser);
+        this.communityReplyRepository.save(communityReply);
+    }
 }

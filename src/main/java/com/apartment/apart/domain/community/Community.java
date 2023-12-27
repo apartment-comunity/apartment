@@ -26,7 +26,7 @@ public class Community extends BaseEntity {
     private String content;//게시글 내용
 
     @ManyToMany
-    Set<SiteUser> likeCount;//종아요 수
+    Set<SiteUser> likeCount;//종아요한 유저
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private List<CommunityReply> replyList = new ArrayList<>();
