@@ -75,4 +75,9 @@ public class CommunityService {
             }
         };
     }
+
+    public void like(Community community, SiteUser siteUser) {
+        community.getLikeCount().add(siteUser);
+        this.communityRepository.save(community);
+    }
 }

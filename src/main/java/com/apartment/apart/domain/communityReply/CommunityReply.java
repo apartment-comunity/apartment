@@ -30,6 +30,6 @@ public class CommunityReply extends BaseEntity {
     private String content;//댓글 내용
 
     @ManyToMany
-    Set<SiteUser> likeCount;//댓글 좋아요 수
+    Set<SiteUser> likeCount;//댓글 좋아요한 유저수
 
 }

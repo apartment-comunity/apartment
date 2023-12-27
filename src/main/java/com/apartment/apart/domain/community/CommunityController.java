@@ -90,5 +90,17 @@ public class CommunityController {
         this.communityService.delete(community);
         return "redirect:/community/list";
     }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/like/{id}")
+    @ResponseBody
+    public String communityLike(Principal principal, @PathVariable("id") Integer id) {
+        Community community = this.communityService.getCommunity(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        this.communityService.like(community, siteUser);
 
+        Community likedCommunity = this.communityService.getCommunity(id);
+        Integer count = likedCommunity.getLikeCount().size();
+
+        return count.toString();
+    }
 }

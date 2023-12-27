@@ -22,6 +22,12 @@
                 </div>
             </div>
             <div class="my-3">
+                <a id = "community_recommend"
+                   class="recommend btn btn-sm btn-outline-secondary"
+                >
+                    추천
+                    <span id="recommend_community_count" class="badge rounded-pill bg-success" th:text="${#lists.size(community.likeCount)}"></span>
+                </a>
                 <a th:href="@{|/community/modify/${community.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${community.user != null and #authentication.getPrincipal().getUsername() == community.user.userId}"
@@ -45,14 +51,14 @@
             <div class="card-text" th:utext="${@commonUtil.markdown(communityReply.content)}"></div>
             <div class="d-flex justify-content-end">
                 <div th:if="${communityReply.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
-                    <div class="mb-2">modified at</div>
-                    <div th:text="${#temporals.format(communityReply.modifiedDate, 'yyyy-MM-dd HH:mm')}"></div>
+                    <div class="mb-2">
+                        <span th:text="${'수정됨'}"></span>
+                    </div>
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
-                        <span th:if="${communityReply.user != null}" th:text="${communityReply.user.userId}"></span>
+                        <span th:if="${communityReply.user != null}" th:text="${communityReply.user.nickname}"></span>
                     </div>
-                    <div th:text="${#temporals.format(communityReply.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
             </div>
             <div class="my-3">
@@ -61,6 +67,7 @@
                 >
                     <input name="communityReply_id" type= "hidden" th:value="${communityReply.id}">
                     추천
+                    <span class="recommend_communityReply_count badge rounded-pill bg-success" th:text="${#lists.size(communityReply.likeCount)}"></span>
 
                 </a>
                 <a th:href="@{|/communityReply/modify/${communityReply.id}|}" class="btn btn-sm btn-outline-secondary"
@@ -93,3 +100,41 @@
 </div>
 </body>
 </html>
+<script th:inline="javascript">
+    var community_id = [[${community.id}]]
+
+    $('#community_recommend').on("click", function () {
+        if (confirm("정말로 추천하시겠습니까?")) {
+            $.ajax({
+                    type: "GET",
+                    url: `/community/like/${community_id}`,
+                    success: function (res) {
+                        $("#recommend_community_count").text(res)
+                    },
+                    error: function (xhr) {
+                        console.log(xhr)
+                    }
+           })
+        }
+    })
+
+    $('.communityReply_recommend').on("click", function () {
+        var _this = $(this)
+        var communityReply_id = _this.find('input[name=communityReply_id]').val();
+
+        if (confirm("정말로 추천하시겠습니까?")) {
+            $.ajax({
+                    type: "GET",
+                    url: `/communityReply/like/${communityReply_id}`,
+                    success: function (res) {
+                        _this.find(".recommend_communityReply_count").text(res)
+                    },
+                    error: function (xhr) {
+                        console.log(xhr)
+                    }
+           })
+        }
+    })
+
+
+</script>
