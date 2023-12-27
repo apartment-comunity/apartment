@@ -27,7 +27,7 @@ public class CommunityService {
         return this.communityRepository.findAll(spec, pageable);
     }
 
-    public Community getCommunity(Integer id) {
+    public Community getCommunity(Long id) {
         Optional<Community> community = this.communityRepository.findById(id);
         if (community.isPresent()) {
             return community.get();
