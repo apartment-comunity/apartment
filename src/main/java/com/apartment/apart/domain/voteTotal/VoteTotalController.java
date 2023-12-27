@@ -4,6 +4,7 @@ import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import com.apartment.apart.domain.vote.Vote;
 import com.apartment.apart.domain.vote.VoteService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +28,10 @@ public class VoteTotalController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{voteValue}/{id}")
-    public String agree(Principal principal, @PathVariable("voteValue") String voteValue, @PathVariable("id") Long id) {
+    public String agree(Principal principal, @PathVariable("voteValue") String voteValue, @PathVariable("id") Long id, HttpServletRequest request) {
+        System.out.println();
+
+
         Vote vote = this.voteService.findById(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         List<VoteTotal> voteList = vote.getVoteTotalList();
@@ -56,7 +60,8 @@ public class VoteTotalController {
             this.voteTotalService.vote(siteUser,vote,voteValueBoolean);
         }
 
-        return "redirect:/vote/list";
+        return String.format("redirect:/vote/detail/%s", id);
+
 
     }
 }
