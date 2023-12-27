@@ -9,8 +9,8 @@
         }
 
         #top {
-            background: #eee;
-            border-bottom: 1px solid #ddd;
+<!--            background: #eee;-->
+<!--            border-bottom: 1px solid #ddd;-->
             padding: 0 10px;
             line-height: 40px;
             font-size: 12px;
@@ -38,15 +38,15 @@
             <option value="108">108동</option>
             <option value="109">109동</option>
         </select>
-        <h2 class="schedule-alphabet" th:text="${nowDong}" style="text-align: center; font-size: 3rem" ></h2>
+        <h2 class="schedule-alphabet" th:text="${nowDong}"></h2>
     </form>
     <div id='calendar'></div>
     <div class="fc-toolbar-chunk">
         <div class="fc-button-group">
-            <button class="btn btn-outline-secondary" type="button" style="background: #2C3E50 color : white"
+            <button class="btn btn-primary" type="button" style="background: #2C3E50 color : white"
                     onclick="location.href='/schedule/create'">일정추가
             </button>
-            <button class="btn btn-outline-secondary" type="button" style="background: #2C3E50 color : white"
+            <button class="btn btn-primary" type="button" style="background: #2C3E50 color : white"
                     onclick="location.href='/schedule/mySchedule'">나의일정
             </button>
         </div>

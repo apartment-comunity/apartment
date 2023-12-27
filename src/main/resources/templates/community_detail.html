@@ -13,12 +13,13 @@
             <div class="d-flex justify-content-end">
                 <div th:if="${community.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
                     <div class="mb-2">수정됨</div>
-                    <div th:text="${#temporals.format(community.modifiedDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
+                    <div th:text="${#temporals.format(community.modifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
                         <span th:if="${community.user != null}" th:text="${community.user.nickname}"></span>
                     </div>
+                    <div th:text="${#temporals.format(community.createDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
                 </div>
             </div>
             <div class="my-3">
@@ -45,14 +46,14 @@
             <div class="card-text" th:utext="${@commonUtil.markdown(communityReply.content)}"></div>
             <div class="d-flex justify-content-end">
                 <div th:if="${communityReply.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
-                    <div class="mb-2">modified at</div>
-                    <div th:text="${#temporals.format(communityReply.modifiedDate, 'yyyy-MM-dd HH:mm')}"></div>
+                    <div class="mb-2">수정됨</div>
+                    <div th:text="${#temporals.format(communityReply.modifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
-                        <span th:if="${communityReply.user != null}" th:text="${communityReply.user.userId}"></span>
+                        <span th:if="${communityReply.user != null}" th:text="${communityReply.user.nickname}"></span>
                     </div>
-                    <div th:text="${#temporals.format(communityReply.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                    <div th:text="${#temporals.format(communityReply.createDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
                 </div>
             </div>
             <div class="my-3">

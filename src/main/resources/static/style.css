@@ -90,3 +90,12 @@ h5, .card-text {
 .warning{
     color: red;
 }
+.schedule{
+    font-size:25px;
+}
+
+.schedule-alphabet{
+    text-align: center;
+    font-size: 3rem;
+    color: #ffc0c0;
+}
