@@ -1,11 +1,11 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container mx-auto">
-    <div class="mt-6">
-        <div class="col-6 my-auto">
-
+<div layout:fragment="content" class="container my-3">
+    <div class="row my-3">
+        <div class="col-6">
+            <a th:href="@{/vote/create}"
+               class="btn btn-primary">투표 등록하기</a>
             <a th:href="@{/vote/list?type=list}"
-               class="btn btn-primary vote-button">
-                리스트 형식으로 보기</a>
+               class="btn btn-primary vote-button-2">리스트 형식으로 보기</a>
         </div>
 
         <div th:if="${#lists.size(voteList)} == 0">
@@ -15,16 +15,16 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-center my-8 " th:if="${#lists.size(voteList)} != 0" th:each="vote : ${voteList}">
-            <div class="card justify-center w-10/12 bg-base-100 shadow-xl bg-white border" style="border-radius: 40px;">
-                <div class="card-body mx-auto p-4" style="margin: 4rem; margin-bottom: 2rem; margin-top: 2rem;">
-                    <div class="schedule break-all text-2xl" style="text-align: center"
+        <div class="flex justify-center my-8 vote-box" th:if="${#lists.size(voteList)} != 0" th:each="vote : ${voteList}">
+            <div class="card justify-center w-10/12 bg-base-100 shadow-xl bg-white border">
+                <div class="card-body mx-auto p-4">
+                    <div class="schedule break-all vote-detail-title-font" style="text-align: center"
                          th:text="${vote.getTitle()}"></div>
                     <br/><br/>
-                    <div class="schedule break-all" th:text="${vote.getContent()}"></div>
+                    <div class="schedule break-all vote-detail-content-font" th:text="${vote.getContent()}"></div>
                     <br/><br/>
-                    <div class="schedule card-body mx-auto p-4 border bg-gray-100"
-                         style="margin: 4rem; margin-bottom: 2rem; margin-top: 2rem; border-radius: 10px;">
+                    <div class="schedule card-body border bg-gray-100 datesize"
+                         style="border-radius: 10px;">
                         <div class="schedule"
                              th:text="'게시일 : '+${#temporals.format(vote.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                         <br/>
@@ -43,12 +43,12 @@
                             <div th:unless="${vote.isVoted(loginUser.getId())}">
                                 <div class="my-3" style="text-align: center">
                                     <button type="button"
-                                            class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                                            class="button-box text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
                                             th:onclick="|if(confirm('투표하시면 취소할 수 없습니다. \n정말로 찬성하시겠습니까?')){location.href='@{/vote/agree/{id}(id=${vote.Id})}'}|">
                                         찬성
                                     </button>
                                     <button type="button"
-                                            class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                                            class="button-box text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
                                             th:onclick="|if(confirm('투표하시면 취소할 수 없습니다. \n정말로 반대하시겠습니까?')){location.href='@{/vote/disagree/{id}(id=${vote.Id})}'}|">
                                         반대
                                     </button>

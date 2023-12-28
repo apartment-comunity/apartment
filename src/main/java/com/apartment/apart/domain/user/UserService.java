@@ -25,7 +25,7 @@ public class UserService {
                 .email(email)
                 .apartDong(apartDong)
                 .apartHo(apartHo)
-                .adminCheck(false)
+                .checkedAdmin(false)
                 .build();
         this.userRepository.save(user);
         return user;
@@ -71,7 +71,7 @@ public class UserService {
                 .apartDong(apartDong)
                 .apartHo(apartHo)
                 .createDate(siteUser.getCreateDate())
-                .adminCheck(siteUser.getAdminCheck())
+                .checkedAdmin(siteUser.getCheckedAdmin())
                 .build();
         this.userRepository.save(modifyUser);
     }

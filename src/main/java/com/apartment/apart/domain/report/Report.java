@@ -15,20 +15,21 @@ import java.util.Set;
 
 @Entity
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Report extends BaseEntity {
     @ManyToOne
-    private SiteUser user;
-
-    private String title;
-
-    private String content;
-
-    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
-    private List<ReportReply> answers = new ArrayList<>();
+    private SiteUser user; //작성자 정보
+    @Column(length = 50)
+    private String title; //게시글 제목
+    @Column(columnDefinition = "TEXT")
+    private String content;//게시글 내용
 
     @ManyToMany
-    Set<SiteUser> likeCount;
+    Set<SiteUser> likeCount;//종아요한 유저
+
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
+    private List<ReportReply> replyList = new ArrayList<>();
 }
+
