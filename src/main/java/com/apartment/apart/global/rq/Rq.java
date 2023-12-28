@@ -55,7 +55,7 @@ public class Rq {
 
         // 데이터가 없는지 체크
 //        if (siteUser == null) {
-//            siteUser = userService.findByUserId(user.getUsername()).orElseThrow();
+//            siteUser = userService.findByUserId(siteUser.getUserId()).orElseThrow();
 //        }
 
         return siteUser;

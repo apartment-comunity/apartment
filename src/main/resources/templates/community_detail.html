@@ -1,9 +1,4 @@
-<!-- /resources/templates/community/detail.html -->
 <html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title th:text="${community.title}"></title>
-</head>
-<body>
 <div layout:fragment="content" class="container my-3">
     <!-- 질문 -->
     <h2 class="border-bottom py-2" th:text="${community.title}"></h2>
@@ -57,13 +52,8 @@
                 </div>
             </div>
             <div class="my-3">
-                <a
-                        class="communityReply_recommend recommend btn btn-sm btn-outline-secondary"
-                >
-                    <input name="communityReply_id" type= "hidden" th:value="${communityReply.id}">
-                    추천
-
-                </a>
+                <a class="communityReply_recommend recommend btn btn-sm btn-outline-secondary">
+                    <input name="communityReply_id" type= "hidden" th:value="${communityReply.id}">추천</a>
                 <a th:href="@{|/communityReply/modify/${communityReply.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:userize="isAuthenticated()"
                    th:if="${communityReply.user != null and #authentication.getPrincipal().getUsername() == communityReply.user.userId}"
@@ -90,7 +80,5 @@
         ></textarea>
         <input type="submit" value="답변등록" class="btn btn-primary my-2">
     </form>
-
 </div>
-</body>
 </html>

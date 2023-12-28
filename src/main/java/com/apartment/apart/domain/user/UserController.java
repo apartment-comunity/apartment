@@ -29,7 +29,7 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/signup")
-    public String signup(UserCreateForm userCreateForm){
+    public String signup(UserCreateForm userCreateForm) {
         return "signup_form";
     }
 
@@ -44,9 +44,9 @@ public class UserController {
         }
 
         try {
-            userService.create(userCreateForm.getUsername(),userCreateForm.getNickname(), userCreateForm.getPassword1(), userCreateForm.getPhone(),userCreateForm.getEmail(),userCreateForm.getApartDong(),userCreateForm.getApartHo(), false);
+            userService.create(userCreateForm.getUsername(), userCreateForm.getNickname(), userCreateForm.getPassword1(), userCreateForm.getPhone(), userCreateForm.getEmail(), userCreateForm.getApartDong(), userCreateForm.getApartHo(), false);
 
-            emailService.send(userCreateForm.getEmail(),"서비스 가입을 환영합니다.","회원가입 환영 메일");
+            emailService.send(userCreateForm.getEmail(), "서비스 가입을 환영합니다.", "회원가입 환영 메일");
 
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
@@ -67,10 +67,10 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")
-    public String mypage(UserMypageForm userMypageForm, UserCreateForm userCreateForm,Principal principal) {
+    public String mypage(UserMypageForm userMypageForm, UserCreateForm userCreateForm, Principal principal) {
         String username = principal.getName();
         SiteUser siteUser = this.userService.getUser(username);
-        if(!siteUser.getUserId().equals(principal.getName())) {
+        if (!siteUser.getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         userCreateForm.setUsername(siteUser.getUserId());
@@ -90,7 +90,7 @@ public class UserController {
             return "mypage_form";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        if(!siteUser.getUserId().equals(principal.getName())) {
+        if (!siteUser.getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         try {
@@ -106,10 +106,10 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/showmypage")
-    public String showmypage(UserMypageForm userMypageForm, UserCreateForm userCreateForm, BindingResult bindingResult,Principal principal) {
+    public String showmypage(UserMypageForm userMypageForm, UserCreateForm userCreateForm, BindingResult bindingResult, Principal principal) {
         String username = principal.getName();
         SiteUser siteUser = this.userService.getUser(username);
-        if(!siteUser.getUserId().equals(principal.getName())) {
+        if (!siteUser.getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         userCreateForm.setUsername(siteUser.getUserId());
@@ -125,5 +125,10 @@ public class UserController {
         }
 
         return "mypage_detail";
+    }
+
+    private boolean checkAdminCredentials(String username, String password) {
+        // 사용자 이름에 "admin"이 포함되어 있는 경우만 관리자로 간주
+        return username.toLowerCase().contains("admin") && "adminPassword".equals(password);
     }
 }

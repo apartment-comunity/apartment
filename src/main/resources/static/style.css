@@ -67,6 +67,12 @@ h5, .card-text {
     margin-left: auto;
 }
 
+@media (max-width: 991px) {
+  .menu-bar-2 {
+    margin-left: 20px;
+  }
+}
+
 .navbar-brand {
     margin-left: 20px;
 }
