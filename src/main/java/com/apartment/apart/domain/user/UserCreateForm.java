@@ -31,15 +31,6 @@ public class UserCreateForm {
 
 
     private int apartDong;
+
     private int apartHo;
-
-    private String kakaoId;
-
-    private boolean approval;
-
-    private String profilePicture;
-
-    private boolean emailVerified;
-
-    private boolean welcomeEmailSent;
 }

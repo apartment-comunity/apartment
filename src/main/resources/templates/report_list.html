@@ -2,7 +2,7 @@
 <div layout:fragment="content" class="container my-3">
     <div class="row my-3">
         <div class="col-6">
-            <a th:href="@{/community/create}" class="btn btn-primary">게시글 등록하기</a>
+            <a th:href="@{/report/create}" class="btn btn-primary">게시글 등록하기</a>
         </div>
         <div class="col-6">
             <form>
@@ -23,13 +23,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="text-center" th:each="community, loop : ${paging}">
+        <tr class="text-center" th:each="report, loop : ${paging}">
             <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
             <td class="text-start">
-                <a th:href="@{|/community/detail/${community.id}|}" th:text="${community.title}"></a>
+                <a th:href="@{|/report/detail/${report.id}|}" th:text="${report.title}"></a>
             </td>
-            <td><span th:if="${community.user != null}" th:text="${community.user.nickname}"></span></td>
-            <td th:text="${#temporals.format(community.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></td>
+            <td><span th:if="${report.user != null}" th:text="${report.user.nickname}"></span></td>
+            <td th:text="${#temporals.format(report.createDate, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
         </tr>
         </tbody>
     </table>
@@ -51,7 +51,7 @@
         </ul>
     </nav>
     <!-- 페이징처리 끝 -->
-    <form th:action="@{/community/list}" method="get" id="searchForm">
+    <form th:action="@{/report/list}" method="get" id="searchForm">
         <input type="hidden" id="kw" name="kw" th:value="${kw}">
         <input type="hidden" id="page" name="page" th:value="${paging.number}">
     </form>

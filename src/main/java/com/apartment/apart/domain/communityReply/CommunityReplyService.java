@@ -3,28 +3,27 @@ package com.apartment.apart.domain.communityReply;
 import com.apartment.apart.DataNotException;
 import com.apartment.apart.domain.community.Community;
 import com.apartment.apart.domain.user.SiteUser;
-import lombok.RequiredArgsConstructor;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 
 @Service
-@RequiredArgsConstructor
 public class CommunityReplyService {
-
     private final CommunityReplyRepository communityReplyRepository;
 
+    public CommunityReplyService(CommunityReplyRepository communityReplyRepository) {
+        this.communityReplyRepository = communityReplyRepository;
+    }
+    @Transactional
+    public CommunityReply create(Community community, String content, SiteUser user) {
 
-    public CommunityReply create(Community community, String content, SiteUser nickname) {
-        CommunityReply communityReply = CommunityReply.builder()
-                .user(nickname)
-                .community(community)
+        CommunityReply createCommunityReply = CommunityReply.builder()
                 .content(content)
-                .build();
-        this.communityReplyRepository.save(communityReply);
-
-        return communityReply;
+                        .community(community)
+                                .user(user)
+                                        .build();
+        this.communityReplyRepository.save(createCommunityReply);
+        return createCommunityReply;
     }
 
     public CommunityReply getCommunityReply(Integer id) {
@@ -33,18 +32,11 @@ public class CommunityReplyService {
     }
 
     public void modify(CommunityReply communityReply, String content) {
-        CommunityReply modifiedCommunityReply = CommunityReply.builder()
-                .id(communityReply.getId())
-                .community(communityReply.getCommunity())
-                .user(communityReply.getUser())
+        CommunityReply modifyCommunityReply = communityReply.toBuilder()
                 .content(content)
-                .createDate(communityReply.getCreateDate())
-                .modifiedDate(LocalDateTime.now())
-                .likeCount(communityReply.getLikeCount())
                 .build();
-        this.communityReplyRepository.save(modifiedCommunityReply);
+        this.communityReplyRepository.save(modifyCommunityReply);
     }
-
     public void delete(CommunityReply communityReply) {
         this.communityReplyRepository.delete(communityReply);
     }

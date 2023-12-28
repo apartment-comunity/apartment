@@ -4,9 +4,7 @@ import com.apartment.apart.domain.communityReply.CommunityReply;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
@@ -15,11 +13,12 @@ import java.util.Set;
 
 @Entity
 @Getter
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
 public class Community extends BaseEntity {
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private SiteUser user; //작성자 정보
     @Column(length = 50)
     private String title; //게시글 제목
@@ -30,5 +29,5 @@ public class Community extends BaseEntity {
     Set<SiteUser> likeCount;//종아요 수
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
-    private List<CommunityReply> answers = new ArrayList<>();
+    private List<CommunityReply> replyList = new ArrayList<>();
 }
