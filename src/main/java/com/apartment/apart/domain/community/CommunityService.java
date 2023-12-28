@@ -80,4 +80,13 @@ public class CommunityService {
         community.getLikeCount().add(siteUser);
         this.communityRepository.save(community);
     }
+
+    public void cancelLike(Community community, SiteUser siteUser) {
+        if (community.getLikeCount().contains(siteUser)) {
+            community.getLikeCount().remove(siteUser);
+            this.communityRepository.save(community);
+        } else {
+            throw new IllegalStateException("이미 추천을 취소한 상태이거나, 추천을 하지 않은 경우입니다.");
+        }
+    }
 }
