@@ -1,19 +1,32 @@
 package com.apartment.apart.domain.user;
 
+import com.apartment.apart.domain.email.EmailService;
+import com.apartment.apart.domain.notice.Notice;
+import com.apartment.apart.domain.notice.NoticeForm;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.thymeleaf.util.StringUtils;
+
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm){
@@ -31,7 +44,10 @@ public class UserController {
         }
 
         try {
-            userService.create(userCreateForm.getUsername(),userCreateForm.getNickname(), userCreateForm.getPassword1(), userCreateForm.getPhone(),userCreateForm.getEmail(),userCreateForm.getApartDong(),userCreateForm.getApartHo());
+            userService.create(userCreateForm.getUsername(),userCreateForm.getNickname(), userCreateForm.getPassword1(), userCreateForm.getPhone(),userCreateForm.getEmail(),userCreateForm.getApartDong(),userCreateForm.getApartHo(), false);
+
+            emailService.send(userCreateForm.getEmail(),"서비스 가입을 환영합니다.","회원가입 환영 메일");
+
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
@@ -47,5 +63,67 @@ public class UserController {
     @GetMapping("/login")
     public String login() {
         return "login_form";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/mypage")
+    public String mypage(UserMypageForm userMypageForm, UserCreateForm userCreateForm,Principal principal) {
+        String username = principal.getName();
+        SiteUser siteUser = this.userService.getUser(username);
+        if(!siteUser.getUserId().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        userCreateForm.setUsername(siteUser.getUserId());
+        userMypageForm.setNickname(siteUser.getNickname());
+        userMypageForm.setPhone(siteUser.getPhone());
+        userMypageForm.setEmail(siteUser.getEmail());
+        userMypageForm.setApartDong(siteUser.getApartDong());
+        userMypageForm.setApartHo(siteUser.getApartHo());
+        return "mypage_form";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/mypage")
+    public String userModify(@Valid UserMypageForm userMypageForm,
+                             BindingResult bindingResult, Principal principal) {
+        if (bindingResult.hasErrors()) {
+            return "mypage_form";
+        }
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        if(!siteUser.getUserId().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        try {
+            userService.modify(siteUser, userMypageForm.getNickname(), userMypageForm.getPassword1(),
+                    userMypageForm.getPhone(), userMypageForm.getEmail(), userMypageForm.getApartDong(),
+                    userMypageForm.getApartHo());
+            return "redirect:/user/showmypage";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "mypage_form";
+        }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/showmypage")
+    public String showmypage(UserMypageForm userMypageForm, UserCreateForm userCreateForm, BindingResult bindingResult,Principal principal) {
+        String username = principal.getName();
+        SiteUser siteUser = this.userService.getUser(username);
+        if(!siteUser.getUserId().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        userCreateForm.setUsername(siteUser.getUserId());
+        userMypageForm.setNickname(siteUser.getNickname());
+        userMypageForm.setPhone(siteUser.getPhone());
+        userMypageForm.setEmail(siteUser.getEmail());
+        userMypageForm.setApartDong(siteUser.getApartDong());
+        userMypageForm.setApartHo(siteUser.getApartHo());
+
+        if (!StringUtils.equals(userMypageForm.getPassword1(), userMypageForm.getPassword2())) {
+            bindingResult.rejectValue("password2", "error.passwordMismatch", "비밀번호가 일치하지 않습니다.");
+            return "mypage_form";
+        }
+
+        return "mypage_detail";
     }
 }

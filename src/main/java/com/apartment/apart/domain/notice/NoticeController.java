@@ -3,10 +3,12 @@ package com.apartment.apart.domain.notice;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import jakarta.validation.Valid;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +33,7 @@ public class NoticeController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Long id) {
         Notice notice = this.noticeService.getNotice(id);
         model.addAttribute("notice", notice);
         return "notice_detail";
@@ -39,6 +41,7 @@ public class NoticeController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String noticeCreate(NoticeForm noticeForm) {
+
         return "notice_form";
     }
     @PreAuthorize("isAuthenticated()")
@@ -54,7 +57,7 @@ public class NoticeController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String noticeModify(NoticeForm noticeForm, @PathVariable("id") Integer id, Principal principal) {
+    public String noticeModify(NoticeForm noticeForm, @PathVariable("id") Long id, Principal principal) {
         Notice notice = this.noticeService.getNotice(id);
         if(!notice.getUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
@@ -67,12 +70,12 @@ public class NoticeController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String noticeModify(@Valid NoticeForm noticeForm, BindingResult bindingResult,
-                               Principal principal, @PathVariable("id") Integer id) {
+                               Principal principal, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
             return "notice_form";
         }
         Notice notice = this.noticeService.getNotice(id);
-        if (!notice.getUser().getUserId().equals(principal.getName())) {
+        if(!notice.getUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.noticeService.modify(notice, noticeForm.getTitle(), noticeForm.getContent());
@@ -81,9 +84,9 @@ public class NoticeController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String noticeDelete(Principal principal, @PathVariable("id") Integer id) {
+    public String noticeDelete(Principal principal, @PathVariable("id") Long id) {
         Notice notice = this.noticeService.getNotice(id);
-        if (!notice.getUser().getUserId().equals(principal.getName())) {
+        if(!notice.getUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         this.noticeService.delete(notice);

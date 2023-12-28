@@ -28,7 +28,7 @@ public class NoticeService {
         return this.noticeRepository.findAll(spec, pageable);
     }
 
-    public Notice getNotice(Integer id) {
+    public Notice getNotice(Long id) {
         Optional<Notice> notice = this.noticeRepository.findById(id);
         if (notice.isPresent()) {
             return notice.get();
@@ -65,7 +65,6 @@ public class NoticeService {
     private Specification<Notice> search(String kw) {
         return new Specification<>() {
             private static final long serialVersionUID = 1L;
-
             @Override
             public Predicate toPredicate(Root<Notice> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거

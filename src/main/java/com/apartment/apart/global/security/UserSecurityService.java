@@ -1,5 +1,8 @@
-package com.apartment.apart.domain.user;
+package com.apartment.apart.global.security;
 
+import com.apartment.apart.domain.user.SiteUser;
+import com.apartment.apart.domain.user.UserRepository;
+import com.apartment.apart.domain.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,10 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UserSecurityService implements UserDetailsService {
-
     private final UserRepository userRepository;
 
     @Override
@@ -34,5 +36,5 @@ public class UserSecurityService implements UserDetailsService {
         }
         return new User(siteUser.getUserId(), siteUser.getPassword(), authorities);
     }
-}
 
+}

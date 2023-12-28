@@ -1,22 +1,19 @@
 package com.apartment.apart.domain.user;
 
 import com.apartment.apart.global.jpa.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
 @SuperBuilder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class SiteUser extends BaseEntity {
-
+    @Comment("유저아이디")
     @Column(unique = true)
     private String userId;
 
@@ -26,17 +23,14 @@ public class SiteUser extends BaseEntity {
     private String password;
 
     @Column(unique = true)
-//    @Size(min = 10, max = 11, message = "전화번호 길이에 부합해야함.")
     private String phone;
 
     @Column(unique = true)
     private String email;
 
-    private int apartDong; // 동수입력
+    private int apartDong;
 
-    private int apartHo; //호수입력
+    private int apartHo;
 
-    private boolean approval;
-
-    private boolean checkedAdmin;
+    private Boolean checkedAdmin;
 }

@@ -1,16 +1,3 @@
-/*@font-face {*/
-/*    font-family: 'Bazzi';*/
-/*    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/Bazzi.woff') format('woff');*/
-/*    font-weight: normal;*/
-/*    font-style: normal;*/
-/*}*/
-
-/** {*/
-/*    font-family: "Bazzi";*/
-/*    text-underline-position: under;*/
-/*}*/
-
-
 @font-face {
     font-family: "GmarketSansMedium";
     src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
@@ -23,21 +10,9 @@ html > body {
     font-family: "GmarketSansMedium";
 }
 
-
-
-/*h1 {*/
-/*    margin-top : 20px;*/
-/*    font-size : 5rem;*/
-/*    color : #ffc0c0;*/
-/*}*/
-
-/*div, h5 {*/
-/*    color : #ffc0c0;*/
-/*}*/
-/*li {*/
-/*    list-style-type: none;*/
-/*}*/
-
+h1 {
+    margin-top : 20px;
+}
 
 .fc-col-header-cell-cushion , .fc-daygrid-day-number, .fc-toolbar-title, .fc-event-title,.fc-timegrid-slot-label-cushion,.fc-timegrid-axis-cushion,.schedule-create{
     text-decoration: none;
@@ -47,56 +22,90 @@ html > body {
     background : #fafd7f;
     font-size: 1rem;
 }
-div.fc-toolbar-title {
-    font-size: 3rem;
+
+a, td {
+  text-decoration-line: none;
 }
 
+a:hover {
+  text-decoration-line: none;
+  color: violet;
+}
 
-/*a, td {*/
-/*  text-decoration-line: none;*/
-/*  color: #ffc0c0;*/
-/*}*/
+.btn-primary {
+/*  --bs-btn-bg: #ffc0c0;
+  --bs-btn-border-color: #ffc0c0; */
+  --bs-btn-hover-bg: yellow;
+  --bs-btn-hover-border-color: yellow;
+  --bs-btn-active-bg: red;
+  --bs-btn-active-border-color: red;
+  margin-bottom: 10px;
+}
 
-/*a:hover {*/
-/*  text-decoration-line: none;*/
-/*  color: violet;*/
-/*}*/
+h5, .card-text {
+  font-size: 2rem;
+}
 
-/*.table-dark {*/
-/*  --bs-table-bg: #ffc0c0;*/
-/*  --bs-table-border-color: ffc0c0;*/
-/*}*/
-
-/*.btn-primary {*/
-/*  --bs-btn-bg: #ffc0c0;*/
-/*  --bs-btn-border-color: #ffc0c0;*/
-/*  --bs-btn-hover-bg: yellow;*/
-/*  --bs-btn-hover-border-color: yellow;*/
-/*  --bs-btn-active-bg: red;*/
-/*  --bs-btn-active-border-color: red;*/
-/*}*/
-
-/*h5, form, label, .card-text {*/
-/*  font-size: 2rem;*/
-/*}*/
-
-/*.alert-danger > div {*/
-/*  color: #fff;*/
-/*}*/
+.alert-danger > div {
+  color: #fff;
+}
 
 .first-btn {
   margin-right: 10px;
 
-}
-.schedule-alphabet{
-    color: black;
 }
 
 .nav-link {
     font-size: 20px;
 }
 
+.menu-bar-1 {
+    margin-left: 20px;
+}
+
+.menu-bar-2 {
+    margin-left: auto;
+}
+
+.navbar-brand {
+    margin-left: 20px;
+}
+
+.form-label {
+    font-size: 20px;
+}
+
 .warning{
     color: red;
+}
+
+.schedule-alphabet {
+    text-align: center;
+}
+
+.vote-button-1, .vote-button-2 {
+    margin: 0px 0px 10px 10px;
+}
+
+.vote-detail-title-font {
+    font-size: 40px;
+}
+
+.vote-detail-content-font {
+    font-size: 25px;
+}
+
+.datesize {
+    max-width: 270px;
+    margin: auto;
+}
+
+.button-box, .vote-box{
+    margin :10px;
+    margin-bottom: 20px;
+}
+
+.button-box {
+    border-radius: 10px;
 }
 

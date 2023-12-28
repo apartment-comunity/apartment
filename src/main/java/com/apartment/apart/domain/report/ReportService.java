@@ -27,7 +27,7 @@ public class ReportService {
         return this.reportRepository.findAll(spec, pageable);
     }
 
-    public Report getReport(Integer id) {
+    public Report getReport(Long id) {
         Optional<Report> report = this.reportRepository.findById(id);
         if (report.isPresent()) {
             return report.get();
