@@ -103,4 +103,22 @@ public class CommunityController {
 
         return count.toString();
     }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/unlike/{id}")
+    @ResponseBody
+    public String communityUnlike(Principal principal, @PathVariable("id") Integer id) {
+        Community community = this.communityService.getCommunity(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+
+        try {
+            this.communityService.cancelLike(community, siteUser);
+
+            Community unlikedCommunity = this.communityService.getCommunity(id);
+            Integer count = unlikedCommunity.getLikeCount().size();
+
+            return count.toString();
+        } catch (IllegalStateException e) {
+            return "이미 추천을 취소한 상태이거나 추천을 하지 않은 경우입니다.";
+        }
+    }
 }
