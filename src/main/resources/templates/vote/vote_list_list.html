@@ -2,12 +2,19 @@
 <div layout:fragment="content" class="w-full">
     <div class="row my-3 flex justify-between w-10/12 m-auto mt-6">
         <div class="col-6 my-auto">
-            <a th:href="@{/vote/create}"
-               class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">질문
-                등록하기</a>
+
             <a th:href="@{/vote/list?type=list}"
                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
-                전체투표 보기</a>
+                전체투표</a>
+            <a th:href="@{/vote/list?type=card}"
+               class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
+                카드 형식</a>
+            <a th:if="${loginUser.isCheckedAdmin()}" th:href="@{/vote/create}"
+                                 class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
+                투표 등록</a>
+            <a th:if="${loginUser.isCheckedAdmin()}" th:href="@{/vote/manage}"
+               class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
+                투표 관리</a>
         </div>
         <form class="w-1/2" action="/vote/list" method="GET">
             <div class="flex">
@@ -24,7 +31,7 @@
                     <input type="hidden" name="type" value="list">
                     <input type="search" name="kw" th:value="${param.kw}" id="search-dropdown"
                            class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                           placeholder="검색" required>
+                           placeholder="검색">
                     <button type="submit"
                             class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
@@ -44,9 +51,9 @@
     <table class="w-10/12 m-auto text-sm text-left rtl:text-right text-gray-500 mt-16">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
         <tr class="text-center">
-            <th style="width:5%">번호</th>
-            <th style="width:50%">제목</th>
-            <th style="width:30%">투표기간</th>
+            <th style="width:10%">번호</th>
+            <th style="width:55%">제목</th>
+            <th style="width:20%">투표기간</th>
             <th style="width:15%">작성일시</th>
         </tr>
         </thead>

@@ -43,14 +43,16 @@ public class ScheduleService {
         this.scheduleRepository.delete(schedule);
     }
 
-    public void modify(Schedule schedule, String content, String start, String end) {
+    public void modify(ScheduleForm schedule,Long id) {
+        Schedule beforeSchedule = this.scheduleRepository.findById(id).get();
+
         Schedule modifySchedule = Schedule.builder()
-                .id(schedule.getId())
-                .user(schedule.getUser())
-                .title(content)
-                .startDate(LocalDate.parse(start))
-                .endDate(LocalDate.parse(end))
-                .targetDong(schedule.getTargetDong())
+                .id(beforeSchedule.getId())
+                .user(beforeSchedule.getUser())
+                .title(schedule.getTitle())
+                .startDate(LocalDate.parse(schedule.getStart()))
+                .endDate(LocalDate.parse(schedule.getEnd()))
+                .targetDong(beforeSchedule.getTargetDong())
                 .build();
         this.scheduleRepository.save(modifySchedule);
     }

@@ -35,12 +35,12 @@
                             <div class="my-3" style="text-align: center">
                                 <button type="button"
                                         class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
-                                        th:onclick="|if(confirm('찬성하시면 취소할 수 없습니다. \n정말로 찬성하시겠습니까?')){location.href='@{/vote/agree/{id}(id=${vote.Id})}'}|">
+                                        th:onclick="|if(confirm('투표하시면 취소할 수 없습니다. \n정말로 찬성하시겠습니까?')){location.href='@{/vote/agree/{id}(id=${vote.Id})}'}|">
                                     찬성
                                 </button>
                                 <button type="button"
                                         class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
-                                        th:onclick="|if(confirm('반대하시면 취소할 수 없습니다. \n정말로 반대하시겠습니까?')){location.href='@{/vote/disagree/{id}(id=${vote.Id})}'}|">
+                                        th:onclick="|if(confirm('투표하시면 취소할 수 없습니다. \n정말로 반대하시겠습니까?')){location.href='@{/vote/disagree/{id}(id=${vote.Id})}'}|">
                                     반대
                                 </button>
                             </div>

@@ -44,7 +44,7 @@ html > body {
     color: black;
 }
 .fc-event-title-container{
-    background : #EBFF82;
+    background : #fafd7f;
     font-size: 1rem;
 }
 div.fc-toolbar-title {
@@ -99,3 +99,4 @@ div.fc-toolbar-title {
 .warning{
     color: red;
 }
+

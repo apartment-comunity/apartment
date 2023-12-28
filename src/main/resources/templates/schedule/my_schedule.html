@@ -1,0 +1,34 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container mx-auto">
+
+
+    <div class="flex justify-center my-8" th:each="schedule,loop : ${mySchedule}">
+        <div class="card justify-center w-10/12 bg-base-100 shadow-xl bg-white border" style="border-radius: 40px;">
+            <div class="card-body mx-auto p-4" style="margin: 4rem; margin-bottom: 2rem; margin-top: 2rem;">
+                <div class="schedule-alphabet break-all text-2xl" style="text-align: center"
+                     th:text="${schedule.getTitle()}"></div>
+                <br/><br/>
+                <div class="schedule-alphabet " th:text="'시작일자 : '+ ${schedule.getStartDate()}"></div>
+                <div class="schedule-alphabet" th:text="'종료일자 : '+ ${schedule.getEndDate()}"></div>
+                <br/>
+                <div class="my-3 ">
+                    <a th:href="@{|/schedule/modify/${schedule.Id}|}"
+                       class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                        th:text="수정">
+                    </a>
+                    <a onclick="return confirm('정말로 삭제 하시겠습니까?');"
+                       th:href="@{|/schedule/delete/${schedule.id}|}"
+                       class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" sec:authorize="isAuthenticated()"
+                       th:text="삭제"></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" type='text/javascript'>
+
+</script>
+
+</html>
