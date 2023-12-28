@@ -38,19 +38,18 @@ public class NoticeService {
     }
 
     public void create(String title, String content, SiteUser nickname) {
-        Notice a = new Notice();
-        a.setTitle(title);
-        a.setContent(content);
-        a.setCreateDate(LocalDateTime.now());
-        a.setAuthor(nickname);
+        Notice a = Notice.builder()
+                        .title(title)
+                        .content(content)
+                        .user(nickname).build();
         this.noticeRepository.save(a);
     }
 
     public void modify(Notice notice, String title, String content) {
-        notice.setTitle(title);
-        notice.setContent(content);
-        notice.setModifyDate(LocalDateTime.now());
-        this.noticeRepository.save(notice);
+        Notice modifyNotice = Notice.builder()
+                        .title(title)
+                        .content(content).build();
+        this.noticeRepository.save(modifyNotice);
     }
 
     public void delete(Notice notice) {
@@ -63,7 +62,7 @@ public class NoticeService {
             @Override
             public Predicate toPredicate(Root<Notice> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
-                Join<Notice, SiteUser> u1 = q.join("author", JoinType.LEFT);
+                Join<Notice, SiteUser> u1 = q.join("user", JoinType.LEFT);
                 return cb.or(cb.like(q.get("title"), "%" + kw + "%"), // 제목
                         cb.like(q.get("content"), "%" + kw + "%"),      // 내용
                         cb.like(u1.get("nickname"), "%" + kw + "%"));    // 질문 작성자

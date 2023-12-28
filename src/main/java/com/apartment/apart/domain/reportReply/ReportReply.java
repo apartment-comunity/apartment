@@ -1,6 +1,6 @@
-package com.apartment.apart.domain.communityReply;
+package com.apartment.apart.domain.reportReply;
 
-import com.apartment.apart.domain.community.Community;
+import com.apartment.apart.domain.report.Report;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.Column;
@@ -19,17 +19,16 @@ import java.util.Set;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommunityReply extends BaseEntity {
+public class ReportReply extends BaseEntity {
     @ManyToOne
-    private SiteUser user;//작성자 정보
+    private SiteUser user;
 
     @ManyToOne
-    private Community community;
+    private Report report;
 
     @Column(columnDefinition = "TEXT")
-    private String content;//댓글 내용
+    private String content;
 
     @ManyToMany
-    Set<SiteUser> likeCount;//댓글 좋아요 수
-
+    Set<SiteUser> likeCount;
 }

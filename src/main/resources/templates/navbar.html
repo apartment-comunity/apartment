@@ -15,7 +15,7 @@
           <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
         </li>
       </ul>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 menu-bar">
         <li class="nav-item">
           <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/notice/list}">공지사항</a>
         </li>
@@ -23,10 +23,13 @@
           <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/community/list}">자유게시판</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/report/list}">건의/신고게시판</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/schedule/list}">일정표</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/qna/list}">QnA</a>
+          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/report/list}">QnA</a>
         </li>
       </ul>
     </div>
