@@ -20,7 +20,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class Report extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private SiteUser user; //작성자 정보
     @Column(length = 50)
     private String title; //게시글 제목
