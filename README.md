@@ -1,61 +1,60 @@
-# 중급 프로젝트 기술정의서
+## 서비스명: 아파트 커뮤니티 게시판
 
-### 기본 설정
-#### 아파트는 101동부터 109동까지 있으며 층수는 15층까지, 라인은 4라인까지 있다.
+### 서비스 설명
+<br />
+아파트 커뮤니티 게시판은 아파트 주민들 간의 소통과 정보 공유를 원활하게 도와주는 플랫폼입니다. 많은 아파트 커뮤니티에서는 입주민들 간의 소통이 중요한데, 전통적인 방법으로는 한계가 있습니다. 따라서 이러한 동기에서 아파트 커뮤니티를 위한 현대적이고 효율적인 소통 플랫폼을 개발하고자 했습니다.
+<br/>
 
-### 로그인 및 회원가입
 
-#### 로그인
-- 기본 로그인 및 카카오 로그인을 통해 사용자가 커뮤니티에 접근할 수 있습니다.
-- 처음 접근 시, 회원가입 페이지로 이동하여 필요한 정보를 입력하고 가입할 수 있습니다.
-
-#### 회원가입
-- 회원가입 시, 필요한 정보를 입력하며, 이메일 인증 링크 클릭을 통해 인증하게 되면 관리자의 허가로 가입이 가능합니다.
-- 프로필 사진 업로드 기능을 제공합니다.
-- AJAX를 활용하여 실시간 중복 체크를 구현하여 사용자가 유일한 아이디를 선택할 수 있습니다.
-
-### 공지사항
-
-- 로그인한 사용자는 공지사항으로 리다이렉트 됩니다.
-- 관리자는 공지사항을 작성, 수정, 삭제할 수 있습니다.
-- 공지사항에 대한 입주자의 답변이 신고게시판에 올라온 게시글을 관리자가 확인 후 삭제할 수 있습니다.
-
-### 입주자 커뮤니티
-
-- 관리자는 게시글을 삭제하거나 회원의 게시글에 대한 관리를 할 수 있습니다.
-- 사용자는 게시글을 작성, 수정, 삭제할 수 있으며, 다른 사용자의 게시글에 추천을 할 수 있습니다.
-- 게시글에는 해시태그, 카테고리, 멀티게시판 기능이 포함되며, 파일 업로드를 통해 사진 등을 첨부할 수 있습니다.
-
-### 투표
-
-- 관리자는 투표를 생성하고, 참여한 입주자들의 의견을 확인할 수 있습니다.
-- 투표는 찬성 또는 반대로 이뤄지며, 관리자는 투표를 수정 또는 삭제할 수 있습니다.
-
-### 일정
-
-- 카테고리 별로 일정을 확인할 수 있으며, 특정 동의 일정만 확인할 수 있습니다.
-- 관리자는 모든 일정을 작성, 수정, 삭제할 수 있으며, 필요한 동의 일정만 출력할 수 있습니다.
-
-### 관리자 QA
-
-- 입주민은 관리자에게 문의할 수 있으며 필요에 따라 비공개 게시글로 작성, 수정 및 삭제가 가능하다.
-- 비밀글은 게시판과 동일한 방식으로 관리됩니다.
-
-### 회원정보
-
-- 회원정보 접근시에 비밀번호를 확인해야 접근이 가능하게 됩니다.
-- 사용자는 회원정보를 관리할 수 있으며, 프로필 사진, 닉네임, 비밀번호, 전화번호, 이메일 등을 변경할 수 있습니다.
-- 비밀번호 변경 시에는 현재 비밀번호를 확인하는 절차가 필요합니다.
-
-### 관리자화면
-
-- 관리자는 입주민의 가입 허가를 관리하며, 입주민 리스트를 확인하고 검색 및 삭제할 수 있습니다.
-- 게시글에 대해서는 전체 열람 또는 삭제할 수 있습니다.
-
-### 기술 스택
-
+## 🛠 개발환경
 - 프론트엔드: HTML, CSS, JavaScript
 - 백엔드: Java Spring Framework
 - 데이터베이스: MariaDB
 - 보안: HTTPS, OAuth 2.0 (카카오 로그인), 이메일 인증
 - 기타: AJAX, RESTful API 등
+<br/>
+
+## ☁️ ERD
+
+![사진명](https://private-user-images.githubusercontent.com/133177283/293297708-36848483-4262-4012-8e89-c8e723ddec7e.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MDM4MTQ5MzEsIm5iZiI6MTcwMzgxNDYzMSwicGF0aCI6Ii8xMzMxNzcyODMvMjkzMjk3NzA4LTM2ODQ4NDgzLTQyNjItNDAxMi04ZTg5LWM4ZTcyM2RkZWM3ZS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjMxMjI5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDIzMTIyOVQwMTUwMzFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1kMmQyMmFkYzU4MGQyYTczZWM1N2JlMTM4M2JiYjAyMmYwMGFjZDVjYzZkMWVjNjA2YzI3MDZlNWUyZThjYjQ0JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.nF_BB9kKQ_36G60jQVcTvzf9IFkbnpiEOeALflZh3-0)
+
+<br>
+
+## 👀 시연영상
+[![이미지 텍스트](스크린샷 이미지)](유투브링크)
+
+[![Video Label](http://img.youtube.com/vi/'유튜브주소의id'/0.jpg)](https://youtu.be/'유튜브주소의id')
+
+## 🔥 트러블 슈팅
+
+### 🚨 Issue 1
+### 🚧 이슈 제목
+
+A. 이슈 내역
+<br>
+<br>
+문제점 설명
+<br>
+## 🛑 원인
+- ...
+  <br>
+  <br>
+
+## 🚥 해결
+- ...
+
+### 🚨 Issue 2
+### 🚧 이슈 제목
+
+A. 이슈 내역
+<br>
+<br>
+문제점 설명
+<br>
+## 🛑 원인
+- ...
+  <br>
+  <br>
+
+## 🚥 해결
+- ...

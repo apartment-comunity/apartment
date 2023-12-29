@@ -56,6 +56,11 @@ public class ScheduleService {
     }
 
     public List<Schedule> findByTargetDong(int targetDong) {
-        return this.scheduleRepository.findByTargetDong(targetDong);
+        if (targetDong == 100) {
+            return this.scheduleRepository.findAll();
+        } else {
+            return this.scheduleRepository.findByTargetDong(targetDong);
+
+        }
     }
 }

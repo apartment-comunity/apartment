@@ -16,7 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public SiteUser create(String username, String nickname, String password, String phone, String email, int apartDong, int apartHo, boolean adminCheck) {
+    public SiteUser create(String username, String nickname, String password, String phone, String email, int apartDong, int apartHo, boolean checkedAdmin) {
         SiteUser user = SiteUser.builder()
                 .userId(username)
                 .nickname(nickname)
@@ -25,7 +25,7 @@ public class UserService {
                 .email(email)
                 .apartDong(apartDong)
                 .apartHo(apartHo)
-                .checkedAdmin(false)
+                .checkedAdmin(checkedAdmin)
                 .build();
         this.userRepository.save(user);
         return user;
@@ -71,7 +71,7 @@ public class UserService {
                 .apartDong(apartDong)
                 .apartHo(apartHo)
                 .createDate(siteUser.getCreateDate())
-                .checkedAdmin(siteUser.getCheckedAdmin())
+                .checkedAdmin(siteUser.isCheckedAdmin())
                 .build();
         this.userRepository.save(modifyUser);
     }

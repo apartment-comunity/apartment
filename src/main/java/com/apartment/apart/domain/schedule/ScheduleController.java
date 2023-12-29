@@ -43,7 +43,10 @@ public class ScheduleController {
                 scheduleFormList.add(sc1);
             }
 
-            String nowDong = userDong+"동 일정";
+            String nowDong = userDong + "동 일정";
+            if(userDong == 100){
+                nowDong = "전체 일정";
+            }
             model.addAttribute("scheduleList", scheduleFormList);
             model.addAttribute("nowDong",nowDong);
             model.addAttribute("request", request);

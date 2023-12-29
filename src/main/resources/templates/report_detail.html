@@ -21,12 +21,6 @@
                 </div>
             </div>
             <div class="my-3">
-                <a id = "report_recommend"
-                   class="recommend btn btn-sm btn-outline-secondary"
-                >
-                    추천
-                    <span id="recommend_report_count" class="badge rounded-pill bg-success" th:text="${#lists.size(report.likeCount)}"></span>
-                </a>
                 <a th:href="@{|/report/modify/${report.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${report.user != null and #authentication.getPrincipal().getUsername() == report.user.userId}"
@@ -61,14 +55,6 @@
                 </div>
             </div>
             <div class="my-3">
-                <a
-                        class="reportReply_recommend recommend btn btn-sm btn-outline-secondary"
-                >
-                    <input name="reportReply_id" type= "hidden" th:value="${reportReply.id}">
-                    추천
-                    <span class="recommend_reportReply_count badge rounded-pill bg-success" th:text="${#lists.size(reportReply.likeCount)}"></span>
-
-                </a>
                 <a th:href="@{|/reportReply/modify/${reportReply.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:userize="isAuthenticated()"
                    th:if="${reportReply.user != null and #authentication.getPrincipal().getUsername() == reportReply.user.userId}"

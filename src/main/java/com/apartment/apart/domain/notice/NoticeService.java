@@ -2,6 +2,7 @@ package com.apartment.apart.domain.notice;
 
 import com.apartment.apart.domain.user.SiteUser;
 import jakarta.persistence.criteria.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,11 +38,12 @@ public class NoticeService {
         }
     }
 
-    public void create(String title, String content, SiteUser nickname) {
+    public void create(@Valid NoticeForm noticeForm, SiteUser siteUser) {
         Notice notice = Notice.builder()
-                .title(title)
-                .content(content)
-                .user(nickname)
+                .user(siteUser)
+                .title(noticeForm.getTitle())
+                .content(noticeForm.getContent())
+                .createDate(LocalDateTime.now())
                 .build();
         this.noticeRepository.save(notice);
     }

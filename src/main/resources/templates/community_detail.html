@@ -52,8 +52,6 @@
                 </div>
             </div>
             <div class="my-3">
-                <a class="communityReply_recommend recommend btn btn-sm btn-outline-secondary">
-                    <input name="communityReply_id" type= "hidden" th:value="${communityReply.id}">추천</a>
                 <a th:href="@{|/communityReply/modify/${communityReply.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:userize="isAuthenticated()"
                    th:if="${communityReply.user != null and #authentication.getPrincipal().getUsername() == communityReply.user.userId}"

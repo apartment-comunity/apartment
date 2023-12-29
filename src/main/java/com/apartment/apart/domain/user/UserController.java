@@ -126,9 +126,4 @@ public class UserController {
 
         return "mypage_detail";
     }
-
-    private boolean checkAdminCredentials(String username, String password) {
-        // 사용자 이름에 "admin"이 포함되어 있는 경우만 관리자로 간주
-        return username.toLowerCase().contains("admin") && "adminPassword".equals(password);
-    }
 }

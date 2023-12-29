@@ -19,8 +19,8 @@ public class Dev {
     @Bean
     public ApplicationRunner init(UserService userService, NoticeService noticeService) {
         return args -> {
-//            userService.create("admin1", "관리자1", "admin", "01000000001","admin1@apart.com",001,001,true);
-//            userService.create("admin2", "관리자2", "admin", "01000000002","admin2@apart.com",002,002,true);
+//            userService.create("admin1", "관리자1", "admin", "01000000001","admin1@apart.com",100,001,true);
+//            userService.create("admin2", "관리자2", "admin", "01000000002","admin2@apart.com",100,002,true);
 //            userService.create("user1", "유저1","123123","01011111111","user1@apart.com",101,101,false);
 //            userService.create("user2", "유저2","123123","01022222222","user2@apart.com",102,102,false);
         };

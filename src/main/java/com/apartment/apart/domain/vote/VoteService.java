@@ -22,8 +22,15 @@ public class VoteService {
 
     private final VoteRepository voteRepository;
 
-    public List<Vote> findAll() {
-        return this.voteRepository.findAll();
+    public List<Vote> findAll(String kw, String status) {
+
+        return switch (status) {
+            case "total" -> this.voteRepository.findByKeyword(kw);
+            case "inProgress" -> this.voteRepository.findByKeywordAndInProgress(kw, LocalDate.now());
+            case "closed" -> this.voteRepository.findByKeywordAndClosed(kw, LocalDate.now());
+            case "intended" -> this.voteRepository.findByKeywordAndIntended(kw, LocalDate.now());
+            default -> this.voteRepository.findAll();
+        };
     }
 
     public void save(@Valid VoteForm voteForm, SiteUser siteUser) {

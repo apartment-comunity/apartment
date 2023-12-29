@@ -2,11 +2,36 @@
 <div layout:fragment="content" class="container my-3">
     <div class="row my-3">
         <div class="col-6">
-            <a th:href="@{/vote/create}"
-               class="btn btn-primary">투표 등록하기</a>
-            <a th:href="@{/vote/list?type=list}"
-               class="btn btn-primary vote-button-2">리스트 형식으로 보기</a>
+        <a th:href="@{/vote/list?type=card}"
+           class="btn btn-primary">
+            전체투표</a>
+        <a th:href="@{/vote/list?type=list}"
+           class="btn btn-primary vote-button-2">
+            리스트 형식</a>
+        <a th:if="${loginUser.isCheckedAdmin()}" th:href="@{/vote/create}"
+           class="btn btn-primary vote-button-2">
+            투표 등록</a>
+        <a th:if="${loginUser.isCheckedAdmin()}" th:href="@{/vote/manage}"
+           class="btn btn-primary vote-button-2">
+            투표 관리</a>
         </div>
+        <div class="col-6">
+            <form action="/vote/list" method="GET">
+                <div class="input-group">
+                    <select name="status">
+                        <option th:if="${param.status} != null" th:value="${param.status}" th:text="${status}"></option>
+                        <option th:unless="${#strings.equals(param.status,'total')}" value="total">전체</option>
+                        <option th:unless="${#strings.equals(param.status,'inProgress')}" value="inProgress">진행중</option>
+                        <option th:unless="${#strings.equals(param.status,'closed')}" value="closed">지난 투표</option>
+                        <option th:unless="${#strings.equals(param.status,'intended')}" value="intended">투표 예정</option>
+                    </select>
+                    <input type="hidden" name="type" value="card">
+                    <input type="search" th:value="${param.kw}" placeholder="검색"  name="kw" id="search_kw" class="form-control" required>
+                    <button type="submit" class="btn btn-outline-secondary" id="btn_search">검색</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
         <div th:if="${#lists.size(voteList)} == 0">
             <div class="card w-10/12 bg-base-100 shadow-xl" style="text-align: center">

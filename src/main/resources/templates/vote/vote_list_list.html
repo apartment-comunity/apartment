@@ -2,10 +2,18 @@
 <div layout:fragment="content" class="container my-3">
     <div class="row my-3">
         <div class="col-6">
-            <a th:href="@{/vote/create}"
-               class="btn btn-primary">투표 등록하기</a>
-            <a th:href="@{/vote/list}"
-               class="btn btn-primary vote-button-2">카드 형식으로 보기</a>
+            <a th:href="@{/vote/list?type=list}"
+               class="btn btn-primary">
+                전체투표</a>
+            <a th:href="@{/vote/list?type=card}"
+               class="btn btn-primary vote-button-2">
+                카드 형식</a>
+            <a th:if="${loginUser.isCheckedAdmin()}" th:href="@{/vote/create}"
+               class="btn btn-primary vote-button-2">
+                투표 등록</a>
+            <a th:if="${loginUser.isCheckedAdmin()}" th:href="@{/vote/manage}"
+               class="btn btn-primary vote-button-2">
+                투표 관리</a>
         </div>
         <div class="col-6">
             <form action="/vote/list" method="GET">

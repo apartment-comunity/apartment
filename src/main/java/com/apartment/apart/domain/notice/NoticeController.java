@@ -2,13 +2,12 @@ package com.apartment.apart.domain.notice;
 
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,34 +24,59 @@ public class NoticeController {
     private final UserService userService;
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-                       @RequestParam(value = "kw", defaultValue = "") String kw) {
+    public String list(Model model, Principal principal,@RequestParam(value = "page", defaultValue = "0") int page,
+                       @RequestParam(value = "kw", defaultValue = "") String kw, HttpServletRequest request) {
         Page<Notice> paging = this.noticeService.getList(page, kw);
+        SiteUser loginUser = this.userService.getUser(principal.getName());
         model.addAttribute("paging", paging);
+        model.addAttribute("loginUser",loginUser);
         return "notice_list";
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Long id) {
+    public String detail(Model model, @PathVariable("id") Long id, HttpServletRequest request,
+                         Principal principal) {
         Notice notice = this.noticeService.getNotice(id);
+        SiteUser loginUser = this.userService.getUser(principal.getName());
         model.addAttribute("notice", notice);
+        model.addAttribute("loginUser", loginUser);
         return "notice_detail";
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
-    public String noticeCreate(NoticeForm noticeForm) {
+    public String create(Model model,
+                         HttpServletRequest request,
+                         Principal principal) {
 
-        return "notice_form";
-    }
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/create")
-    public String noticeCreate(@Valid NoticeForm noticeForm, BindingResult bindingResult, Principal principal) {
-        if (bindingResult.hasErrors()) {
+        SiteUser loginUser = this.userService.getUser(principal.getName());
+
+        if(loginUser.isCheckedAdmin()) {
+            model.addAttribute("noticeForm", new NoticeForm());
+            model.addAttribute("request", request);
             return "notice_form";
         }
-        SiteUser siteUser = this.userService.getUser(principal.getName());
-        this.noticeService.create(noticeForm.getTitle(), noticeForm.getContent(), siteUser);
-        return "redirect:/";
+        return "redirect:notice/list";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/create")
+    public String create(@Valid NoticeForm noticeForm, BindingResult bindingResult, Principal principal,
+                         HttpServletRequest request, Model model) {
+
+        SiteUser loginUser = userService.getUser(principal.getName());
+        if (loginUser.isCheckedAdmin()) {
+            if (bindingResult.hasErrors()) {
+
+                model.addAttribute("request", request);
+                return "notice_form";
+            }
+
+            this.noticeService.create(noticeForm, loginUser);
+            return "redirect:/notice/list";
+        }
+        return "redirect:/notice/list";
     }
 
     @PreAuthorize("isAuthenticated()")

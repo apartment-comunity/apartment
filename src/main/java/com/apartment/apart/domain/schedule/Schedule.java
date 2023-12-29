@@ -2,6 +2,7 @@ package com.apartment.apart.domain.schedule;
 
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.global.jpa.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
