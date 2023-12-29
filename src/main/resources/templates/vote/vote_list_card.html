@@ -1,7 +1,7 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container mx-auto">
-    <div class="mt-6">
-        <div class="row my-3 flex justify-between w-10/12 m-auto mt-6">
+<div layout:fragment="content" class="w-full">
+    <div class="mt-6 w-10/12 mx-auto">
+        <div class="row my-3 flex justify-between w-full m-auto mt-6 ">
             <div class="my-auto">
                 <a th:href="@{/vote/list?type=card}"
                    class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
@@ -48,7 +48,7 @@
         </div>
 
         <div th:if="${#lists.size(voteList)} == 0">
-            <div class="flex justify-center my-8" style="text-align: center">
+            <div class="flex w-full justify-center my-8" style="text-align: center">
                 <div class="card justify-center w-10/12 bg-base-100 shadow-xl bg-white border" style="border-radius: 40px;">
                     <br/>
                     <div class="warning " style="font-size: 2rem">진행중인 투표가 없습니다.</div>
@@ -56,8 +56,8 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-center my-8 " th:if="${#lists.size(voteList)} != 0" th:each="vote : ${voteList}">
-            <div class="card justify-center w-10/12 bg-base-100 shadow-xl bg-white border" style="border-radius: 40px;">
+        <div class="flex justify-center my-8 w-full" th:if="${#lists.size(voteList)} != 0" th:each="vote : ${voteList}">
+            <div class="card justify-center w-full bg-base-100 shadow-xl bg-white border" style="border-radius: 40px;">
                 <div class="card-body mx-auto p-4" style="margin: 4rem; margin-bottom: 2rem; margin-top: 2rem;">
                     <div class="schedule-alphabet break-all text-2xl" style="text-align: center"
                          th:text="${vote.getTitle()}"></div>

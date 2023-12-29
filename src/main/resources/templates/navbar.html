@@ -28,12 +28,28 @@
                 </li>
                 <li>
                     <a th:href="@{/notice/list}"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent">공지사항</a>
+                       th:if="${request.getRequestURI().contains('notice')}"
+                       class="block text-red-800 py-2 px-3 font-bold text-xl rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent">
+                        공지사항
+                    </a>
+                    <a th:href="@{/notice/list}"
+                       th:unless="${request.getRequestURI().contains('notice')}"
+                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent">
+                        공지사항
+                    </a>
                 </li>
                 <li>
                     <a th:href="@{/community/list}"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent">자유게시판</a>
-                </li>
+                       th:if="${request.getRequestURI().contains('community')}"
+                       class="block text-red-800 py-2 px-3 font-bold text-xl rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent">
+                        자유게시판
+                    </a>
+                    <a th:href="@{/community/list}"
+                       th:unless="${request.getRequestURI().contains('community')}"
+                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent">
+                        자유게시판
+                    </a>
+                     </li>
                 <li>
                     <a th:href="@{/schedule/list}"
                        th:if="${request.getRequestURI().contains('schedule')}"
@@ -68,6 +84,18 @@
                        th:unless="${request.getRequestURI().contains('report')}"
                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent">
                         건의사항
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/user/showmypage}"
+                       th:if="${request.getRequestURI().contains('user')}"
+                       class="block text-red-800 py-2 px-3 font-bold text-xl rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent">
+                        마이페이지
+                    </a>
+                    <a th:href="@{/user/showmypage}"
+                       th:unless="${request.getRequestURI().contains('user')}"
+                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent">
+                        마이페이지
                     </a>
                 </li>
             </ul>

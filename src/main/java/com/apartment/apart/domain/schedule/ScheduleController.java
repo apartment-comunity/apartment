@@ -41,8 +41,13 @@ public class ScheduleController {
                 sc1.setEnd(schedule1.getEndDate().plusDays(1).toString());
                 scheduleFormList.add(sc1);
             }
+            String nowDong;
+            if (userDong == 100) {
+                nowDong = "전체 일정";
+            } else {
+                nowDong = userDong + "동 일정";
+            }
 
-            String nowDong = userDong + "동 일정";
             model.addAttribute("scheduleList", scheduleFormList);
             model.addAttribute("nowDong", nowDong);
             model.addAttribute("request", request);
@@ -106,12 +111,16 @@ public class ScheduleController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/schedule/mySchedule")
+    @GetMapping("/schedule/manage")
     public String mySchedule(Model model, Principal principal,
                              HttpServletRequest request) {
         SiteUser siteUser = userService.getUser(principal.getName());
-        List<Schedule> scheduleList = this.scheduleService.findByUser(siteUser);
-
+        List<Schedule> scheduleList;
+        if (siteUser.isCheckedAdmin()) {
+            scheduleList = this.scheduleService.findAll();
+        } else {
+            scheduleList = this.scheduleService.findByUser(siteUser);
+        }
         model.addAttribute("mySchedule", scheduleList);
         model.addAttribute("request", request);
         return "/schedule/my_schedule";
@@ -120,13 +129,14 @@ public class ScheduleController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/schedule/delete/{id}")
     public String delete(Principal principal, @PathVariable("id") Long id) {
+        SiteUser loginUser = this.userService.getUser(principal.getName());
         Schedule schedule = this.scheduleService.getSchedule(id);
-        if (!schedule.getUser().getUserId().equals(principal.getName())) {
+        if (loginUser.isCheckedAdmin() || schedule.getUser().getUserId().equals(principal.getName())) {
+            this.scheduleService.delete(schedule);
+            return "redirect:/schedule/mySchedule";
+        } else {
             return "redirect:/schedule/list";
         }
-
-        this.scheduleService.delete(schedule);
-        return "redirect:/schedule/mySchedule";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -137,19 +147,20 @@ public class ScheduleController {
                          HttpServletRequest request) {
 
         Schedule schedule = this.scheduleService.getSchedule(id);
+        SiteUser loginUser = this.userService.getUser(principal.getName());
+        if (loginUser.isCheckedAdmin() || schedule.getUser().getUserId().equals(principal.getName())) {
 
-        if (!schedule.getUser().getUserId().equals(principal.getName())) {
+            ScheduleForm modifyScheduleForm = new ScheduleForm();
+            modifyScheduleForm.setTitle(schedule.getTitle());
+            modifyScheduleForm.setEnd(String.valueOf(schedule.getEndDate()));
+            modifyScheduleForm.setStart(String.valueOf(schedule.getStartDate()));
+
+            model.addAttribute("scheduleForm", modifyScheduleForm);
+            model.addAttribute("request", request);
+            return "/schedule/schedule_form";
+        } else {
             return "redirect:/schedule/list";
         }
-
-        ScheduleForm modifyScheduleForm = new ScheduleForm();
-        modifyScheduleForm.setTitle(schedule.getTitle());
-        modifyScheduleForm.setEnd(String.valueOf(schedule.getEndDate()));
-        modifyScheduleForm.setStart(String.valueOf(schedule.getStartDate()));
-
-        model.addAttribute("scheduleForm", modifyScheduleForm);
-        model.addAttribute("request", request);
-        return "/schedule/schedule_form";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -158,8 +169,8 @@ public class ScheduleController {
                          BindingResult bindingResult,
                          Principal principal,
                          @PathVariable("id") Long id) {
-        this.scheduleService.modify(scheduleForm,id);
-        return "redirect:/schedule/mySchedule";
+        this.scheduleService.modify(scheduleForm, id);
+        return "redirect:/schedule/manage";
     }
 }
 

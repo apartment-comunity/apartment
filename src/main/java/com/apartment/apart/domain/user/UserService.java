@@ -1,12 +1,10 @@
 package com.apartment.apart.domain.user;
 
-import com.apartment.apart.global.jpa.BaseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +69,7 @@ public class UserService {
                 .apartDong(apartDong)
                 .apartHo(apartHo)
                 .createDate(siteUser.getCreateDate())
-                .checkedAdmin(siteUser.getCheckedAdmin())
+                .checkedAdmin(siteUser.isCheckedAdmin())
                 .build();
         this.userRepository.save(modifyUser);
     }

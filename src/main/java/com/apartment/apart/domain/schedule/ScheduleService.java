@@ -18,8 +18,8 @@ public class ScheduleService {
         return this.scheduleRepository.findAll();
     }
 
-    public void save(ScheduleForm scheduleForm,SiteUser siteUser) {
-        Schedule schedule =  Schedule.builder()
+    public void save(ScheduleForm scheduleForm, SiteUser siteUser) {
+        Schedule schedule = Schedule.builder()
                 .user(siteUser)
                 .title(scheduleForm.getTitle())
                 .targetDong(siteUser.getApartDong())
@@ -43,7 +43,7 @@ public class ScheduleService {
         this.scheduleRepository.delete(schedule);
     }
 
-    public void modify(ScheduleForm schedule,Long id) {
+    public void modify(ScheduleForm schedule, Long id) {
         Schedule beforeSchedule = this.scheduleRepository.findById(id).get();
 
         Schedule modifySchedule = Schedule.builder()
@@ -58,6 +58,11 @@ public class ScheduleService {
     }
 
     public List<Schedule> findByTargetDong(int targetDong) {
-        return this.scheduleRepository.findByTargetDong(targetDong);
+
+        if (targetDong == 100) {
+            return this.scheduleRepository.findAll();
+        } else {
+            return this.scheduleRepository.findByTargetDong(targetDong);
+        }
     }
 }

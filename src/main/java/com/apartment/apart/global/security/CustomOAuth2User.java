@@ -34,7 +34,7 @@ class CustomOAuth2User extends User implements OAuth2User {
         List<GrantedAuthority> authorityList = new ArrayList<>();
 
         // 사용자가 관리자인 경우
-        if (siteUser.getCheckedAdmin()) {
+        if (siteUser.isCheckedAdmin()) {
             authorityList.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
         } else {
             // 사용자가 일반 사용자인 경우
