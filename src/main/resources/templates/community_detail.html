@@ -62,14 +62,12 @@
                 </div>
             </div>
             <div class="my-3">
-                <a
-                        class="communityReply_recommend recommend btn btn-sm btn-outline-secondary"
-                >
-                    <input name="communityReply_id" type="hidden" th:value="${communityReply.id}">
+                <a th:id="@{|communityReply_recommend_${communityReply.id}|}"
+                   class="communityReply_recommend recommend btn btn-sm btn-outline-secondary">
                     추천
-                    <span class="recommend_communityReply_count badge rounded-pill bg-success"
+                    <span th:id="@{|recommend_communityReply_count_${communityReply.id}|}"
+                          class="recommend_communityReply_count badge rounded-pill bg-success"
                           th:text="${#lists.size(communityReply.likeCount)}"></span>
-
                 </a>
                 <a th:href="@{|/communityReply/modify/${communityReply.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:userize="isAuthenticated()"
@@ -99,72 +97,63 @@
         <input type="submit" value="답변등록" class="btn btn-primary my-2">
     </form>
 
+    <!--todo: 댓글도 추천과 추천취소가 가능해져야함-->
+    <script type="text/javascript" th:inline="javascript">
+        var community_id = [[${community.id}]];
+        var sessionKey = "LIKED_COMMUNITY_" + community_id;
+        var recommendButton = $('#community_recommend');
+        var countElement = $("#recommend_community_count");
+
+        if (sessionStorage.getItem(sessionKey)) recommendButton.addClass('active');
+
+        recommendButton.on("click", function () {
+            console.log(11)
+            var isAlreadyLiked = recommendButton.hasClass("active");
+
+            $.ajax({
+                type: "GET",
+                url: isAlreadyLiked ? `/community/unlike/${community_id}` : `/community/like/${community_id}`,
+                success: function (res) {
+                    countElement.text(res);
+                    sessionStorage[isAlreadyLiked ? "removeItem" : "setItem"](sessionKey, true);
+                    recommendButton.toggleClass("active");
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+
+        var sessionReplyKey = "LIKED_COMMUNITY_REPLY_" + community_id;
+        var recommendReplyButton = $('.communityReply_recommend');
+        var countReplyElement = $('.recommend_communityReply_count');
+
+        if (sessionStorage.getItem(sessionReplyKey)) recommendReplyButton.addClass('active');
+
+
+        recommendReplyButton.on("click", function () {
+            var _this = $(this); // 현재 선택한 답변의 추천 버튼
+            var thisRecommend_communityReply_count =  $(this).find(".recommend_communityReply_count")
+
+            var isAlreadyLiked = _this.hasClass("active");
+
+            $.ajax({
+                type: "GET",
+                url: isAlreadyLiked ? `/community/unlike/${community_id}` : `/community/like/${community_id}`,
+                success: function (res) {
+                    thisRecommend_communityReply_count.text(res);
+                    sessionStorage[isAlreadyLiked ? "removeItem" : "setItem"](sessionKey, true);
+                    _this.toggleClass("active");
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+
+    </script>
+
 </div>
 </body>
 </html>
-<!--todo: 댓글도 추천과 추천취소가 가능해져야함-->
-<script th:inline="javascript">
-    var community_id = [[${community.id}]];
-    var sessionKey = "LIKED_COMMUNITY_" + community_id;
-    var recommendButton = $('#community_recommend');
-    var countElement = $("#recommend_community_count");
 
-    // 페이지 로드 시 추천 상태 표시
-    if (sessionStorage.getItem(sessionKey)) recommendButton.addClass('active');
-
-    // 추천 버튼 클릭 이벤트 리스너
-    recommendButton.on("click", function () {
-        var isAlreadyLiked = recommendButton.hasClass("active");
-
-        $.ajax({
-            type: "GET",
-            url: isAlreadyLiked ? `/community/unlike/${community_id}` : `/community/like/${community_id}`,
-            success: function (res) {
-                countElement.text(res);
-                sessionStorage[isAlreadyLiked ? "removeItem" : "setItem"](sessionKey, true);
-                recommendButton.toggleClass("active");
-            },
-            error: function (xhr) {
-                console.log(xhr);
-            }
-        });
-    });
-</script>
-<!--<script th:inline="javascript">-->
-<!--    var community_id = [[${community.id}]]-->
-
-<!--    $('#community_recommend').on("click", function () {-->
-<!--        if (confirm("정말로 추천하시겠습니까?")) {-->
-<!--            $.ajax({-->
-<!--                    type: "GET",-->
-<!--                    url: `/community/like/${community_id}`,-->
-<!--                    success: function (res) {-->
-<!--                        $("#recommend_community_count").text(res)-->
-<!--                    },-->
-<!--                    error: function (xhr) {-->
-<!--                        console.log(xhr)-->
-<!--                    }-->
-<!--           })-->
-<!--        }-->
-<!--    })-->
-
-<!--    $('.communityReply_recommend').on("click", function () {-->
-<!--        var _this = $(this)-->
-<!--        var communityReply_id = _this.find('input[name=communityReply_id]').val();-->
-
-<!--        if (confirm("정말로 추천하시겠습니까?")) {-->
-<!--            $.ajax({-->
-<!--                    type: "GET",-->
-<!--                    url: `/communityReply/like/${communityReply_id}`,-->
-<!--                    success: function (res) {-->
-<!--                        _this.find(".recommend_communityReply_count").text(res)-->
-<!--                    },-->
-<!--                    error: function (xhr) {-->
-<!--                        console.log(xhr)-->
-<!--                    }-->
-<!--           })-->
-<!--        }-->
-<!--    })-->
-
-
-<!--</script>-->
