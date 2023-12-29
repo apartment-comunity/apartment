@@ -23,6 +23,9 @@
           <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/community/list}">자유게시판</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/report/list}">건의/신고게시판</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/schedule/list}">일정표</a>
         </li>
         <li class="nav-item">
