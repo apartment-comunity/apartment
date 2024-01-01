@@ -14,4 +14,13 @@ public class ReportForm {
 
     @NotEmpty(message = "내용은 필수입니다.")
     private String content;
+
+    private boolean isSecret; // 비밀글 여부
+    public boolean getIsSecret() {
+        return isSecret;
+    }
+
+    public void setIsSecret(boolean isSecret) {
+        this.isSecret = isSecret;
+    }
 }
