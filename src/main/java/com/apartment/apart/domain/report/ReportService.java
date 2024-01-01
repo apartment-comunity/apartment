@@ -8,7 +8,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,20 +29,26 @@ public class ReportService {
         return this.reportRepository.findAll(spec, pageable);
     }
 
-    public Report getReport(Integer id) {
+    public Report getReport(Integer id, String username) {
         Optional<Report> report = this.reportRepository.findById(id);
-        if (report.isPresent()) {
-            return report.get();
-        } else {
-            throw new RuntimeException("error");
+        if (!report.isPresent()) {
+            throw new RuntimeException("Report not found"); // 또는 적절한 예외 처리
         }
+
+        Report r = report.get();
+        if (r.isSecret() && !r.getUser().getUserId().equals(username)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "접근 권한이 없습니다.");
+        }
+
+        return r;
     }
 
-    public void create(String title, String content, SiteUser user) {
+    public void create(String title, String content, SiteUser user, boolean isSecret) {
         Report report = Report.builder()
                 .title(title)
                 .content(content)
                 .user(user)
+                .isSecret(isSecret)  // 비밀글 설정
                 .build();
         this.reportRepository.save(report);
     }
