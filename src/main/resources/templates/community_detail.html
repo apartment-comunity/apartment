@@ -22,6 +22,11 @@
                 </div>
             </div>
             <div class="my-3">
+                <a id="community_recommend" class="recommend btn btn-sm btn-outline-secondary">
+                    추천
+                    <span id="recommend_community_count" class="badge rounded-pill bg-success"
+                          th:text="${#lists.size(community.likeCount)}"></span>
+                </a>
                 <a th:href="@{|/community/modify/${community.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${community.user != null and #authentication.getPrincipal().getUsername() == community.user.userId}"
@@ -44,24 +49,25 @@
         <div class="card-body">
             <div class="card-text" th:utext="${@commonUtil.markdown(communityReply.content)}"></div>
             <div class="d-flex justify-content-end">
-                <div th:if="${communityReply.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
-                    <div class="mb-2">modified at</div>
-                    <div th:text="${#temporals.format(communityReply.modifiedDate, 'yyyy-MM-dd HH:mm')}"></div>
+                <div th:if="${communityReply.modifiedDate != null}"
+                     class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">
+                        <span th:text="${'수정됨'}"></span>
+                    </div>
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
-                        <span th:if="${communityReply.user != null}" th:text="${communityReply.user.userId}"></span>
+                        <span th:if="${communityReply.user != null}" th:text="${communityReply.user.nickname}"></span>
                     </div>
-                    <div th:text="${#temporals.format(communityReply.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
             </div>
             <div class="my-3">
-                <a
-                        class="communityReply_recommend recommend btn btn-sm btn-outline-secondary"
-                >
-                    <input name="communityReply_id" type= "hidden" th:value="${communityReply.id}">
+                <a th:id="@{|communityReply_recommend_${communityReply.id}|}"
+                   class="communityReply_recommend recommend btn btn-sm btn-outline-secondary">
                     추천
-
+                    <span th:id="@{|recommend_communityReply_count_${communityReply.id}|}"
+                          class="recommend_communityReply_count badge rounded-pill bg-success"
+                          th:text="${#lists.size(communityReply.likeCount)}"></span>
                 </a>
                 <a th:href="@{|/communityReply/modify/${communityReply.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:userize="isAuthenticated()"
@@ -76,7 +82,8 @@
     </div>
     <!-- 답변 반복 끝  -->
     <!-- 답변 작성 -->
-    <form th:action="@{|/communityReply/create/${community.id}|}" th:object="${communityReplyForm}" method="post" class="my-3">
+    <form th:action="@{|/communityReply/create/${community.id}|}" th:object="${communityReplyForm}" method="post"
+          class="my-3">
         <div th:replace="~{form_errors :: formErrorsFragment}"></div>
         <textarea
                 required
@@ -90,6 +97,63 @@
         <input type="submit" value="답변등록" class="btn btn-primary my-2">
     </form>
 
+    <!--todo: 댓글도 추천과 추천취소가 가능해져야함-->
+    <script type="text/javascript" th:inline="javascript">
+        var community_id = [[${community.id}]];
+        var sessionKey = "LIKED_COMMUNITY_" + community_id;
+        var recommendButton = $('#community_recommend');
+        var countElement = $("#recommend_community_count");
+
+        if (sessionStorage.getItem(sessionKey)) recommendButton.addClass('active');
+
+        recommendButton.on("click", function () {
+            console.log(11)
+            var isAlreadyLiked = recommendButton.hasClass("active");
+
+            $.ajax({
+                type: "GET",
+                url: isAlreadyLiked ? `/community/unlike/${community_id}` : `/community/like/${community_id}`,
+                success: function (res) {
+                    countElement.text(res);
+                    sessionStorage[isAlreadyLiked ? "removeItem" : "setItem"](sessionKey, true);
+                    recommendButton.toggleClass("active");
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+
+        var sessionReplyKey = "LIKED_COMMUNITY_REPLY_" + community_id;
+        var recommendReplyButton = $('.communityReply_recommend');
+        var countReplyElement = $('.recommend_communityReply_count');
+
+        if (sessionStorage.getItem(sessionReplyKey)) recommendReplyButton.addClass('active');
+
+
+        recommendReplyButton.on("click", function () {
+            var _this = $(this); // 현재 선택한 답변의 추천 버튼
+            var thisRecommend_communityReply_count =  $(this).find(".recommend_communityReply_count")
+
+            var isAlreadyLiked = _this.hasClass("active");
+
+            $.ajax({
+                type: "GET",
+                url: isAlreadyLiked ? `/community/unlike/${community_id}` : `/community/like/${community_id}`,
+                success: function (res) {
+                    thisRecommend_communityReply_count.text(res);
+                    sessionStorage[isAlreadyLiked ? "removeItem" : "setItem"](sessionKey, true);
+                    _this.toggleClass("active");
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+
+    </script>
+
 </div>
 </body>
 </html>
+

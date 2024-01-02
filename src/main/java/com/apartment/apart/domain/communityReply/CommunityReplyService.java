@@ -40,5 +40,17 @@ public class CommunityReplyService {
     public void delete(CommunityReply communityReply) {
         this.communityReplyRepository.delete(communityReply);
     }
+    public void like(CommunityReply communityReply, SiteUser siteUser) {
+        communityReply.getLikeCount().add(siteUser);
+        this.communityReplyRepository.save(communityReply);
+    }
 
+    public void cancelLike(CommunityReply communityReply, SiteUser siteUser) {
+        if (communityReply.getLikeCount().contains(siteUser)) {
+            communityReply.getLikeCount().remove(siteUser);
+            this.communityReplyRepository.save(communityReply);
+        } else {
+            throw new IllegalStateException("이미 추천을 취소한 상태이거나, 추천을 하지 않은 경우입니다.");
+        }
+    }
 }
