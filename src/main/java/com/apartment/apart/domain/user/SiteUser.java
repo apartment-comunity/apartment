@@ -11,6 +11,7 @@ import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Comment;
 
 import java.util.List;
@@ -42,21 +43,21 @@ public class SiteUser extends BaseEntity {
 
     private boolean checkedAdmin;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Community> communityList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<CommunityReply> communityReplyList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Report> reportList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<ReportReply> reportReplyList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<VoteTotal> voteTotalList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Schedule> scheduleList;
 }

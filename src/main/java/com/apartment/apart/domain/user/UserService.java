@@ -98,9 +98,12 @@ public class UserService {
             @Override
             public Predicate toPredicate(Root<SiteUser> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
-                Join<Notice, SiteUser> u1 = q.join("user", JoinType.LEFT);
-                return cb.like(u1.get("nickname"), "%" + kw + "%");    // 질문 작성자
+                return cb.like(q.get("nickname"), "%" + kw + "%");
             }
         };
+    }
+
+    public void delete(SiteUser siteUser) {
+        this.userRepository.delete(siteUser);
     }
 }

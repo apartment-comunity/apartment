@@ -1,5 +1,29 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-<h2>관리자페이지</h2>
+<h1>관리자페이지</h1>
+    <table class="table">
+        <thead class="table-dark">
+        <tr class="text-center">
+            <th>번호</th>
+            <th>아이디</th>
+            <th>닉네임</th>
+            <th>가입일자</th>
+            <th>체크박스</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-center" th:each="siteUser, loop : ${paging}">
+            <td class="text-center" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+            <td class="text-center" th:text="${siteUser.userId}"></td>
+            <td class="text-center" th:text="${siteUser.nickname}"></td>
+            <td class="text-center" th:text="${#temporals.format(siteUser.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td>
+                <a onclick="return confirm('정말 탈퇴시키겠습니까?')" th:href="@{/admin/user/delete/{userId}(userId=${siteUser.userId})}"
+                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                   th:text="탈퇴"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </html>
