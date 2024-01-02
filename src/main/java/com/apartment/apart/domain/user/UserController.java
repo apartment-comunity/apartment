@@ -3,6 +3,7 @@ package com.apartment.apart.domain.user;
 import com.apartment.apart.domain.email.EmailService;
 import com.apartment.apart.domain.notice.Notice;
 import com.apartment.apart.domain.notice.NoticeForm;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -126,4 +127,5 @@ public class UserController {
 
         return "mypage_detail";
     }
+
 }

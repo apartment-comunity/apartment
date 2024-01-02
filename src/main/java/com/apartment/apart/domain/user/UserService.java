@@ -1,12 +1,20 @@
 package com.apartment.apart.domain.user;
 
+import com.apartment.apart.domain.notice.Notice;
 import com.apartment.apart.global.jpa.BaseEntity;
+import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,5 +82,25 @@ public class UserService {
                 .checkedAdmin(siteUser.isCheckedAdmin())
                 .build();
         this.userRepository.save(modifyUser);
+    }
+
+    public Page<SiteUser> getList(int page, String kw) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Specification<SiteUser> spec = search(kw);
+        return this.userRepository.findAll(spec, pageable);
+    }
+
+    private Specification<SiteUser> search(String kw) {
+        return new Specification<>() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Predicate toPredicate(Root<SiteUser> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                query.distinct(true);  // 중복을 제거
+                Join<Notice, SiteUser> u1 = q.join("user", JoinType.LEFT);
+                return cb.like(u1.get("nickname"), "%" + kw + "%");    // 질문 작성자
+            }
+        };
     }
 }
