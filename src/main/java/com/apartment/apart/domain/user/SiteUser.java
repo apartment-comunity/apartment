@@ -40,7 +40,7 @@ public class SiteUser extends BaseEntity {
 
     private boolean approval;
 
-    private boolean adminCheck;
+    private boolean checkedAdmin;
 
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<Report> reportList;

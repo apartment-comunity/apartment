@@ -32,10 +32,8 @@ public class ReportController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id, Principal principal) {
-        Report report = this.reportService.getReport(id, principal.getName());  // 사용자 이름을 확인하여 비밀글 접근 체크
-        if (report == null || (report.isSecret() && !report.getUser().getUserId().equals(principal.getName()))) {
-            return "redirect:/report/list";  // 접근 권한이 없는 경우 메인 페이지로 리다이렉트
-        }
+        String username = principal.getName();
+        Report report = this.reportService.getReport(id, username);
         model.addAttribute("report", report);
         return "report_detail";
     }
@@ -59,10 +57,10 @@ public class ReportController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
     public String reportModify(ReportForm reportForm, @PathVariable("id") Integer id, Principal principal) {
-        String currentUsername = principal.getName();
-        Report report = this.reportService.getReport(id, currentUsername);
-        if(report == null || !report.getUser().getUserId().equals(currentUsername)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        String username = principal.getName();
+        Report report = this.reportService.getReport(id, username);
+        if (report == null) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to modify this report.");
         }
         reportForm.setTitle(report.getTitle());
         reportForm.setContent(report.getContent());
