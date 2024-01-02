@@ -1,6 +1,5 @@
 package com.apartment.apart.domain.report;
 
-import com.apartment.apart.domain.reportReply.ReportReplyForm;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import jakarta.validation.Valid;
@@ -32,8 +31,9 @@ public class ReportController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Long id, ReportReplyForm reportReplyForm) {
-        Report report = this.reportService.getReport(id);
+    public String detail(Model model, @PathVariable("id") Integer id, Principal principal) {
+        String username = principal.getName();
+        Report report = this.reportService.getReport(id, username);
         model.addAttribute("report", report);
         return "report_detail";
     }
@@ -42,6 +42,7 @@ public class ReportController {
     public String reportCreate(ReportForm reportForm) {
         return "report_form";
     }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String reportCreate(@Valid ReportForm reportForm, BindingResult bindingResult, Principal principal) {
@@ -49,16 +50,17 @@ public class ReportController {
             return "report_form";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        this.reportService.create(reportForm.getTitle(), reportForm.getContent(), siteUser);
+        this.reportService.create(reportForm.getTitle(), reportForm.getContent(), siteUser, reportForm.getIsSecret());  // isSecret 값을 받아서 생성
         return "redirect:/report/list";
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String reportModify(ReportForm reportForm, @PathVariable("id") Long id, Principal principal) {
-        Report report = this.reportService.getReport(id);
-        if(!report.getUser().getUserId().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+    public String reportModify(ReportForm reportForm, @PathVariable("id") Integer id, Principal principal) {
+        String username = principal.getName();
+        Report report = this.reportService.getReport(id, username);
+        if (report == null) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to modify this report.");
         }
         reportForm.setTitle(report.getTitle());
         reportForm.setContent(report.getContent());
@@ -68,12 +70,13 @@ public class ReportController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String reportModify(@Valid ReportForm reportForm, BindingResult bindingResult,
-                               Principal principal, @PathVariable("id") Long id) {
+                               Principal principal, @PathVariable("id") Integer id) {
         if (bindingResult.hasErrors()) {
             return "report_form";
         }
-        Report report = this.reportService.getReport(id);
-        if (!report.getUser().getUserId().equals(principal.getName())) {
+        String currentUsername = principal.getName();
+        Report report = this.reportService.getReport(id, currentUsername);
+        if(report == null || !report.getUser().getUserId().equals(currentUsername)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.reportService.modify(report, reportForm.getTitle(), reportForm.getContent());
@@ -82,25 +85,31 @@ public class ReportController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String reportDelete(Principal principal, @PathVariable("id") Long id) {
-        Report report = this.reportService.getReport(id);
-        if (!report.getUser().getUserId().equals(principal.getName())) {
+    public String reportDelete(Principal principal, @PathVariable("id") Integer id) {
+        String currentUsername = principal.getName();
+        Report report = this.reportService.getReport(id, currentUsername);
+        if(report == null || !report.getUser().getUserId().equals(currentUsername)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         this.reportService.delete(report);
         return "redirect:/report/list";
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/like/{id}")
     @ResponseBody
-    public String reportLike(Principal principal, @PathVariable("id") Long id) {
-        Report report = this.reportService.getReport(id);
-        SiteUser siteUser = this.userService.getUser(principal.getName());
+    public String reportLike(Principal principal, @PathVariable("id") Integer id) {
+        String currentUsername = principal.getName();
+        Report report = this.reportService.getReport(id, currentUsername);
+        if(report == null || report.isSecret() && !report.getUser().getUserId().equals(currentUsername)) {
+            return "Error: 접근 권한이 없습니다.";  // 실제 프로덕션 코드에서는 적절한 에러 처리를 해야 합니다.
+        }
+        SiteUser siteUser = this.userService.getUser(currentUsername);
         this.reportService.like(report, siteUser);
 
-        Report likedReport = this.reportService.getReport(id);
-        Long count = (long) likedReport.getLikeCount().size();
-
+        Report likedReport = this.reportService.getReport(id, currentUsername);
+        Integer count = likedReport.getLikeCount().size();
         return count.toString();
     }
+
 }
