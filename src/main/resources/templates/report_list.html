@@ -24,14 +24,19 @@
         </thead>
         <tbody>
         <tr class="text-center" th:each="report, loop : ${paging}">
-            <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+            <td th:text="${paging.getTotalElements() - (paging.number * paging.size) - loop.index}"></td>
             <td class="text-start">
-                <a th:href="@{|/report/detail/${report.id}|}" th:text="${report.title}"></a>
+                <a th:href="@{|/report/detail/${report.id}|}">
+                    <!-- 비밀글일 경우 자물쇠 아이콘 표시 -->
+                    <i th:if="${report.isSecret}" class="fas fa-lock"></i>
+                    <span th:text="${report.title}"></span>
+                </a>
             </td>
             <td><span th:if="${report.user != null}" th:text="${report.user.nickname}"></span></td>
             <td th:text="${#temporals.format(report.createDate, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
         </tr>
         </tbody>
+
     </table>
     <!-- 페이징처리 시작 -->
     <nav th:if="${!paging.isEmpty()}" th:with="kwBase = '?kw=' + ${param.kw != null ? param.kw : ''}" >
