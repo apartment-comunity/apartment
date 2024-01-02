@@ -1,9 +1,19 @@
 package com.apartment.apart.domain.user;
 
+import com.apartment.apart.domain.community.Community;
+import com.apartment.apart.domain.communityReply.CommunityReply;
+import com.apartment.apart.domain.report.Report;
+import com.apartment.apart.domain.schedule.Schedule;
 import com.apartment.apart.global.jpa.BaseEntity;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,4 +41,22 @@ public class SiteUser extends BaseEntity {
     private boolean approval;
 
     private boolean adminCheck;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Report> reportList;
+
+//    @OneToMany(cascade = CascadeType.REMOVE)
+//    private List<ReportReply> reportReplyList;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Schedule> scheduleList;
+
+//    @OneToMany(cascade = CascadeType.REMOVE)
+//    private List<VoteTotal> voteTotalList;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Community> communityList;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<CommunityReply> communityReplyList;
 }
