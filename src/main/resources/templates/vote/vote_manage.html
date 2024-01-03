@@ -1,39 +1,75 @@
-<html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container">
+<html layout:decorate="~{layout_tailWind}">
+<div layout:fragment="content" class="container mx-auto">
+    <div class="my-auto w-10/12 m-auto">
+        <div class="col-6 " style="margin-top: 20px">
+            <a th:href="@{/vote/list?type=list}"
+               class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
+                목록</a>
+        </div>
+    </div>
 
 
-    <div th:each="vote,loop : ${votelist}">
-        <div class="card my-3">
-            <div class="card-body">
-                <div class="schedule-alphabet" th:text="'제목 : '+ ${vote.getTitle()}"></div>
-                <div class="schedule-alphabet" th:text="'내용 : '+ ${vote.getContent()}"></div>
-                <div class="schedule-alphabet" th:text="'시작일자 : '+ ${vote.getStartDate()}"></div>
-                <div class="schedule-alphabet" th:text="'종료일자 : '+ ${vote.getEndDate()}"></div>
-                <div class="my-3">
-                    <a href="javascript:void(0);" th:data-uri="@{|/vote/delete/${vote.Id}|}"
-                       class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
-                       th:if="${vote.user != null and #authentication.getPrincipal().getUsername() == vote.user.userId}"
-                       th:text="삭제"></a>
+    <div class="flex justify-center my-8" th:each="vote,loop : ${votelist}">
+        <div class="card justify-center w-10/12 bg-base-100 shadow-xl bg-white border" style="border-radius: 40px;">
+            <div class="card-body mx-auto p-4" style="margin: 4rem; margin-bottom: 2rem; margin-top: 2rem;">
+                <div class="schedule-alphabet break-all text-2xl" style="text-align: center"
+                     th:text="${vote.getTitle()}"></div>
+                <br/><br/>
+                <div class="schedule-alphabet break-all" th:text="${vote.getContent()}"></div>
+                <br/><br/>
+                <div class="card-body mx-auto p-4 border bg-gray-100"
+                     style="margin: 4rem; margin-bottom: 2rem; margin-top: 2rem; border-radius: 10px;">
+                    <div class="schedule-alphabet"
+                         th:text="'게시일 : '+${#temporals.format(vote.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                    <br/>
+                    <div class="schedule-alphabet" th:text="'투표 시작일 : '+${vote.getStartDate()}"></div>
+                    <div class="schedule-alphabet" th:text="'투표 마감일 : '+${vote.getEndDate()}"></div>
+                </div>
+                <div class="my-3" style="text-align: center">
+                    <button type="button"
+                            class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                            th:onclick="|if(confirm('정말로 삭제하시겠습니까?')){location.href='@{/vote/delete/{id}(id=${vote.Id})}'}|">
+                        삭제
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+    <div data-dial-init class="fixed end-6 bottom-16 group">
+        <button id="icon-select" type="button" data-dial-toggle="speed-dial-menu-default"
+                aria-controls="speed-dial-menu-default"
+                aria-expanded="false"
+                th:onclick="window.location.href='#'"
+                class="flex items-center justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
 
-    <div class="col-6" style="margin-top: 20px">
-        <a th:href="@{/vote/list}" class="btn btn-primary">목록</a>
+            <i id="icon" class="fa-solid fa-up-long fa-2xl" style="color: #ffffff;"></i>
+        </button>
     </div>
+
+
 </div>
 
 <script layout:fragment="script" type='text/javascript'>
-    const delete_elements = document.getElementsByClassName("delete");
-    Array.from(delete_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
-            if (confirm("정말로 삭제하시겠습니까?")) {
-                location.href = this.dataset.uri;
-            }
-            ;
-        });
-    });
+    // 아이콘 요소를 가져옵니다.
+    var icon = document.getElementById('icon');
+
+    // 마우스 오버 이벤트에 대한 핸들러 함수를 정의합니다.
+    function handleMouseOver() {
+        // fa-bounce 클래스를 추가합니다.
+        icon.classList.add('fa-bounce');
+    }
+
+    // 마우스 아웃 이벤트에 대한 핸들러 함수를 정의합니다.
+    function handleMouseOut() {
+        // fa-bounce 클래스를 제거합니다.
+        icon.classList.remove('fa-bounce');
+    }
+
+    // 마우스 오버와 아웃 이벤트에 대한 이벤트 리스너를 등록합니다.
+    var btn = document.getElementById("icon-select")
+    btn.addEventListener('mouseover', handleMouseOver);
+    btn.addEventListener('mouseout', handleMouseOut);
+
 </script>
 
 </html>

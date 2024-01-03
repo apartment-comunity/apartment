@@ -7,6 +7,7 @@ import com.apartment.apart.domain.vote.VoteService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +29,8 @@ public class VoteTotalController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{voteValue}/{id}")
-    public String agree(Principal principal, @PathVariable("voteValue") String voteValue, @PathVariable("id") Long id, HttpServletRequest request) {
+    public ResponseEntity<String> agree(Principal principal, @PathVariable("voteValue") String voteValue, @PathVariable("id") Long id, HttpServletRequest request) {
         System.out.println();
-
 
         Vote vote = this.voteService.findById(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
@@ -49,18 +49,15 @@ public class VoteTotalController {
 
         if(voteValue.equals("agree")){
             voteValueBoolean = true;
-        } else if (voteValue.equals("disagree")) {
-            voteValueBoolean = false;
         } else {
-            return "redirect:/vote/list";
+            voteValueBoolean = false;
         }
-
 
         if (!isVoted) {
             this.voteTotalService.vote(siteUser,vote,voteValueBoolean);
         }
 
-        return String.format("redirect:/vote/detail/%s", id);
+        return ResponseEntity.ok("success");
 
 
     }
