@@ -1,4 +1,4 @@
-<html layout:decorate="~{layout}">
+<html layout:decorate="~{layout_tailWind}">
 <div layout:fragment="content" class="w-full">
     <div class="mt-6 w-10/12 mx-auto">
         <div class="row my-3 flex justify-between w-full m-auto mt-6 ">
@@ -22,7 +22,8 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option th:if="${param.status} != null" th:value="${param.status}" th:text="${status}"></option>
                         <option th:unless="${#strings.equals(param.status,'total')}" value="total">전체</option>
-                        <option th:unless="${#strings.equals(param.status,'inProgress')}" value="inProgress">진행중</option>
+                        <option th:unless="${#strings.equals(param.status,'inProgress')}" value="inProgress">진행중
+                        </option>
                         <option th:unless="${#strings.equals(param.status,'closed')}" value="closed">지난 투표</option>
                         <option th:unless="${#strings.equals(param.status,'intended')}" value="intended">투표 예정</option>
                     </select>
@@ -49,9 +50,10 @@
 
         <div th:if="${#lists.size(voteList)} == 0">
             <div class="flex w-full justify-center my-8" style="text-align: center">
-                <div class="card justify-center w-10/12 bg-base-100 shadow-xl bg-white border" style="border-radius: 40px;">
+                <div class="card justify-center w-10/12 bg-base-100 shadow-xl bg-white border"
+                     style="border-radius: 40px;">
                     <br/>
-                    <div class="warning " style="font-size: 2rem">진행중인 투표가 없습니다.</div>
+                    <div class="warning " style="font-size: 2rem">등록된 투표가 없습니다.</div>
                     <br/>
                 </div>
             </div>
@@ -72,28 +74,34 @@
                         <div class="schedule-alphabet" th:text="'투표 시작일 : '+${vote.getStartDate()}"></div>
                         <div class="schedule-alphabet" th:text="'투표 마감일 : '+${vote.getEndDate()}"></div>
                     </div>
-                    <div class="warning" th:if="${vote.isVoted(loginUser.getId())}">
+                    <div class="warning text-center" th:if="${vote.isVoted(loginUser.getId())}">
                         <p>이미 투표에 참여햐셨습니다.</p>
                     </div>
                     <div th:unless="${vote.isVoted(loginUser.getId())}">
                         <div th:with="today=${today}, startDay=${vote.getStartDate()}, EndDay=${vote.getEndDate()}">
                             <!-- 날짜 비교 -->
-                            <div class="warning" th:if="${today.isBefore(startDay) or today.isAfter(EndDay)}">
+                            <div class="warning text-center"
+                                 th:if="${today.isBefore(startDay) or today.isAfter(EndDay)}">
                                 <p>투표 기간이 아닙니다.</p>
                             </div>
                             <div th:unless="${today.isBefore(startDay) or today.isAfter(EndDay)}">
 
-                                <div class="my-3" style="text-align: center">
-                                    <button type="button"
+                                <div class="my-3 vote_btn" style="text-align: center">
+                                    <button th:id="'agreeButton_' + ${vote.Id}"
+                                            type="button"
+                                            th:data-vote-id="${vote.Id}" th:onclick="'voteButton(\'' + @{agree} + '\', ' + ${vote.Id} + ')'"
                                             class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
-                                            th:onclick="|if(confirm('찬성하시면 취소할 수 없습니다. \n정말로 찬성하시겠습니까?')){location.href='@{/vote/agree/{id}(id=${vote.Id})}'}|">
+                                    >
                                         찬성
                                     </button>
-                                    <button type="button"
+                                    <button th:id="'disagreeButton_' + ${vote.Id}"
+                                            type="button"
+                                            th:data-vote-id="${vote.Id}" th:onclick="'voteButton(\'' + @{disagree} + '\', ' + ${vote.Id} + ')'"
                                             class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
-                                            th:onclick="|if(confirm('반대하시면 취소할 수 없습니다. \n정말로 반대하시겠습니까?')){location.href='@{/vote/disagree/{id}(id=${vote.Id})}'}|">
+                                    >
                                         반대
                                     </button>
+                                    <div th:id="'successMessage_' + ${vote.id}" class="warning" style="display: none">이미 투표에 참여하셨습니다.</div>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +123,7 @@
     </div>
 
 </div>
-
+<!--투표-->
 <script layout:fragment="script" type='text/javascript'>
 
 
@@ -139,6 +147,33 @@
     btn.addEventListener('mouseover', handleMouseOver);
     btn.addEventListener('mouseout', handleMouseOut);
 
+
+    function voteButton(action, voteId) {
+
+        var url = '/vote/' + action + '/' + voteId;
+
+        console.log(voteId);
+        console.log(action);
+        var confirmationMessage = (action === 'agree') ? '찬성하시면 취소할 수 없습니다. 정말로 찬성하시겠습니까?' : '반대하시면 취소할 수 없습니다. 정말로 반대하시겠습니까?';
+
+        if (confirm(confirmationMessage)) {
+            $.ajax({
+                type: 'GET', // POST로 변경
+                url: url,
+                success: function (response) {
+                    // 성공적으로 처리된 경우 여기에 추가적인 로직을 작성하세요.
+                    console.log('Vote ' + action + ' 성공');
+                    // 해당 투표 ID에 대한 버튼과 메시지만 처리합니다.
+                    $("#successMessage_" + voteId).show();
+                    $("#agreeButton_" + voteId).hide();
+                    $("#disagreeButton_" + voteId).hide();
+                },
+                error: function (error) {
+                    console.error('Vote ' + action + ' 에러', error);
+                }
+            });
+        }
+    }
 </script>
 
 

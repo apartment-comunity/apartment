@@ -1,6 +1,12 @@
-<html layout:decorate="~{layout}">
+<html layout:decorate="~{layout_tailWind}">
 <div layout:fragment="content" class="container mx-auto">
-
+    <div class="my-auto w-10/12 m-auto">
+        <div class="col-6 " style="margin-top: 20px">
+            <a th:href="@{/schedule/list}"
+               class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
+                돌아가기</a>
+        </div>
+    </div>
 
     <div class="flex justify-center my-8" th:each="schedule,loop : ${mySchedule}">
         <div class="card justify-center w-10/12 bg-base-100 shadow-xl bg-white border" style="border-radius: 40px;">

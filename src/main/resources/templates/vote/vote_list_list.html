@@ -1,4 +1,4 @@
-<html layout:decorate="~{layout}">
+<html layout:decorate="~{layout_tailWind}">
 <div layout:fragment="content" class="w-full">
     <div class="row my-3 flex justify-between w-10/12 m-auto mt-6">
         <div class="col-6 my-auto">
@@ -10,7 +10,7 @@
                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
                 카드 형식</a>
             <a th:if="${loginUser.isCheckedAdmin()}" th:href="@{/vote/create}"
-                                 class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
+               class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
                 투표 등록</a>
             <a th:if="${loginUser.isCheckedAdmin()}" th:href="@{/vote/manage}"
                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800">
@@ -47,53 +47,56 @@
         </form>
     </div>
 
+    <div class="w-10/12 p-4 m-auto bg-white mt-8 rounded-2xl">
+        <table class="w-full m-auto text-sm text-left rtl:text-right text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr class="text-center text-xl">
+                <th style="width:10%; font-weight: normal;">번호</th>
+                <th style="width:55%; font-weight: normal;">제목</th>
+                <th style="width:20%; font-weight: normal;">투표기간</th>
+                <th style="width:15%; font-weight: normal;">작성일시</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b h-12"
+                th:each="vote, loop : ${paging}">
+                <td class="text-center"
+                    th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+                <td>
+                    <a th:href="@{|/vote/detail/${vote.id}|}" th:text="${vote.title}"></a>
 
-    <table class="w-10/12 m-auto text-sm text-left rtl:text-right text-gray-500 mt-16">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-        <tr class="text-center">
-            <th style="width:10%">번호</th>
-            <th style="width:55%">제목</th>
-            <th style="width:20%">투표기간</th>
-            <th style="width:15%">작성일시</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b h-12"
-            th:each="vote, loop : ${paging}">
-            <td class="text-center"
-                th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
-            <td>
-                <a th:href="@{|/vote/detail/${vote.id}|}" th:text="${vote.title}"></a>
+                </td>
+                <td class="text-center"><span
+                        th:text="${#temporals.format(vote.startDate, 'yy-MM-dd')} + ' ~ '+ ${#temporals.format(vote.endDate, 'yy-MM-dd')}"></span>
+                </td>
+                <td class="text-center" th:text="${#temporals.format(vote.createDate, 'yy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- 페이징처리 시작 -->
+        <br/>
+        <nav class="text-center" th:if="${!paging.isEmpty()}"
+             th:with="kwBase = '?kw=' + ${param.kw != null ? param.kw : ''}">
+            <ul class="inline-flex -space-x-px text-base h-10 ">
+                <li class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800"
+                    th:classappend="${!paging.hasPrevious} ? 'pointer-events-none'">
+                    <a class="page-link" th:href="@{|${kwBase}&type=list&page=${paging.number - 1}|}">이전</a>
+                </li>
 
-            </td>
-            <td class="text-center"><span th:text="${#temporals.format(vote.startDate, 'yy-MM-dd')} + ' ~ '+ ${#temporals.format(vote.endDate, 'yy-MM-dd')}"></span></td>
-            <td class="text-center" th:text="${#temporals.format(vote.createDate, 'yy-MM-dd HH:mm')}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <!-- 페이징처리 시작 -->
-    <br/>
-    <nav class="text-center" th:if="${!paging.isEmpty()}"
-         th:with="kwBase = '?kw=' + ${param.kw != null ? param.kw : ''}">
-        <ul class="inline-flex -space-x-px text-base h-10 ">
-            <li class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800"
-                th:classappend="${!paging.hasPrevious} ? 'pointer-events-none'">
-                <a class="page-link" th:href="@{|${kwBase}&type=list&page=${paging.number - 1}|}">이전</a>
-            </li>
+                <li th:class="${page == paging.number} ? 'flex items-center justify-center px-4 h-10 leading-tight bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 font-extrabold text-blue-400' : 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400'"
+                    th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                    th:if="${page >= paging.number-5 and page <= paging.number+5}">
+                    <a th:text="${page + 1}" class="page-link" th:href="@{|${kwBase}&type=list&page=${page}|}"></a>
+                </li>
 
-            <li th:class="${page == paging.number} ? 'flex items-center justify-center px-4 h-10 leading-tight bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 font-extrabold text-blue-400' : 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400'"
-                th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                th:if="${page >= paging.number-5 and page <= paging.number+5}">
-                <a th:text="${page + 1}" class="page-link" th:href="@{|${kwBase}&type=list&page=${page}|}"></a>
-            </li>
-
-            <li class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
-                th:classappend="${!paging.hasNext} ? 'pointer-events-none'">
-                <a class="page-link" th:href="@{|${kwBase}&type=list&page=${paging.number + 1}|}">다음</a>
-            </li>
-        </ul>
-    </nav>
-    <!-- 페이징처리 끝 -->
+                <li class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+                    th:classappend="${!paging.hasNext} ? 'pointer-events-none'">
+                    <a class="page-link" th:href="@{|${kwBase}&type=list&page=${paging.number + 1}|}">다음</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- 페이징처리 끝 -->
+    </div>
 </div>
 </html>
 
