@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
@@ -44,12 +45,12 @@ public class CommunityController {
     }
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String communityCreate(@Valid CommunityForm communityForm, BindingResult bindingResult, Principal principal) {
+    public String communityCreate(@Valid CommunityForm communityForm, BindingResult bindingResult, Principal principal,  @RequestParam("thumbnail") MultipartFile thumbnail) {
         if (bindingResult.hasErrors()) {
             return "community_form";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        this.communityService.create(communityForm.getTitle(), communityForm.getContent(), siteUser);
+        this.communityService.create(communityForm.getTitle(), communityForm.getContent(), siteUser, thumbnail);
         return "redirect:/community/list";
     }
 

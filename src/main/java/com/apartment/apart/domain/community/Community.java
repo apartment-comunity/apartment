@@ -16,6 +16,7 @@ import java.util.Set;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Community extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -30,4 +31,6 @@ public class Community extends BaseEntity {
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private List<CommunityReply> replyList = new ArrayList<>();
+
+    private String thumbnailImg;
 }
