@@ -1,23 +1,28 @@
-## 서비스명: 아파트 커뮤니티 게시판
+## 서비스명
+아파트 커뮤니티 게시판 - 우주 (우리집 주변 일들)
+<br>
+<br>
 
 ### 서비스 설명
-<br />
 아파트 커뮤니티 게시판은 아파트 주민들 간의 소통과 정보 공유를 원활하게 도와주는 플랫폼입니다. 많은 아파트 커뮤니티에서는 입주민들 간의 소통이 중요한데, 전통적인 방법으로는 한계가 있습니다. 따라서 이러한 동기에서 아파트 커뮤니티를 위한 현대적이고 효율적인 소통 플랫폼을 개발하고자 했습니다.
-<br/>
-
+<br>
+<br>
 
 ## 🛠 개발환경
 - 프론트엔드: HTML, CSS, JavaScript
 - 백엔드: Java Spring Framework
 - 데이터베이스: MariaDB
-- 보안: HTTPS, OAuth 2.0 (카카오 로그인), 이메일 인증
+- 보안: HTTPS, OAuth 2.0 (카카오 로그인)
 - 기타: AJAX, RESTful API 등
+
+<br/>
 <br/>
 
 ## ☁️ ERD
 
-![사진명](https://private-user-images.githubusercontent.com/133177283/293297708-36848483-4262-4012-8e89-c8e723ddec7e.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MDM4MTQ5MzEsIm5iZiI6MTcwMzgxNDYzMSwicGF0aCI6Ii8xMzMxNzcyODMvMjkzMjk3NzA4LTM2ODQ4NDgzLTQyNjItNDAxMi04ZTg5LWM4ZTcyM2RkZWM3ZS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjMxMjI5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDIzMTIyOVQwMTUwMzFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1kMmQyMmFkYzU4MGQyYTczZWM1N2JlMTM4M2JiYjAyMmYwMGFjZDVjYzZkMWVjNjA2YzI3MDZlNWUyZThjYjQ0JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.nF_BB9kKQ_36G60jQVcTvzf9IFkbnpiEOeALflZh3-0)
+![ERD](https://i.ibb.co/6NNJKpM/Kakao-Talk-Photo-2024-01-03-09-04-57.png)
 
+<br>
 <br>
 
 ## 👀 시연영상
@@ -27,7 +32,7 @@
 
 ## 🔥 트러블 슈팅
 
-### 🚨 Issue 1
+### 🚨 Issue 송병근
 ### 🚧 이슈 제목
 
 A. 이슈 내역
@@ -35,15 +40,39 @@ A. 이슈 내역
 <br>
 문제점 설명
 <br>
-## 🛑 원인
+### 🛑 원인
 - ...
   <br>
   <br>
 
-## 🚥 해결
+### 🚥 해결
 - ...
+  <br>
+  <br>
 
-### 🚨 Issue 2
+### 🚨 Issue 백현우
+### 🚧 이슈 제목
+
+A. 이슈 내역
+<br>
+카드형식 투표 ajax 적용시 모든 버튼이 사라지는 문제
+
+<br>
+문제점 설명<br>
+의도와는 다르게 ajax 적용시켰을때 한 투표에 투표를 하면 모든 투표의 찬성/반대 버튼이 사라짐
+
+### 🛑 원인
+
+  <br>
+- 버튼에 고유한 id가 없고 모든 버튼이 같은 이름을 씀
+  <br>
+
+### 🚥 해결
+- onclick,id 대신 th:onclick, th:id 사용해서 반복문 안에서 고유한 id를 적용시켜줌
+  <br>
+  <br>
+
+### 🚨 Issue 장진윤
 ### 🚧 이슈 제목
 
 A. 이슈 내역
@@ -51,10 +80,25 @@ A. 이슈 내역
 <br>
 문제점 설명
 <br>
-## 🛑 원인
+### 🛑 원인
 - ...
   <br>
   <br>
 
-## 🚥 해결
+### 🚥 해결
 - ...
+  <br>
+  <br>
+
+## 회고
+### 송병근
+- ...
+  <br>
+
+### 백현우
+- ...
+  <br>
+
+### 장진윤
+- ...
+  <br>
