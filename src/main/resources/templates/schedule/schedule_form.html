@@ -1,5 +1,4 @@
 <html layout:decorate="~{layout_tailWind}">
-
 <div layout:fragment="content" class="container mx-auto">
     <div class="my-auto w-10/12 m-auto">
         <div class="col-6 " style="margin-top: 20px">
@@ -18,7 +17,6 @@
                 <input type="text" th:field="*{title}" name="subject" id="subject"
                        class="mt-1 p-2 border rounded w-full" th:value="${scheduleForm.getTitle()}" autocomplete='off'>
             </div>
-
             <div class="mt-4 flex flex-col">
                 <span class="text-sm font-medium text-gray-600 mb-2">기간을 선택해주세요</span>
                 <div class="flex items-center">
@@ -34,11 +32,9 @@
                     <span class="mx-2">까지</span>
                 </div>
             </div>
-
             <input type="submit" value="등록하기" class="mt-4 p-2 bg-blue-500 text-white rounded cursor-pointer">
         </form>
     </div>
-
 </div>
 </html>
 <script>
@@ -62,7 +58,6 @@
             , minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
             , maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
         });
-
         //초기값을 오늘 날짜로 설정해줘야 합니다.
         $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
     });

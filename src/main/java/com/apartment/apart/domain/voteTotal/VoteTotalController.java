@@ -26,16 +26,12 @@ public class VoteTotalController {
     private final UserService userService;
     private final VoteTotalService voteTotalService;
 
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{voteValue}/{id}")
     public String list_vote(Principal principal, @PathVariable("voteValue") String voteValue, @PathVariable("id") Long id, HttpServletRequest request) {
-        System.out.println();
-
         Vote vote = this.voteService.findById(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         List<VoteTotal> voteList = vote.getVoteTotalList();
-
 
         Boolean isVoted = false;
         Boolean voteValueBoolean;
@@ -58,8 +54,6 @@ public class VoteTotalController {
         }
 
         return String.format("redirect:/vote/detail/%s", id);
-
-
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -68,7 +62,6 @@ public class VoteTotalController {
         Vote vote = this.voteService.findById(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         List<VoteTotal> voteList = vote.getVoteTotalList();
-
 
         Boolean isVoted = false;
         Boolean voteValueBoolean;
@@ -91,7 +84,5 @@ public class VoteTotalController {
         }
 
         return ResponseEntity.ok("success");
-
-
     }
 }

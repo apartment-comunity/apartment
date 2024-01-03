@@ -71,7 +71,6 @@ public class VoteService {
                         criteriaBuilder.like(root.get("content"), "%" + kw + "%")
                 ));
             }
-
             LocalDate today = LocalDate.now();
             if ("inProgress".equals(status)) {
                 predicates.add(criteriaBuilder.and(

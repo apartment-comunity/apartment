@@ -37,10 +37,8 @@ public class VoteController {
                        @RequestParam(value = "status", defaultValue = "total") String status,
                        HttpServletRequest request) {
         if (type.equals("list")) {
-            Page<Vote> paging = this.voteService.getPageList(page, kw,status);
+            Page<Vote> paging = this.voteService.getPageList(page, kw, status);
             SiteUser loginUser = this.userService.getUser(principal.getName());
-
-
 
             String nowStatus = switch (status) {
                 case "total" -> "전체";
@@ -54,11 +52,11 @@ public class VoteController {
             model.addAttribute("request", request);
             model.addAttribute("kw", kw);
             model.addAttribute("status", nowStatus);
-            model.addAttribute("loginUser",loginUser);
+            model.addAttribute("loginUser", loginUser);
 
             return "/vote/vote_list_list";
         } else if (type.equals("card")) {
-            List<Vote> voteList = voteService.findAll(kw,status);
+            List<Vote> voteList = voteService.findAll(kw, status);
             Collections.reverse(voteList);
             LocalDate today = LocalDate.now();
             SiteUser loginUser = this.userService.getUser(principal.getName());
@@ -71,7 +69,6 @@ public class VoteController {
                 default -> "";
             };
 
-
             model.addAttribute("voteList", voteList);
             model.addAttribute("today", today);
             model.addAttribute("loginUser", loginUser);
@@ -83,7 +80,6 @@ public class VoteController {
         } else {
             return "redirect:/";
         }
-
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -94,7 +90,7 @@ public class VoteController {
 
         SiteUser loginUser = this.userService.getUser(principal.getName());
 
-        if(loginUser.isCheckedAdmin()) {
+        if (loginUser.isCheckedAdmin()) {
             model.addAttribute("voteForm", new VoteForm());
             model.addAttribute("request", request);
             return "/vote/vote_form";
@@ -114,7 +110,6 @@ public class VoteController {
                 model.addAttribute("request", request);
                 return "/vote/vote_form";
             }
-
             this.voteService.save(voteForm, loginUser);
             return "redirect:/vote/list";
         }
@@ -127,7 +122,6 @@ public class VoteController {
                          HttpServletRequest request) {
         SiteUser loginUser = userService.getUser(principal.getName());
         if (loginUser.isCheckedAdmin()) {
-
             List<Vote> votelist = this.voteService.findAll("", "total");
             Collections.reverse(votelist);
             model.addAttribute("votelist", votelist);
@@ -164,5 +158,4 @@ public class VoteController {
         model.addAttribute("loginUser", loginUser);
         return "/vote/vote_detail";
     }
-
 }

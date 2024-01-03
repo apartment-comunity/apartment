@@ -7,8 +7,6 @@
                 목록</a>
         </div>
     </div>
-
-
     <div class="flex justify-center my-8" th:each="vote,loop : ${votelist}">
         <div class="card justify-center w-10/12 bg-base-100 shadow-xl bg-white border" style="border-radius: 40px;">
             <div class="card-body mx-auto p-4" style="margin: 4rem; margin-bottom: 2rem; margin-top: 2rem;">
@@ -41,12 +39,9 @@
                 aria-expanded="false"
                 th:onclick="window.location.href='#'"
                 class="flex items-center justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800  focus:ring-4 focus:ring-blue-300 focus:outline-none">
-
             <i id="icon" class="fa-solid fa-up-long fa-2xl" style="color: #ffffff;"></i>
         </button>
     </div>
-
-
 </div>
 
 <script layout:fragment="script" type='text/javascript'>
@@ -58,18 +53,15 @@
         // fa-bounce 클래스를 추가합니다.
         icon.classList.add('fa-bounce');
     }
-
     // 마우스 아웃 이벤트에 대한 핸들러 함수를 정의합니다.
     function handleMouseOut() {
         // fa-bounce 클래스를 제거합니다.
         icon.classList.remove('fa-bounce');
     }
-
     // 마우스 오버와 아웃 이벤트에 대한 이벤트 리스너를 등록합니다.
     var btn = document.getElementById("icon-select")
     btn.addEventListener('mouseover', handleMouseOver);
     btn.addEventListener('mouseout', handleMouseOut);
-
 </script>
 
 </html>

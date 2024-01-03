@@ -32,7 +32,7 @@ public class ScheduleController {
 
         if (targetDong == null) {
             int userDong = this.userService.getUser(principal.getName()).getApartDong();
-            List<Schedule> scheduleList = this.scheduleService.findByTargetDong(userDong);
+            List<Schedule> scheduleList = this.scheduleService.findByTargetDongAndTotal(userDong);
             List<ScheduleForm> scheduleFormList = new ArrayList<>();
             for (Schedule schedule1 : scheduleList) {
                 ScheduleForm sc1 = new ScheduleForm();
@@ -71,7 +71,7 @@ public class ScheduleController {
             model.addAttribute("request", request);
             return "/schedule/schedule_list";
         } else {
-            List<Schedule> scheduleList = this.scheduleService.findByTargetDong(targetDong);
+            List<Schedule> scheduleList = this.scheduleService.findByTargetDongAndTotal(targetDong);
             List<ScheduleForm> scheduleFormList = new ArrayList<>();
             for (Schedule schedule1 : scheduleList) {
                 ScheduleForm sc1 = new ScheduleForm();

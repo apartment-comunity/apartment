@@ -21,7 +21,6 @@ public class VoteTotal extends BaseEntity {
 
     @ManyToOne
     private SiteUser voter;
-
     @ManyToOne
     private Vote vote;
 
