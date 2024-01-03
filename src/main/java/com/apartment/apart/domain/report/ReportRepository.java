@@ -12,6 +12,6 @@ public interface ReportRepository extends JpaRepository<Report, Integer> {
     Page<Report> findAll(Pageable pageable);
     Page<Report> findAll(Specification<Report> spec, Pageable pageable);
 
-    Optional<SiteUser> findByUserId(String userId);
+    Optional<SiteUser> findByUserId(Long userId);
 }
 

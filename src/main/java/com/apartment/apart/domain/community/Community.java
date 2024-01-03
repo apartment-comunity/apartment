@@ -18,15 +18,15 @@ import java.util.Set;
 @AllArgsConstructor
 public class Community extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private SiteUser user; //작성자 정보
     @Column(length = 50)
     private String title; //게시글 제목
     @Column(columnDefinition = "TEXT")
     private String content;//게시글 내용
 
-    @ManyToMany
-    Set<SiteUser> likeCount;//종아요한 유저
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private Set<SiteUser> likeCount;
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private List<CommunityReply> replyList = new ArrayList<>();

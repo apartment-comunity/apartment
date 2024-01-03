@@ -19,8 +19,8 @@ h1 {
     color: black;
 }
 .fc-event-title-container{
-    background : #EBFF82;
-
+    background : #fafd7f;
+    font-size: 1rem;
 }
 
 a, td {
@@ -67,12 +67,6 @@ h5, .card-text {
     margin-left: auto;
 }
 
-@media (max-width: 991px) {
-  .menu-bar-2 {
-    margin-left: 20px;
-  }
-}
-
 .navbar-brand {
     margin-left: 20px;
 }
@@ -115,6 +109,6 @@ h5, .card-text {
     border-radius: 10px;
 }
 
-.schedule-bottom-box {
-    margin-left: 20px;
+.admin-page {
+    font-size: 40px;
 }

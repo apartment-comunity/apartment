@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +49,7 @@ public class UserController {
         }
 
         try {
-            userService.create(userCreateForm.getUsername(), userCreateForm.getNickname(), userCreateForm.getPassword1(), userCreateForm.getPhone(), userCreateForm.getEmail(), userCreateForm.getApartDong(), userCreateForm.getApartHo(), false);
+            userService.create(userCreateForm.getUsername(), userCreateForm.getNickname(), userCreateForm.getPassword1(), userCreateForm.getPhone(), userCreateForm.getEmail(), userCreateForm.getApartDong(), userCreateForm.getApartHo(), false,true);
 
             emailService.send(userCreateForm.getEmail(), "서비스 가입을 환영합니다.", "회원가입 환영 메일");
 
@@ -65,6 +69,18 @@ public class UserController {
     public String login() {
         return "login_form";
     }
+
+    @PostMapping("/login")
+    public String login(@RequestParam("userId") String userId) {
+        SiteUser user = this.userService.getUser(userId);
+        if (user.isCheckedWithdrawal()) {
+            return "탈퇴된 유저입니다.";
+        } else {
+            return "redirect:/";
+        }
+
+    }
+
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")
@@ -127,5 +143,4 @@ public class UserController {
 
         return "mypage_detail";
     }
-
 }

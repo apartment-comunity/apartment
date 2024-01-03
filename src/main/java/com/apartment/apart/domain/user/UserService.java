@@ -4,6 +4,8 @@ import com.apartment.apart.domain.notice.Notice;
 import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.sql.Delete;
+import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,7 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public SiteUser create(String username, String nickname, String password, String phone, String email, int apartDong, int apartHo, boolean checkedAdmin) {
+    public SiteUser create(String username, String nickname, String password, String phone, String email, int apartDong, int apartHo, boolean checkedAdmin, boolean checkedWithdrawal) {
         SiteUser user = SiteUser.builder()
                 .userId(username)
                 .nickname(nickname)
@@ -33,7 +37,8 @@ public class UserService {
                 .email(email)
                 .apartDong(apartDong)
                 .apartHo(apartHo)
-                .checkedAdmin(checkedAdmin)
+                .checkedAdmin(false)
+                .checkedWithdrawal(false)
                 .build();
         this.userRepository.save(user);
         return user;
@@ -55,7 +60,7 @@ public class UserService {
         if (opUser.isPresent()) return opUser.get();
 
         // 소셜 로그인를 통한 가입시 비번은 없다.
-        return create(username, nickname, "", "", "", 0, 0,false); // 최초 로그인 시 딱 한번 실행
+        return create(username, nickname, "", "", "", 0, 0,false,true); // 최초 로그인 시 딱 한번 실행
     }
 
     private Optional<SiteUser> findByUserId(String username) {
@@ -80,6 +85,7 @@ public class UserService {
                 .apartHo(apartHo)
                 .createDate(siteUser.getCreateDate())
                 .checkedAdmin(siteUser.isCheckedAdmin())
+                .checkedWithdrawal(siteUser.isCheckedWithdrawal())
                 .build();
         this.userRepository.save(modifyUser);
     }
@@ -98,12 +104,19 @@ public class UserService {
             @Override
             public Predicate toPredicate(Root<SiteUser> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
-                return cb.like(q.get("nickname"), "%" + kw + "%");
-            }
+                return cb.or(
+                        cb.like(q.get("nickname"), "%" + kw + "%"),
+                        cb.like(q.get("userId"), "%" + kw + "%")
+                );
+            };
         };
     }
-
-    public void delete(SiteUser siteUser) {
-        this.userRepository.delete(siteUser);
+    public void updateCheckedUserStatus(String userId) {
+        Optional<SiteUser> optionalUser = userRepository.findByUserId(userId);
+        SiteUser deleteuser = optionalUser.get();
+        deleteuser.setCheckedWithdrawal(true);
+        this.userRepository.save(deleteuser);
     }
+
+
 }

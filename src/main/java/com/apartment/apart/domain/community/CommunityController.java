@@ -93,7 +93,7 @@ public class CommunityController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/like/{id}")
     @ResponseBody
-    public String communityLike(Principal principal, @PathVariable("id") Integer id) {
+    public String communityLike(Principal principal, @PathVariable("id") Long id) {
         Community community = this.communityService.getCommunity(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         this.communityService.like(community, siteUser);
@@ -106,7 +106,7 @@ public class CommunityController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/unlike/{id}")
     @ResponseBody
-    public String communityUnlike(Principal principal, @PathVariable("id") Integer id) {
+    public String communityUnlike(Principal principal, @PathVariable("id") Long id) {
         Community community = this.communityService.getCommunity(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
 

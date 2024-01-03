@@ -1,6 +1,8 @@
 <html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <span th:if="${report.isSecret}" class="badge bg-warning text-dark">Secret</span>
     <title th:text="${report.title}"></title>
+
 </head>
 <body>
 <div layout:fragment="content" class="container my-3">
@@ -40,7 +42,7 @@
 </html>
 <script th:inline="javascript">
 
-  $(document).ready(function() {
-        // Add logic to disable or hide features based on report's secret status and user authorization
-    });
+    $(document).ready(function() {
+          // Add logic to disable or hide features based on report's secret status and user authorization
+      });
 </script>
