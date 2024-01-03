@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
 import java.util.List;
@@ -26,10 +27,9 @@ public class VoteTotalController {
     private final VoteTotalService voteTotalService;
 
 
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{voteValue}/{id}")
-    public ResponseEntity<String> agree(Principal principal, @PathVariable("voteValue") String voteValue, @PathVariable("id") Long id, HttpServletRequest request) {
+    public String list_vote(Principal principal, @PathVariable("voteValue") String voteValue, @PathVariable("id") Long id, HttpServletRequest request) {
         System.out.println();
 
         Vote vote = this.voteService.findById(id);
@@ -40,21 +40,54 @@ public class VoteTotalController {
         Boolean isVoted = false;
         Boolean voteValueBoolean;
 
-        for(VoteTotal voteTotal : voteList){
-            if (voteTotal.getVoter().getUserId().equals(siteUser.getUserId())){
+        for (VoteTotal voteTotal : voteList) {
+            if (voteTotal.getVoter().getUserId().equals(siteUser.getUserId())) {
                 isVoted = true;
                 break;
             }
         }
 
-        if(voteValue.equals("agree")){
+        if (voteValue.equals("agree")) {
             voteValueBoolean = true;
         } else {
             voteValueBoolean = false;
         }
 
         if (!isVoted) {
-            this.voteTotalService.vote(siteUser,vote,voteValueBoolean);
+            this.voteTotalService.vote(siteUser, vote, voteValueBoolean);
+        }
+
+        return String.format("redirect:/vote/detail/%s", id);
+
+
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/vote/{voteValue}/{id}")
+    public ResponseEntity<String> card_vote(Principal principal, @PathVariable("voteValue") String voteValue, @PathVariable("id") Long id, HttpServletRequest request) {
+        Vote vote = this.voteService.findById(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        List<VoteTotal> voteList = vote.getVoteTotalList();
+
+
+        Boolean isVoted = false;
+        Boolean voteValueBoolean;
+
+        for (VoteTotal voteTotal : voteList) {
+            if (voteTotal.getVoter().getUserId().equals(siteUser.getUserId())) {
+                isVoted = true;
+                break;
+            }
+        }
+
+        if (voteValue.equals("agree")) {
+            voteValueBoolean = true;
+        } else {
+            voteValueBoolean = false;
+        }
+
+        if (!isVoted) {
+            this.voteTotalService.vote(siteUser, vote, voteValueBoolean);
         }
 
         return ResponseEntity.ok("success");
