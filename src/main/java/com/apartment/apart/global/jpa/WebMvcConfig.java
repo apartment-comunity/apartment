@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-    @Value("${custom.fileDirPath}")
+    @Value("C:\\work")
     private String fileDirPath;
 
     @Override

@@ -24,7 +24,7 @@ import java.util.UUID;
 public class CommunityService {
     private final CommunityRepository communityRepository;
 
-    @Value("${custom.fileDirPath}")
+    @Value("C:\\work")
     private String fileDirPath;
 
     public Page<Community> getList(int page, String kw) {
@@ -45,7 +45,7 @@ public class CommunityService {
     }
 
     public void create(String title, String content, SiteUser user, MultipartFile thumbnail) {
-        String thumbnailRelPath = "article/" + UUID.randomUUID().toString() + ".jpg";
+        String thumbnailRelPath = "community/" + UUID.randomUUID().toString() + ".jpg";
         File thumbnailFile = new File(fileDirPath + "/" + thumbnailRelPath);
 
         try {

@@ -11,7 +11,7 @@
         <div class="card-body">
             <div class="card-text" th:utext="${@commonUtil.markdown(community.content)}"></div>
             <div>
-                <img th:src="@{|/file/${article.thumbnailImg}|}" alt="12313s">
+                <img th:src="@{|/file/${community.thumbnailImg}|}" alt="12313s">
             </div>
             <div class="d-flex justify-content-end">
                 <div th:if="${community.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
