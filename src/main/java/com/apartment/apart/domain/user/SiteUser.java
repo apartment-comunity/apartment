@@ -31,4 +31,7 @@ public class SiteUser extends BaseEntity {
     private boolean approval;
 
     private boolean adminCheck;
+    public boolean isAdmin() {
+        return this.adminCheck; // adminCheck는 사용자가 관리자인지 아닌지를 나타내는 필드
+    }
 }

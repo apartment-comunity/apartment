@@ -85,9 +85,13 @@ public class CommunityController {
     @GetMapping("/delete/{id}")
     public String communityDelete(Principal principal, @PathVariable("id") Integer id) {
         Community community = this.communityService.getCommunity(id);
-        if (!community.getUser().getUserId().equals(principal.getName())) {
+        SiteUser user = this.userService.getUser(principal.getName());
+
+        // 사용자가 게시물의 작성자이거나 관리자인지 확인
+        if (!community.getUser().getUserId().equals(user.getUserId()) && !user.isAdmin()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
+
         this.communityService.delete(community);
         return "redirect:/community/list";
     }
