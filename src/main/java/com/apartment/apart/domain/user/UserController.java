@@ -70,17 +70,6 @@ public class UserController {
         return "login_form";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam("userId") String userId) {
-        SiteUser user = this.userService.getUser(userId);
-        if (user.isCheckedWithdrawal()) {
-            return "탈퇴된 유저입니다.";
-        } else {
-            return "redirect:/";
-        }
-
-    }
-
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")

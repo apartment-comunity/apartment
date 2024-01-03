@@ -114,6 +114,7 @@ public class UserService {
     public void updateCheckedUserStatus(String userId) {
         Optional<SiteUser> optionalUser = userRepository.findByUserId(userId);
         SiteUser deleteuser = optionalUser.get();
+        deleteuser.setPassword(null);
         deleteuser.setCheckedWithdrawal(true);
         this.userRepository.save(deleteuser);
     }
