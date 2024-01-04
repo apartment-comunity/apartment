@@ -1,20 +1,11 @@
 package com.apartment.apart.domain.user;
 
-import com.apartment.apart.domain.community.Community;
-import com.apartment.apart.domain.communityReply.CommunityReply;
-import com.apartment.apart.domain.report.Report;
-import com.apartment.apart.domain.reportReply.ReportReply;
-import com.apartment.apart.domain.schedule.Schedule;
-import com.apartment.apart.domain.voteTotal.VoteTotal;
 import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -42,11 +33,8 @@ public class SiteUser extends BaseEntity {
 
     private boolean checkedAdmin;
 
+    @Setter
     private boolean checkedWithdrawal;
-
-    public void setCheckedWithdrawal(boolean checkedWithdrawal) {
-        this.checkedWithdrawal = checkedWithdrawal;
-    }
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 //    private List<Community> communityList;

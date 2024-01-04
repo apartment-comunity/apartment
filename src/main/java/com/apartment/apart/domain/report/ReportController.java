@@ -33,7 +33,7 @@ public class ReportController {
     @GetMapping("/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id, Principal principal) {
         Report report = this.reportService.getReport(id, principal.getName());  // 사용자 이름을 확인하여 비밀글 접근 체크
-        if (report == null || (report.isSecret() && !report.getUser().getUserId().equals(principal.getName()))) {
+        if (report == null ||(report.isSecret() && !report.getUser().getUserId().equals(principal.getName()))) {
             return "redirect:/report/list";  // 접근 권한이 없는 경우 메인 페이지로 리다이렉트
         }
         model.addAttribute("report", report);
