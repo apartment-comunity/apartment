@@ -23,8 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CommunityService {
     private final CommunityRepository communityRepository;
-
-    @Value("/Users/nia/Documents/work/")
+    @Value("${custom.fileDirPath}")
     private String fileDirPath;
 
     public Page<Community> getList(int page, String kw) {
