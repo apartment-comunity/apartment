@@ -84,6 +84,10 @@
                    class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                    th:if="${communityReply.user != null and #authentication.getPrincipal().getUsername() == communityReply.user.userId}"
                    th:text="삭제"></a>
+                <!-- 관리자 전용 삭제 버튼 -->
+                <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/communityReply/delete/${communityReply.id}|}"
+                   class="delete btn btn-sm btn-danger" sec:authorize="hasAuthority('ROLE_ADMIN')"
+                   th:text="'관리자 삭제'"></a>
             </div>
         </div>
     </div>

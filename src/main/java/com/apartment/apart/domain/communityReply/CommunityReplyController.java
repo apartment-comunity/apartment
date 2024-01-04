@@ -79,7 +79,9 @@ public class CommunityReplyController {
     @GetMapping("/delete/{id}")
     public String communityReplyDelete(Principal principal, @PathVariable("id") Integer id) {
         CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
-        if (!communityReply.getUser().getUserId().equals(principal.getName())) {
+        SiteUser user = this.userService.getUser(principal.getName());
+
+        if (!communityReply.getUser().getUserId().equals(user.getUserId()) && !user.isAdmin()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         this.communityReplyService.delete(communityReply);
