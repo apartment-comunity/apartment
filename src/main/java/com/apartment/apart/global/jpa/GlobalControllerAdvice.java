@@ -18,7 +18,6 @@ public class GlobalControllerAdvice {
 
     @ModelAttribute
     public String globalAttributes(Model model, HttpServletRequest request, Principal principal) {
-        // 이미 존재하는 경우에는 추가하지 않음
         if (model.containsAttribute("request")) {
             return "";
         }
@@ -32,7 +31,6 @@ public class GlobalControllerAdvice {
                 if (!model.containsAttribute("loginUser")) {
                     model.addAttribute("loginUser", loginUser);
                 } else {
-                    // 이미 로그인한 사용자가 다시 로그인 페이지에 접근하는 경우 리다이렉트
                     return "redirect:/";
                 }
             }

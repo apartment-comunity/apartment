@@ -30,7 +30,7 @@ public class NoticeController {
         SiteUser loginUser = this.userService.getUser(principal.getName());
         model.addAttribute("paging", paging);
         model.addAttribute("loginUser",loginUser);
-        return "notice_list";
+        return "notice/notice_list";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -41,7 +41,7 @@ public class NoticeController {
         SiteUser loginUser = this.userService.getUser(principal.getName());
         model.addAttribute("notice", notice);
         model.addAttribute("loginUser", loginUser);
-        return "notice_detail";
+        return "notice/notice_detail";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -55,7 +55,7 @@ public class NoticeController {
         if(loginUser.isCheckedAdmin()) {
             model.addAttribute("noticeForm", new NoticeForm());
             model.addAttribute("request", request);
-            return "notice_form";
+            return "notice/notice_form";
         }
         return "redirect:notice/list";
     }
@@ -70,7 +70,7 @@ public class NoticeController {
             if (bindingResult.hasErrors()) {
 
                 model.addAttribute("request", request);
-                return "notice_form";
+                return "notice/notice_form";
             }
 
             this.noticeService.create(noticeForm, loginUser);
@@ -88,7 +88,7 @@ public class NoticeController {
         }
         noticeForm.setTitle(notice.getTitle());
         noticeForm.setContent(notice.getContent());
-        return "notice_form";
+        return "notice/notice_form";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -96,7 +96,7 @@ public class NoticeController {
     public String noticeModify(@Valid NoticeForm noticeForm, BindingResult bindingResult,
                                Principal principal, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
-            return "notice_form";
+            return "notice/notice_form";
         }
         Notice notice = this.noticeService.getNotice(id);
         if(!notice.getUser().getUserId().equals(principal.getName())) {

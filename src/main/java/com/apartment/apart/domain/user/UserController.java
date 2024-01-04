@@ -35,17 +35,17 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
-        return "signup_form";
+        return "user/signup_form";
     }
 
     @PostMapping("/signup")
     public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "signup_form";
+            return "user/signup_form";
         }
         if (!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
             bindingResult.rejectValue("password2", "passwordInCorrect", "비밀번호가 일치하지 않습니다.");
-            return "signup_form";
+            return "user/signup_form";
         }
 
         try {
@@ -56,20 +56,19 @@ public class UserController {
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "signup_form";
+            return "user/signup_form";
         } catch (Exception e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", e.getMessage());
-            return "signup_form";
+            return "user/signup_form";
         }
         return "redirect:/";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "login_form";
+        return "user/login_form";
     }
-
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")
@@ -85,7 +84,7 @@ public class UserController {
         userMypageForm.setEmail(siteUser.getEmail());
         userMypageForm.setApartDong(siteUser.getApartDong());
         userMypageForm.setApartHo(siteUser.getApartHo());
-        return "mypage_form";
+        return "user/mypage_form";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -93,7 +92,7 @@ public class UserController {
     public String userModify(@Valid UserMypageForm userMypageForm,
                              BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
-            return "mypage_form";
+            return "user/mypage_form";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
         if (!siteUser.getUserId().equals(principal.getName())) {
@@ -106,7 +105,7 @@ public class UserController {
             return "redirect:/user/showmypage";
         } catch (Exception e) {
             e.printStackTrace();
-            return "mypage_form";
+            return "user/mypage_form";
         }
     }
 
@@ -127,9 +126,9 @@ public class UserController {
 
         if (!StringUtils.equals(userMypageForm.getPassword1(), userMypageForm.getPassword2())) {
             bindingResult.rejectValue("password2", "error.passwordMismatch", "비밀번호가 일치하지 않습니다.");
-            return "mypage_form";
+            return "user/mypage_form";
         }
 
-        return "mypage_detail";
+        return "user/mypage_detail";
     }
 }

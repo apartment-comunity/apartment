@@ -33,7 +33,7 @@ public class AdminController {
         if(loginUser.isCheckedAdmin()) {
             model.addAttribute("request", request);
             model.addAttribute("paging",paging);
-            return "admin_page";
+            return "user/admin_page";
         }
         return "redirect:notice/list";
     }
