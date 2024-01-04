@@ -19,8 +19,4 @@ public class ReportForm {
     public boolean getIsSecret() {
         return isSecret;
     }
-
-    public void setIsSecret(boolean isSecret) {
-        this.isSecret = isSecret;
-    }
 }

@@ -35,11 +35,6 @@ public class SiteUser extends BaseEntity {
 
     @Setter
     private boolean checkedWithdrawal;
-
-    private boolean adminCheck;
-    public boolean isAdmin() {
-        return this.adminCheck; // adminCheck는 사용자가 관리자인지 아닌지를 나타내는 필드
-    }
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 //    private List<Community> communityList;
 //
