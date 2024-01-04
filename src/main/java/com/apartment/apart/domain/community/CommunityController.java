@@ -69,7 +69,7 @@ public class CommunityController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String communityModify(@Valid CommunityForm communityForm, BindingResult bindingResult,
-                               Principal principal, @PathVariable("id") Long id) {
+                                  Principal principal, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
             return "community_form";
         }

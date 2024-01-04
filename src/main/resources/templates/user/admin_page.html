@@ -30,7 +30,7 @@
             <td>
                 <span th:if="${siteUser.checkedWithdrawal}">탈퇴한 사용자</span>
                 <form th:unless="${siteUser.checkedWithdrawal}" th:action="@{/admin/user/delete/{userId}(userId=${siteUser.userId})}" method="post"
-                      onsubmit="return confirm('정말 탈퇴시키겠습니까? 사용자가 작성한 게시글과 답변은 전부 삭제됩니다.');">
+                      onsubmit="return confirm('정말 탈퇴시키겠습니까?');">
                     <input type="hidden" name="userId" th:value="${siteUser.userId}" />
                     <button type="submit" class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()">탈퇴</button>
                 </form>

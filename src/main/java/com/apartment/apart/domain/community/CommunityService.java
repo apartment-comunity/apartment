@@ -24,7 +24,7 @@ import java.util.UUID;
 public class CommunityService {
     private final CommunityRepository communityRepository;
 
-    @Value("C:\\work")
+    @Value("/Users/nia/Documents/work/")
     private String fileDirPath;
 
     public Page<Community> getList(int page, String kw) {
