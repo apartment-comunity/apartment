@@ -133,7 +133,7 @@ public class ScheduleController {
         Schedule schedule = this.scheduleService.getSchedule(id);
         if (loginUser.isCheckedAdmin() || schedule.getUser().getUserId().equals(principal.getName())) {
             this.scheduleService.delete(schedule);
-            return "redirect:/schedule/mySchedule";
+            return "redirect:/schedule/manage";
         } else {
             return "redirect:/schedule/list";
         }
