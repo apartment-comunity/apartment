@@ -31,8 +31,10 @@ public class SiteUser extends BaseEntity {
 
     private int apartHo;
 
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
     private boolean checkedAdmin;
 
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
     @Setter
     private boolean checkedWithdrawal;
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)

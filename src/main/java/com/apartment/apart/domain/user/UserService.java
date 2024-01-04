@@ -73,20 +73,36 @@ public class UserService {
     public void modify(SiteUser siteUser, String nickname, String password, String phone,
                        String email, int apartDong, int apartHo) {
         Optional<SiteUser> updateUser = this.userRepository.findByUserId(siteUser.getUserId());
-        SiteUser modifyUser = SiteUser.builder()
-                .id(updateUser.get().getId())
-                .userId(siteUser.getUserId())
-                .nickname(nickname)
-                .password(passwordEncoder.encode(password))
-                .phone(phone)
-                .email(email)
-                .apartDong(apartDong)
-                .apartHo(apartHo)
-                .createDate(siteUser.getCreateDate())
-                .checkedAdmin(siteUser.isCheckedAdmin())
-                .checkedWithdrawal(siteUser.isCheckedWithdrawal())
-                .build();
-        this.userRepository.save(modifyUser);
+        if (siteUser.getUserId().startsWith("KAKAO__")) {
+            SiteUser modifyUser = SiteUser.builder()
+                    .id(updateUser.get().getId())
+                    .userId(siteUser.getUserId())
+                    .nickname(nickname)
+                    .phone(phone)
+                    .email(email)
+                    .apartDong(apartDong)
+                    .apartHo(apartHo)
+                    .createDate(siteUser.getCreateDate())
+                    .checkedAdmin(siteUser.isCheckedAdmin())
+                    .checkedWithdrawal(siteUser.isCheckedWithdrawal())
+                    .build();
+            this.userRepository.save(modifyUser);
+        } else if (!siteUser.getUserId().startsWith("KAKAO__")){
+            SiteUser modifyUser = SiteUser.builder()
+                    .id(updateUser.get().getId())
+                    .userId(siteUser.getUserId())
+                    .nickname(nickname)
+                    .password(passwordEncoder.encode(password))
+                    .phone(phone)
+                    .email(email)
+                    .apartDong(apartDong)
+                    .apartHo(apartHo)
+                    .createDate(siteUser.getCreateDate())
+                    .checkedAdmin(siteUser.isCheckedAdmin())
+                    .checkedWithdrawal(siteUser.isCheckedWithdrawal())
+                    .build();
+            this.userRepository.save(modifyUser);
+        }
     }
 
     public Page<SiteUser> getList(int page, String kw) {

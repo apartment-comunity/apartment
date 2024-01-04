@@ -26,7 +26,7 @@
         <tr class="text-center" th:each="report, loop : ${paging}">
             <td th:text="${paging.getTotalElements() - (paging.number * paging.size) - loop.index}"></td>
             <td class="text-start">
-                <a th:href="@{|/report/detail/${report.id}|}">
+                <a th:href="@{|/report/detail/${report.id}|}" style="text-decoration: none;">
                     <!-- 비밀글일 경우 자물쇠 아이콘 표시 -->
                     <i th:if="${report.isSecret}" class="fas fa-lock"></i>
                     <span th:text="${report.title}"></span>

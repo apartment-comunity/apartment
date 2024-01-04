@@ -23,13 +23,11 @@ h1 {
     font-size: 1rem;
 }
 
-a, td {
-  text-decoration-line: none;
+a {
+  text-decoration: none;
 }
-
 a:hover {
-  text-decoration-line: none;
-  color: violet;
+
 }
 
 .btn-primary {
