@@ -5,6 +5,9 @@
     <div class="card my-3">
         <div class="card-body">
             <div class="card-text" th:utext="${@commonUtil.markdown(community.content)}"></div>
+            <div>
+                <img th:src="@{|/file/${community.thumbnailImg}|}" alt="12313s">
+            </div>
             <div class="d-flex justify-content-end">
                 <div th:if="${community.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
                     <div class="mb-2">수정됨</div>
@@ -30,6 +33,10 @@
                    class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                    th:if="${community.user != null and #authentication.getPrincipal().getUsername() == community.user.userId}"
                    th:text="삭제"></a>
+                <!-- 관리자 전용 삭제 버튼 -->
+                <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/community/delete/${community.id}|}"
+                   class="delete btn btn-sm btn-danger" sec:authorize="hasAuthority('ROLE_ADMIN')"
+                   th:text="'관리자 삭제'"></a>
             </div>
         </div>
     </div>
@@ -72,6 +79,10 @@
                    class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                    th:if="${communityReply.user != null and #authentication.getPrincipal().getUsername() == communityReply.user.userId}"
                    th:text="삭제"></a>
+                <!-- 관리자 전용 삭제 버튼 -->
+                <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/communityReply/delete/${communityReply.id}|}"
+                   class="delete btn btn-sm btn-danger" sec:authorize="hasAuthority('ROLE_ADMIN')"
+                   th:text="'관리자 삭제'"></a>
             </div>
         </div>
     </div>

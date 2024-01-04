@@ -3,21 +3,29 @@ package com.apartment.apart.domain.community;
 import com.apartment.apart.domain.user.SiteUser;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class CommunityService {
     private final CommunityRepository communityRepository;
+
+    @Value("C:\\work")
+    private String fileDirPath;
 
     public Page<Community> getList(int page, String kw) {
         List<Sort.Order> sorts = new ArrayList<>();
@@ -36,11 +44,21 @@ public class CommunityService {
         }
     }
 
-    public void create(String title, String content, SiteUser user) {
+    public void create(String title, String content, SiteUser user, MultipartFile thumbnail) {
+        String thumbnailRelPath = "community/" + UUID.randomUUID().toString() + ".jpg";
+        File thumbnailFile = new File(fileDirPath + "/" + thumbnailRelPath);
+
+        try {
+            thumbnail.transferTo(thumbnailFile);
+        } catch (IOException e) {
+            throw  new RuntimeException(e);
+        }
+
         Community community = Community.builder()
                 .title(title)
                 .content(content)
                 .user(user)
+                .thumbnailImg(thumbnailRelPath)
                 .build();
         this.communityRepository.save(community);
     }
