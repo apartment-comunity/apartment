@@ -1,6 +1,7 @@
 package com.apartment.apart.domain.report;
 
 import com.apartment.apart.domain.user.SiteUser;
+import com.apartment.apart.domain.user.UserRepository;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -8,7 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ReportService {
     private final ReportRepository reportRepository;
+    private final UserRepository userRepository;
 
     public Page<Report> getList(int page, String kw) {
         List<Sort.Order> sorts = new ArrayList<>();
@@ -28,16 +32,23 @@ public class ReportService {
     }
 
     public Report getReport(Integer id, String username) {
+
         Optional<Report> report = this.reportRepository.findById(id);
         if (!report.isPresent()) {
-            throw new RuntimeException("Report not found"); // 또는 적절한 예외 처리
+            throw new RuntimeException("Report not found");
         }
-
         Report r = report.get();
-//        if (r.isSecret() && !r.getUser().getUserId().equals(username)) {
-//           throw new ResponseStatusException(HttpStatus.FORBIDDEN, "접근 권한이 없습니다.");
-//
-//        }
+
+        Optional<SiteUser> currentUserOpt = userRepository.findByUserId(username);
+        if (!currentUserOpt.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        SiteUser currentUser = currentUserOpt.get();
+
+        // 비밀글인 경우, 현재 사용자가 글 작성자이거나 관리자인지 확인
+        if (r.isSecret() && !r.getUser().getUserId().equals(username) && !currentUser.isCheckedAdmin()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "접근 권한이 없습니다.");
+        }
 
         return r;
     }
@@ -81,10 +92,5 @@ public class ReportService {
                 );
             }
         };
-    }
-
-    public void like(Report report, SiteUser siteUser) {
-        report.getLikeCount().add(siteUser);
-        this.reportRepository.save(report);
     }
 }
