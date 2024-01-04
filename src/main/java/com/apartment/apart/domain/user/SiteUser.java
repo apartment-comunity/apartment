@@ -37,6 +37,7 @@ public class SiteUser extends BaseEntity {
     @Column(columnDefinition = "BOOLEAN DEFAULT false")
     @Setter
     private boolean checkedWithdrawal;
+    
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 //    private List<Community> communityList;
 //
