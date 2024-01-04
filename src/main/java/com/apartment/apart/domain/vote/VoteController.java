@@ -34,13 +34,14 @@ public class VoteController {
                        @RequestParam(value = "type", defaultValue = "list") String type,
                        @RequestParam(value = "page", defaultValue = "0") int page,
                        @RequestParam(value = "kw", defaultValue = "") String kw,
-                       @RequestParam(value = "status", defaultValue = "total") String status,
+                       @RequestParam(value = "status", defaultValue = "") String status,
                        HttpServletRequest request) {
         if (type.equals("list")) {
-            Page<Vote> paging = this.voteService.getPageList(page, kw,status);
+            if (status.isEmpty()) {
+                status = "total";
+            }
+            Page<Vote> paging = this.voteService.getPageList(page, kw, status);
             SiteUser loginUser = this.userService.getUser(principal.getName());
-
-
 
             String nowStatus = switch (status) {
                 case "total" -> "전체";
@@ -54,11 +55,15 @@ public class VoteController {
             model.addAttribute("request", request);
             model.addAttribute("kw", kw);
             model.addAttribute("status", nowStatus);
-            model.addAttribute("loginUser",loginUser);
+            model.addAttribute("loginUser", loginUser);
 
             return "/vote/vote_list_list";
         } else if (type.equals("card")) {
-            List<Vote> voteList = voteService.findAll(kw,status);
+
+            if (status.isEmpty()) {
+                status = "inProgress";
+            }
+            List<Vote> voteList = voteService.findAll(kw, status);
             Collections.reverse(voteList);
             LocalDate today = LocalDate.now();
             SiteUser loginUser = this.userService.getUser(principal.getName());
@@ -71,7 +76,6 @@ public class VoteController {
                 default -> "";
             };
 
-
             model.addAttribute("voteList", voteList);
             model.addAttribute("today", today);
             model.addAttribute("loginUser", loginUser);
@@ -83,7 +87,6 @@ public class VoteController {
         } else {
             return "redirect:/";
         }
-
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -94,12 +97,12 @@ public class VoteController {
 
         SiteUser loginUser = this.userService.getUser(principal.getName());
 
-        if(loginUser.isCheckedAdmin()) {
+        if (loginUser.isCheckedAdmin()) {
             model.addAttribute("voteForm", new VoteForm());
             model.addAttribute("request", request);
             return "/vote/vote_form";
         }
-        return "redirect:vote/list";
+        return "redirect:/vote/list";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -114,7 +117,6 @@ public class VoteController {
                 model.addAttribute("request", request);
                 return "/vote/vote_form";
             }
-
             this.voteService.save(voteForm, loginUser);
             return "redirect:/vote/list";
         }
@@ -124,12 +126,21 @@ public class VoteController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/manage")
     public String manage(Model model, Principal principal,
+                         @RequestParam(value = "kw", defaultValue = "") String kw,
+                         @RequestParam(value = "status", defaultValue = "") String status,
                          HttpServletRequest request) {
         SiteUser loginUser = userService.getUser(principal.getName());
         if (loginUser.isCheckedAdmin()) {
-
-            List<Vote> votelist = this.voteService.findAll("", "total");
+            List<Vote> votelist = this.voteService.findAll(kw, status);
             Collections.reverse(votelist);
+            String nowStatus = switch (status) {
+                case "total" -> "전체";
+                case "inProgress" -> "진행중";
+                case "closed" -> "지난 투표";
+                case "intended" -> "투표 예정";
+                default -> "";
+            };
+            model.addAttribute("status", nowStatus);
             model.addAttribute("votelist", votelist);
             model.addAttribute("request", request);
             return "/vote/vote_manage";
@@ -164,5 +175,4 @@ public class VoteController {
         model.addAttribute("loginUser", loginUser);
         return "/vote/vote_detail";
     }
-
 }

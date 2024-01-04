@@ -2,7 +2,6 @@
 <div layout:fragment="content" class="w-full">
     <div class="row my-3 flex justify-between w-10/12 m-auto mt-6">
         <div class="col-6 my-auto">
-
             <a th:href="@{/vote/list?type=list}"
                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 ">
                 전체투표</a>
@@ -27,14 +26,12 @@
                     <option th:unless="${#strings.equals(param.status,'intended')}" value="intended">투표 예정</option>
                 </select>
                 <div class="relative w-full">
-
                     <input type="hidden" name="type" value="list">
                     <input type="search" name="kw" th:value="${param.kw}" id="search-dropdown"
                            class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                            placeholder="검색">
                     <button type="submit"
-                            class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 "
-                    >
+                            class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">
                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                              viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -46,8 +43,7 @@
             </div>
         </form>
     </div>
-
-    <div class="w-10/12 p-4 m-auto bg-white mt-8 rounded-2xl">
+    <div class="w-10/12 p-4 m-auto bg-white mt-8 rounded-2xl min-h-full">
         <table class="w-full m-auto text-sm text-left rtl:text-right text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr class="text-center text-xl">
@@ -64,7 +60,6 @@
                     th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
                 <td>
                     <a th:href="@{|/vote/detail/${vote.id}|}" th:text="${vote.title}"></a>
-
                 </td>
                 <td class="text-center"><span
                         th:text="${#temporals.format(vote.startDate, 'yy-MM-dd')} + ' ~ '+ ${#temporals.format(vote.endDate, 'yy-MM-dd')}"></span>
@@ -82,13 +77,11 @@
                     th:classappend="${!paging.hasPrevious} ? 'pointer-events-none'">
                     <a class="page-link" th:href="@{|${kwBase}&type=list&page=${paging.number - 1}|}">이전</a>
                 </li>
-
                 <li th:class="${page == paging.number} ? 'flex items-center justify-center px-4 h-10 leading-tight bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 font-extrabold text-blue-400' : 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700'"
                     th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
                     th:if="${page >= paging.number-5 and page <= paging.number+5}">
                     <a th:text="${page + 1}" class="page-link" th:href="@{|${kwBase}&type=list&page=${page}|}"></a>
                 </li>
-
                 <li class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
                     th:classappend="${!paging.hasNext} ? 'pointer-events-none'">
                     <a class="page-link" th:href="@{|${kwBase}&type=list&page=${paging.number + 1}|}">다음</a>

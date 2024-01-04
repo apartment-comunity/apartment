@@ -36,11 +36,11 @@ public class Vote extends BaseEntity {
 
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "vote",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "vote", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<VoteTotal> voteTotalList;
 
-    public boolean isVoted (Long id) {
+    public boolean isVoted(Long id) {
         boolean isChecked = false;
         for (VoteTotal item : voteTotalList) {
             if (Objects.equals(item.getVoter().getId(), id)) {

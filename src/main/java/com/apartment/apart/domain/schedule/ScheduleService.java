@@ -13,7 +13,6 @@ import java.util.Optional;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
-
     public List<Schedule> findAll() {
         return this.scheduleRepository.findAll();
     }
@@ -26,7 +25,6 @@ public class ScheduleService {
                 .startDate(LocalDate.parse(scheduleForm.getStart()))
                 .endDate(LocalDate.parse(scheduleForm.getEnd()))
                 .build();
-
         this.scheduleRepository.save(schedule);
     }
 
@@ -57,12 +55,12 @@ public class ScheduleService {
         this.scheduleRepository.save(modifySchedule);
     }
 
-    public List<Schedule> findByTargetDong(int targetDong) {
+    public List<Schedule> findByTargetDongAndTotal(int userDong) {
 
-        if (targetDong == 100) {
+        if (userDong == 100) {
             return this.scheduleRepository.findAll();
         } else {
-            return this.scheduleRepository.findByTargetDong(targetDong);
+            return this.scheduleRepository.findByTargetDongAndTotal(userDong);
         }
     }
 }
