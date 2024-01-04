@@ -44,7 +44,7 @@ public class CommunityReplyController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String communityReplyModify(Model model, @PathVariable("id") Integer id, Principal principal) {
+    public String communityReplyModify(Model model, @PathVariable("id") Long id, Principal principal) {
         CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
         if (!communityReply.getUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
@@ -61,7 +61,7 @@ public class CommunityReplyController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String communityReplyModify(@Valid CommunityReplyForm communityReplyForm, BindingResult bindingResult,
-                                       @PathVariable("id") Integer id, Principal principal, Model model) {
+                                       @PathVariable("id") Long id, Principal principal, Model model) {
         if (bindingResult.hasErrors()) {
             return "communityReply_form";
         }
@@ -77,7 +77,7 @@ public class CommunityReplyController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String communityReplyDelete(Principal principal, @PathVariable("id") Integer id) {
+    public String communityReplyDelete(Principal principal, @PathVariable("id") Long id) {
         CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
         SiteUser user = this.userService.getUser(principal.getName());
 
@@ -91,7 +91,7 @@ public class CommunityReplyController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/like/{id}")
     @ResponseBody
-    public String communityReplyLike(Principal principal, @PathVariable("id") Integer id) {
+    public String communityReplyLike(Principal principal, @PathVariable("id") Long id) {
         CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         this.communityReplyService.like(communityReply, siteUser);
@@ -105,7 +105,7 @@ public class CommunityReplyController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/unlike/{id}")
     @ResponseBody
-    public String communityReplyUnlike(Principal principal, @PathVariable("id") Integer id) {
+    public String communityReplyUnlike(Principal principal, @PathVariable("id") Long id) {
         CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
 

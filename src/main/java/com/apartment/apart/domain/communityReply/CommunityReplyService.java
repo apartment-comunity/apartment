@@ -26,7 +26,7 @@ public class CommunityReplyService {
         return createCommunityReply;
     }
 
-    public CommunityReply getCommunityReply(Integer id) {
+    public CommunityReply getCommunityReply(Long id) {
         return this.communityReplyRepository.findById(id)
                 .orElseThrow(() -> new DataNotException("답변을 찾을 수 없습니다."));
     }

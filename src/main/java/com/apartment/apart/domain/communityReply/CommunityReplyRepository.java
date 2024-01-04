@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CommunityReplyRepository extends JpaRepository<CommunityReply, Integer> {
+public interface CommunityReplyRepository extends JpaRepository<CommunityReply, Long> {
 }
