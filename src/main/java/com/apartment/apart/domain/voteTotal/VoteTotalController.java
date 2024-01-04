@@ -43,11 +43,7 @@ public class VoteTotalController {
             }
         }
 
-        if (voteValue.equals("agree")) {
-            voteValueBoolean = true;
-        } else {
-            voteValueBoolean = false;
-        }
+        voteValueBoolean = voteValue.equals("agree");
 
         if (!isVoted) {
             this.voteTotalService.vote(siteUser, vote, voteValueBoolean);

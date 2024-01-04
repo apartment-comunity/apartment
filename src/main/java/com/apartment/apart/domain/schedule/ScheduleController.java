@@ -173,4 +173,3 @@ public class ScheduleController {
         return "redirect:/schedule/manage";
     }
 }
-
