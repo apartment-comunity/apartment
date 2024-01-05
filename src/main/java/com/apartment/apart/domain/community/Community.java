@@ -19,7 +19,6 @@ import java.util.Set;
 @ToString
 public class Community extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private SiteUser user; //작성자 정보
     @Column(length = 50)
     private String title; //게시글 제목

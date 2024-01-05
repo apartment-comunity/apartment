@@ -4,24 +4,23 @@ import com.apartment.apart.DataNotException;
 import com.apartment.apart.domain.community.Community;
 import com.apartment.apart.domain.user.SiteUser;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@AllArgsConstructor
 public class CommunityReplyService {
     private final CommunityReplyRepository communityReplyRepository;
 
-    public CommunityReplyService(CommunityReplyRepository communityReplyRepository) {
-        this.communityReplyRepository = communityReplyRepository;
-    }
     @Transactional
     public CommunityReply create(Community community, String content, SiteUser user) {
 
         CommunityReply createCommunityReply = CommunityReply.builder()
                 .content(content)
-                        .community(community)
-                                .user(user)
-                                        .build();
+                .community(community)
+                .user(user)
+                .build();
         this.communityReplyRepository.save(createCommunityReply);
         return createCommunityReply;
     }

@@ -31,7 +31,7 @@ public class ReportService {
         return this.reportRepository.findAll(spec, pageable);
     }
 
-    public Report getReport(Integer id, String username) {
+    public Report getReport(Long id, String username) {
 
         Optional<Report> report = this.reportRepository.findById(id);
         if (!report.isPresent()) {

@@ -33,7 +33,7 @@ public class CommunityController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, CommunityReplyForm communityReplyForm) {
+    public String detail(Model model, @PathVariable("id") Long id, CommunityReplyForm communityReplyForm) {
         Community community = this.communityService.getCommunity(id);
         model.addAttribute("community", community);
         return "community_detail";
@@ -56,7 +56,7 @@ public class CommunityController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String communityModify(CommunityForm communityForm, @PathVariable("id") Integer id, Principal principal) {
+    public String communityModify(CommunityForm communityForm, @PathVariable("id") Long id, Principal principal) {
         Community community = this.communityService.getCommunity(id);
         if(!community.getUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
@@ -69,7 +69,7 @@ public class CommunityController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String communityModify(@Valid CommunityForm communityForm, BindingResult bindingResult,
-                                  Principal principal, @PathVariable("id") Integer id) {
+                                  Principal principal, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
             return "community_form";
         }
@@ -83,7 +83,7 @@ public class CommunityController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String communityDelete(Principal principal, @PathVariable("id") Integer id) {
+    public String communityDelete(Principal principal, @PathVariable("id") Long id) {
         Community community = this.communityService.getCommunity(id);
         SiteUser user = this.userService.getUser(principal.getName());
 
@@ -98,7 +98,7 @@ public class CommunityController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/like/{id}")
     @ResponseBody
-    public String communityLike(Principal principal, @PathVariable("id") Integer id) {
+    public String communityLike(Principal principal, @PathVariable("id") Long id) {
         Community community = this.communityService.getCommunity(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         this.communityService.like(community, siteUser);
@@ -111,7 +111,7 @@ public class CommunityController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/unlike/{id}")
     @ResponseBody
-    public String communityUnlike(Principal principal, @PathVariable("id") Integer id) {
+    public String communityUnlike(Principal principal, @PathVariable("id") Long id) {
         Community community = this.communityService.getCommunity(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
 

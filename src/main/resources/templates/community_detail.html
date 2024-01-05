@@ -1,4 +1,9 @@
+<!-- /resources/templates/community/detail.html -->
 <html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${community.title}"></title>
+</head>
+<body>
 <div layout:fragment="content" class="container my-3">
     <!-- 질문 -->
     <h2 class="border-bottom py-2" th:text="${community.title}"></h2>
@@ -14,8 +19,10 @@
                     <div th:text="${#temporals.format(community.modifiedDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
-                    <div th:if="${community.user != null}" th:text="${community.user.nickname}" class="mb-2"></div>
-                    <div th:text="${#temporals.format(community.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
+                    <div class="mb-2">
+                        <div class="mb-2" th:if="${community.user != null}" th:text="${community.user.nickname}"></div>
+                        <div th:text="${#temporals.format(community.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
+                    </div>
                 </div>
             </div>
             <div class="my-3">
@@ -50,17 +57,17 @@
         <div class="card-body">
             <div class="card-text" th:utext="${@commonUtil.markdown(communityReply.content)}"></div>
             <div class="d-flex justify-content-end">
-                <div th:if="${communityReply.modifiedDate != null}"
-                     class="badge bg-light text-dark p-2 text-start mx-3">
-                    <div class="mb-2" th:text="${'수정됨'}"></div>
-                    <div th:text="${#temporals.format(community.modifiedDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
+                <div th:if="${communityReply.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">
+                        <div class="mb-2" th:text="${'수정됨'}"></div>
+                        <div th:text="${#temporals.format(communityReply.modifiedDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
+                    </div>
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2" th:if="${communityReply.user != null}" th:text="${communityReply.user.nickname}"></div>
                     <div th:text="${#temporals.format(communityReply.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
                 </div>
             </div>
-        </div>
             <div class="my-3">
                 <a th:id="@{|communityReply_recommend_${communityReply.id}|}"
                    class="communityReply_recommend recommend btn btn-sm btn-outline-secondary">
@@ -79,7 +86,7 @@
                    th:text="삭제"></a>
                 <!-- 관리자 전용 삭제 버튼 -->
                 <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/communityReply/delete/${communityReply.id}|}"
-                   class="delete btn btn-sm btn-danger" sec:authorize="hasAuthority('ROLE_ADMIN')"
+                   class="delete btn btn-sm btn-danger" th:if="${loginUser.isCheckedAdmin()}"
                    th:text="'관리자 삭제'"></a>
             </div>
         </div>

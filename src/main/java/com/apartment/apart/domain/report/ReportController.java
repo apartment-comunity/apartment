@@ -31,7 +31,7 @@ public class ReportController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, Principal principal) {
+    public String detail(Model model, @PathVariable("id") Long id, Principal principal) {
         try {
             Report report = this.reportService.getReport(id, principal.getName());  // 사용자 이름을 확인하여 비밀글 접근 체크
             model.addAttribute("report", report);
@@ -60,7 +60,7 @@ public class ReportController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String reportModify(ReportForm reportForm, @PathVariable("id") Integer id, Principal principal) {
+    public String reportModify(ReportForm reportForm, @PathVariable("id") Long id, Principal principal) {
         String currentUsername = principal.getName();
         Report report = this.reportService.getReport(id, currentUsername);
         if(report == null || !report.getUser().getUserId().equals(currentUsername)) {
@@ -74,7 +74,7 @@ public class ReportController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String reportModify(@Valid ReportForm reportForm, BindingResult bindingResult,
-                               Principal principal, @PathVariable("id") Integer id) {
+                               Principal principal, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
             return "report_form";
         }
@@ -89,7 +89,7 @@ public class ReportController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String reportDelete(Principal principal, @PathVariable("id") Integer id) {
+    public String reportDelete(Principal principal, @PathVariable("id") Long id) {
         SiteUser currentUser = this.userService.getUser(principal.getName());
         Report report = this.reportService.getReport(id, currentUser.getUserId());
 
