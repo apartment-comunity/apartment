@@ -89,7 +89,7 @@ public class ReportController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String reportDelete(Principal principal, @PathVariable("id") Integer id) {
+    public String reportDelete(Principal principal, @PathVariable("id") Integer id ) {
         SiteUser currentUser = this.userService.getUser(principal.getName());
         Report report = this.reportService.getReport(id, currentUser.getUserId());
 

@@ -27,11 +27,14 @@
                    sec:authorize="isAuthenticated()"
                    th:if="${report.user != null and #authentication.getPrincipal().getUsername() == report.user.userId}"
                    th:text="수정"></a>
-                <!-- Delete button -->
-                <a onclick="return confirm('정말로 삭제하시겠습니까?')" th:href="@{|/report/delete/${report.id}|}"
+                <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/report/delete/${report.id}|}"
                    class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                    th:if="${report.user != null and #authentication.getPrincipal().getUsername() == report.user.userId}"
                    th:text="삭제"></a>
+                <!-- 관리자 전용 삭제 버튼 -->
+                <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/report/delete/${report.id}|}"
+                   class="delete btn btn-sm btn-danger" sec:authorize="hasAuthority('ROLE_ADMIN')"
+                   th:text="'관리자 삭제'"></a>
             </div>
         </div>
     </div>
