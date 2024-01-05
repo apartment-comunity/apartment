@@ -6,8 +6,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class ApartApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    public void test1(){
+
+    }
 
 }
+
+

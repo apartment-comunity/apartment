@@ -1,6 +1,6 @@
-<!-- /resources/templates/report/detail.html -->
 <html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <span th:if="${report.isSecret}" class="badge bg-warning text-dark">Secret</span>
     <title th:text="${report.title}"></title>
 </head>
 <body>
@@ -16,125 +16,35 @@
                     <div th:text="${#temporals.format(report.modifiedDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
-                    <div class="mb-2">
-                        <span th:if="${report.user != null}" th:text="${report.user.nickname}"></span>
-                    </div>
+                    <div class="mb-2" th:if="${report.user != null}" th:text="${report.user.nickname}"></div>
+                    <div th:text="${#temporals.format(report.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></div>
                 </div>
             </div>
             <div class="my-3">
-                <a id = "report_recommend"
-                   class="recommend btn btn-sm btn-outline-secondary"
-                >
-                    추천
-                    <span id="recommend_report_count" class="badge rounded-pill bg-success" th:text="${#lists.size(report.likeCount)}"></span>
-                </a>
                 <a th:href="@{|/report/modify/${report.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${report.user != null and #authentication.getPrincipal().getUsername() == report.user.userId}"
                    th:text="수정"></a>
-                <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/report/delete/${report.id}|}"
+                <!-- Delete button -->
+                <a onclick="return confirm('정말로 삭제하시겠습니까?')" th:href="@{|/report/delete/${report.id}|}"
                    class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                    th:if="${report.user != null and #authentication.getPrincipal().getUsername() == report.user.userId}"
                    th:text="삭제"></a>
+                <!-- 관리자 전용 삭제 버튼 -->
+                <a onclick="return confirm('정말 삭제하시겠습니까?')" th:href="@{|/report/delete/${report.id}|}"
+                   class="delete btn btn-sm btn-danger" th:if="${loginUser.isCheckedAdmin()}"
+                   th:text="'관리자 삭제'"></a>
             </div>
         </div>
     </div>
     <a th:href="@{/report/list}" class="btn btn-primary">목록보기</a>
-    <!-- 답변의 갯수 표시 -->
-    <h5 class="border-bottom my-3 py-2"
-        th:text="|${#lists.size(report.replyList)}개의 답변이 있습니다.|"></h5>
+    <script th:inline="javascript">
 
-    <!-- 답변 반복 시작 -->
-    <div class="card my-3" th:each="reportReply : ${report.replyList}">
-        <a th:id="|reportReply_${reportReply.id}|"></a>
-        <div class="card-body">
-            <div class="card-text" th:utext="${@commonUtil.markdown(reportReply.content)}"></div>
-            <div class="d-flex justify-content-end">
-                <div th:if="${reportReply.modifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
-                    <div class="mb-2">
-                        <span th:text="${'수정됨'}"></span>
-                    </div>
-                </div>
-                <div class="badge bg-light text-dark p-2 text-start">
-                    <div class="mb-2">
-                        <span th:if="${reportReply.user != null}" th:text="${reportReply.user.nickname}"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="my-3">
-                <a
-                        class="reportReply_recommend recommend btn btn-sm btn-outline-secondary"
-                >
-                    <input name="reportReply_id" type= "hidden" th:value="${reportReply.id}">
-                    추천
-                    <span class="recommend_reportReply_count badge rounded-pill bg-success" th:text="${#lists.size(reportReply.likeCount)}"></span>
-
-                </a>
-                <a th:href="@{|/reportReply/modify/${reportReply.id}|}" class="btn btn-sm btn-outline-secondary"
-                   sec:userize="isAuthenticated()"
-                   th:if="${reportReply.user != null and #authentication.getPrincipal().getUsername() == reportReply.user.userId}"
-                   th:text="수정"></a>
-                <a onclick="return confirm('정말 삭제 하시겠습니까?');" th:href="@{|/reportReply/delete/${reportReply.id}|}"
-                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
-                   th:if="${reportReply.user != null and #authentication.getPrincipal().getUsername() == reportReply.user.userId}"
-                   th:text="삭제"></a>
-            </div>
-        </div>
-    </div>
-    <!-- 답변 반복 끝  -->
-    <!-- 답변 작성 -->
-    <form th:action="@{|/reportReply/create/${report.id}|}" th:object="${reportReplyForm}" method="post" class="my-3">
-        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-        <textarea
-                required
-                maxlength="2000"
-                placeholder="내용을 2,000자 이하로 입력하세요"
-                sec:authorize="isAuthenticated()"
-                th:field="*{content}"
-                class="form-control"
-                rows="10"
-        ></textarea>
-        <input type="submit" value="답변등록" class="btn btn-primary my-2">
-    </form>
+        $(document).ready(function() {
+              // Add logic to disable or hide features based on report's secret status and user authorization
+          });
+    </script>
 
 </div>
 </body>
 </html>
-<script th:inline="javascript">
-    var report_id = [[${report.id}]]
-
-    $('#report_recommend').on("click", function () {
-        if (confirm("정말로 추천하시겠습니까?")) {
-            $.ajax({
-                    type: "GET",
-                    url: `/report/like/${report_id}`,
-                    success: function (res) {
-                        $("#recommend_report_count").text(res)
-                    },
-                    error: function (xhr) {
-                        console.log(xhr)
-                    }
-           })
-        }
-    })
-
-    $('.reportReply_recommend').on("click", function () {
-        var _this = $(this)
-        var reportReply_id = _this.find('input[name=reportReply_id]').val();
-
-        if (confirm("정말로 추천하시겠습니까?")) {
-            $.ajax({
-                    type: "GET",
-                    url: `/reportReply/like/${reportReply_id}`,
-                    success: function (res) {
-                        _this.find(".recommend_reportReply_count").text(res)
-                    },
-                    error: function (xhr) {
-                        console.log(xhr)
-                    }
-           })
-        }
-    })
-
-
-</script>

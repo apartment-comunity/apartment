@@ -13,12 +13,18 @@ import java.util.Optional;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
-
-    public List<Schedule> findall() {
+    public List<Schedule> findAll() {
         return this.scheduleRepository.findAll();
     }
 
-    public void save(Schedule schedule) {
+    public void save(ScheduleForm scheduleForm, SiteUser siteUser) {
+        Schedule schedule = Schedule.builder()
+                .user(siteUser)
+                .title(scheduleForm.getTitle())
+                .targetDong(siteUser.getApartDong())
+                .startDate(LocalDate.parse(scheduleForm.getStart()))
+                .endDate(LocalDate.parse(scheduleForm.getEnd()))
+                .build();
         this.scheduleRepository.save(schedule);
     }
 
@@ -35,15 +41,26 @@ public class ScheduleService {
         this.scheduleRepository.delete(schedule);
     }
 
-    public void modify(Schedule schedule, String content, String start, String end) {
+    public void modify(ScheduleForm schedule, Long id) {
+        Schedule beforeSchedule = this.scheduleRepository.findById(id).get();
+
         Schedule modifySchedule = Schedule.builder()
-                .content(content)
-                .startDate(LocalDate.parse(start))
-                .endDate(LocalDate.parse(end)).build();
-        this.scheduleRepository.save(schedule);
+                .id(beforeSchedule.getId())
+                .user(beforeSchedule.getUser())
+                .title(schedule.getTitle())
+                .startDate(LocalDate.parse(schedule.getStart()))
+                .endDate(LocalDate.parse(schedule.getEnd()))
+                .targetDong(beforeSchedule.getTargetDong())
+                .build();
+        this.scheduleRepository.save(modifySchedule);
     }
 
-    public List<Schedule> findByTargetDong(int targetDong) {
-        return this.scheduleRepository.findByTargetDong(targetDong);
+    public List<Schedule> findByTargetDongAndTotal(int userDong) {
+
+        if (userDong == 100) {
+            return this.scheduleRepository.findAll();
+        } else {
+            return this.scheduleRepository.findByTargetDongAndTotal(userDong);
+        }
     }
 }

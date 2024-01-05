@@ -2,7 +2,8 @@
 <div layout:fragment="content" class="container my-3">
     <div class="row my-3">
         <div class="col-6">
-            <a th:href="@{/notice/create}" class="btn btn-primary">질문 등록하기</a>
+            <a th:if="${loginUser.isCheckedAdmin()}" th:href="@{/notice/create}"
+               class="btn btn-primary">공지 등록하기</a>
         </div>
         <div class="col-6">
             <form>
@@ -24,12 +25,14 @@
         </thead>
         <tbody>
         <tr class="text-center" th:each="notice, loop : ${paging}">
-            <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+            <td th:text="${paging.getTotalElements() - (paging.number * paging.size) - loop.index}"></td>
             <td class="text-start">
-                <a th:href="@{|/notice/detail/${notice.id}|}" th:text="${notice.title}"></a>
+                <a th:href="@{|/notice/detail/${notice.id}|}" th:text="${notice.title}" style="text-decoration: none;">
+                    <span th:if="${notice.isSecret}" class="badge bg-secondary">비밀글</span>
+                </a>
             </td>
             <td><span th:if="${notice.user != null}" th:text="${notice.user.nickname}"></span></td>
-            <td th:text="${#temporals.format(notice.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></td>
+            <td th:text="${#temporals.format(notice.createDate, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
         </tr>
         </tbody>
     </table>

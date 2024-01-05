@@ -2,6 +2,7 @@ package com.apartment.apart.domain.notice;
 
 import com.apartment.apart.domain.user.SiteUser;
 import jakarta.persistence.criteria.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +29,7 @@ public class NoticeService {
         return this.noticeRepository.findAll(spec, pageable);
     }
 
-    public Notice getNotice(Integer id) {
+    public Notice getNotice(Long id) {
         Optional<Notice> notice = this.noticeRepository.findById(id);
         if (notice.isPresent()) {
             return notice.get();
@@ -37,19 +38,26 @@ public class NoticeService {
         }
     }
 
-    public void create(String title, String content, SiteUser nickname) {
-        Notice a = Notice.builder()
-                        .title(title)
-                        .content(content)
-                        .user(nickname).build();
-        this.noticeRepository.save(a);
+    public void create(@Valid NoticeForm noticeForm, SiteUser siteUser) {
+        Notice notice = Notice.builder()
+                .user(siteUser)
+                .title(noticeForm.getTitle())
+                .content(noticeForm.getContent())
+                .createDate(LocalDateTime.now())
+                .build();
+        this.noticeRepository.save(notice);
     }
 
     public void modify(Notice notice, String title, String content) {
-        Notice modifyNotice = Notice.builder()
-                        .title(title)
-                        .content(content).build();
-        this.noticeRepository.save(modifyNotice);
+        Notice modiftNotice = Notice.builder()
+                .id(notice.getId())
+                .createDate(notice.getCreateDate())
+                .modifiedDate(LocalDateTime.now())
+                .title(title)
+                .content(content)
+                .user(notice.getUser())
+                .build();
+        this.noticeRepository.save(modiftNotice);
     }
 
     public void delete(Notice notice) {

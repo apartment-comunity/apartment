@@ -26,10 +26,10 @@
         <tr class="text-center" th:each="community, loop : ${paging}">
             <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
             <td class="text-start">
-                <a th:href="@{|/community/detail/${community.id}|}" th:text="${community.title}"></a>
+                <a th:href="@{|/community/detail/${community.id}|}" th:text="${community.title}" style="text-decoration: none;"></a>
             </td>
             <td><span th:if="${community.user != null}" th:text="${community.user.nickname}"></span></td>
-            <td th:text="${#temporals.format(community.createDate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></td>
+            <td th:text="${#temporals.format(community.createDate, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
         </tr>
         </tbody>
     </table>

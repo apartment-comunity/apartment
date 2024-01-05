@@ -2,7 +2,9 @@ package com.apartment.apart.domain.user;
 
 import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -16,6 +18,7 @@ public class SiteUser extends BaseEntity {
     @Column(unique = true)
     private String nickname;
 
+    @Setter
     private String password;
 
     @Column(unique = true)
@@ -28,7 +31,10 @@ public class SiteUser extends BaseEntity {
 
     private int apartHo;
 
-    private boolean approval;
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean checkedAdmin;
 
-    private boolean adminCheck;
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
+    @Setter
+    private boolean checkedWithdrawal;
 }
