@@ -1,11 +1,17 @@
 package com.apartment.apart.domain.user;
 
+import com.apartment.apart.domain.community.Community;
+import com.apartment.apart.domain.communityReply.CommunityReply;
+import com.apartment.apart.domain.report.Report;
+import com.apartment.apart.domain.schedule.Schedule;
 import com.apartment.apart.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,7 +43,7 @@ public class SiteUser extends BaseEntity {
     @Column(columnDefinition = "BOOLEAN DEFAULT false")
     @Setter
     private boolean checkedWithdrawal;
-    
+
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 //    private List<Community> communityList;
 //
@@ -50,10 +56,15 @@ public class SiteUser extends BaseEntity {
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    private List<ReportReply> reportReplyList;
 //
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    @OneToMany(cascade = CascadeType.REMOVE)
 //    private List<Schedule> scheduleList;
 //
-//    @OneToMany(cascade = CascadeType.ALL)
+//    @OneToMany(cascade = CascadeType.REMOVE)
 //    private List<VoteTotal> voteTotalList;
-
+//
+//    @OneToMany(cascade = CascadeType.REMOVE)
+//    private List<Community> communityList;
+//
+//    @OneToMany(cascade = CascadeType.REMOVE)
+//    private List<CommunityReply> communityReplyList;
 }

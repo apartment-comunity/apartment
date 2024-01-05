@@ -32,12 +32,14 @@ public class ReportController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id, Principal principal) {
-        Report report = this.reportService.getReport(id, principal.getName());  // 사용자 이름을 확인하여 비밀글 접근 체크
-        if (report == null || (report.isSecret() && !report.getUser().getUserId().equals(principal.getName()))) {
-            return "redirect:/report/list";  // 접근 권한이 없는 경우 메인 페이지로 리다이렉트
+        try {
+            Report report = this.reportService.getReport(id, principal.getName());  // 사용자 이름을 확인하여 비밀글 접근 체크
+            model.addAttribute("report", report);
+            return "report_detail";
+        } catch (ResponseStatusException e) {
+            // 접근 권한이 없는 경우 메인 페이지로 리다이렉트
+            return "redirect:/report/list";
         }
-        model.addAttribute("report", report);
-        return "report_detail";
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
@@ -52,7 +54,7 @@ public class ReportController {
             return "report_form";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        this.reportService.create(reportForm.getTitle(), reportForm.getContent(), siteUser, reportForm.getIsSecret());  // isSecret 값을 받아서 생성
+        this.reportService.create(reportForm.getTitle(), reportForm.getContent(), siteUser, reportForm.getIsSecret());
         return "redirect:/report/list";
     }
 
@@ -88,30 +90,13 @@ public class ReportController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
     public String reportDelete(Principal principal, @PathVariable("id") Integer id) {
-        String currentUsername = principal.getName();
-        Report report = this.reportService.getReport(id, currentUsername);
-        if(report == null || !report.getUser().getUserId().equals(currentUsername)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        SiteUser currentUser = this.userService.getUser(principal.getName());
+        Report report = this.reportService.getReport(id, currentUser.getUserId());
+
+        if (!report.getUser().getUserId().equals(currentUser.getUserId()) && !currentUser.isCheckedAdmin()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
         }
         this.reportService.delete(report);
         return "redirect:/report/list";
     }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/like/{id}")
-    @ResponseBody
-    public String reportLike(Principal principal, @PathVariable("id") Integer id) {
-        String currentUsername = principal.getName();
-        Report report = this.reportService.getReport(id, currentUsername);
-        if(report == null || report.isSecret() && !report.getUser().getUserId().equals(currentUsername)) {
-            return "Error: 접근 권한이 없습니다.";  // 실제 프로덕션 코드에서는 적절한 에러 처리를 해야 합니다.
-        }
-        SiteUser siteUser = this.userService.getUser(currentUsername);
-        this.reportService.like(report, siteUser);
-
-        Report likedReport = this.reportService.getReport(id, currentUsername);
-        Integer count = likedReport.getLikeCount().size();
-        return count.toString();
-    }
-
 }
