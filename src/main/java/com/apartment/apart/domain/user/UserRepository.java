@@ -12,5 +12,4 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<SiteUser, Long> {
     Optional<SiteUser> findByUserId(String username);
     Page<SiteUser> findAll(Specification<SiteUser> spec, Pageable pageable);
-    Page<SiteUser> findAllByCheckedWithdrawalFalse(Specification<SiteUser> spec, Pageable pageable);
 }
