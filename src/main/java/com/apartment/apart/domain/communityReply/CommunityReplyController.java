@@ -25,7 +25,7 @@ public class CommunityReplyController {
     private final UserService userService;
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
-    public String create(Model model, @PathVariable("id") Long id,
+    public String create(Model model, @PathVariable("id") Integer id,
                                @Valid CommunityReplyForm communityReplyForm, BindingResult bindingResult, Principal principal) {
 
         //답변 부모 질문객체를 받아온다.

@@ -23,6 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CommunityService {
     private final CommunityRepository communityRepository;
+
     @Value("${custom.fileDirPath}")
     private String fileDirPath;
 
@@ -34,7 +35,7 @@ public class CommunityService {
         return this.communityRepository.findAll(spec, pageable);
     }
 
-    public Community getCommunity(Long id) {
+    public Community getCommunity(Integer id) {
         Optional<Community> community = this.communityRepository.findById(id);
         if (community.isPresent()) {
             return community.get();
