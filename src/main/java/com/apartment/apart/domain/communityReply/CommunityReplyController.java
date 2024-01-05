@@ -81,7 +81,7 @@ public class CommunityReplyController {
         CommunityReply communityReply = this.communityReplyService.getCommunityReply(id);
         SiteUser user = this.userService.getUser(principal.getName());
 
-        if (!communityReply.getUser().getUserId().equals(user.getUserId()) && !user.isAdmin()) {
+        if (!communityReply.getUser().getUserId().equals(user.getUserId()) && !user.isCheckedAdmin()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         this.communityReplyService.delete(communityReply);
