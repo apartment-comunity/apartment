@@ -27,12 +27,6 @@ public class Report extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content;//게시글 내용
 
-    @ManyToMany
-    Set<SiteUser> likeCount;//종아요한 유저
-
-    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
-    private List<ReportReply> replyList = new ArrayList<>();
-
     private boolean isSecret;  // 비밀글 여부 필드 추가
 }
 
