@@ -16,7 +16,6 @@ class CustomOAuth2User extends User implements OAuth2User {
 
     public CustomOAuth2User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
-
     }
 
     @Override

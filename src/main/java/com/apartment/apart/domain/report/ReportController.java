@@ -1,5 +1,6 @@
 package com.apartment.apart.domain.report;
 
+import com.apartment.apart.domain.reportReply.ReportReplyForm;
 import com.apartment.apart.domain.user.SiteUser;
 import com.apartment.apart.domain.user.UserService;
 import jakarta.validation.Valid;
@@ -32,9 +33,10 @@ public class ReportController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/detail/{id}")
     public String detail(Model model, @PathVariable("id") Long id, Principal principal) {
+        Report report = this.reportService.getReport(id, principal.getName());  // 사용자 이름을 확인하여 비밀글 접근 체크
         try {
-            Report report = this.reportService.getReport(id, principal.getName());  // 사용자 이름을 확인하여 비밀글 접근 체크
             model.addAttribute("report", report);
+            model.addAttribute("reportReplyForm", new ReportReplyForm());
             return "report_detail";
         } catch (ResponseStatusException e) {
             // 접근 권한이 없는 경우 메인 페이지로 리다이렉트
