@@ -57,7 +57,7 @@ public class VoteController {
             model.addAttribute("status", nowStatus);
             model.addAttribute("loginUser", loginUser);
 
-            return "/vote/vote_list_list";
+            return "vote/vote_list_list";
         } else if (type.equals("card")) {
 
             if (status.isEmpty()) {
@@ -83,7 +83,7 @@ public class VoteController {
             model.addAttribute("request", request);
             model.addAttribute("status", nowStatus);
 
-            return "/vote/vote_list_card";
+            return "vote/vote_list_card";
         } else {
             return "redirect:/";
         }
@@ -100,7 +100,7 @@ public class VoteController {
         if (loginUser.isCheckedAdmin()) {
             model.addAttribute("voteForm", new VoteForm());
             model.addAttribute("request", request);
-            return "/vote/vote_form";
+            return "vote/vote_form";
         }
         return "redirect:/vote/list";
     }
@@ -115,7 +115,7 @@ public class VoteController {
             if (bindingResult.hasErrors()) {
 
                 model.addAttribute("request", request);
-                return "/vote/vote_form";
+                return "vote/vote_form";
             }
             this.voteService.save(voteForm, loginUser);
             return "redirect:/vote/list";
@@ -143,7 +143,7 @@ public class VoteController {
             model.addAttribute("status", nowStatus);
             model.addAttribute("votelist", votelist);
             model.addAttribute("request", request);
-            return "/vote/vote_manage";
+            return "vote/vote_manage";
         }
         return "redirect:/vote/list";
     }
@@ -173,6 +173,6 @@ public class VoteController {
         model.addAttribute("request", request);
         model.addAttribute("today", today);
         model.addAttribute("loginUser", loginUser);
-        return "/vote/vote_detail";
+        return "vote/vote_detail";
     }
 }
