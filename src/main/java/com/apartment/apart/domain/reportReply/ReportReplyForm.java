@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReportReplyForm {
-    @NotEmpty(message = "내용은 필수항목입니다.")
+
+    @NotEmpty(message = "답변 내용을 입력하세요.")
     private String replyContent;
 }

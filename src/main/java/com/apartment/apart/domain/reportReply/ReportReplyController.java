@@ -25,11 +25,11 @@ public class ReportReplyController {
     private final UserService userService;
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
-    public String create(Model model, @PathVariable("id") Long id, @PathVariable("username") String username,
+    public String create(Model model, @PathVariable("id") Long id, String userId,
                          @Valid ReportReplyForm reportReplyForm, BindingResult bindingResult, Principal principal) {
 
         //답변 부모 질문객체를 받아온다.
-        Report report = this.reportService.getReport(id, username);
+        Report report = this.reportService.getReport(id, userId);
         SiteUser user = this.userService.getUser(principal.getName());
 
         if (bindingResult.hasErrors()) {

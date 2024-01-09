@@ -43,6 +43,7 @@ public class CommunityController {
     public String communityCreate(CommunityForm communityForm) {
         return "community_form";
     }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String communityCreate(@Valid CommunityForm communityForm, BindingResult bindingResult, Principal principal,  @RequestParam("thumbnail") MultipartFile thumbnail) {
