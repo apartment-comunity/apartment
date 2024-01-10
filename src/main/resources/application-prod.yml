@@ -1,17 +1,14 @@
 spring:
-  profiles:
-    activate:
-      on-profile: prod
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://127.0.0.1:3306/apart?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
-    username: root
-    password:
+    url: jdbc:mariadb://172.17.0.1:3306/apart?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
+    username: apart
+    password: 1234
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
-        show_sql: true
-        format_sql: true
-        use_sql_comments: true
+        show_sql: false
+        format_sql: false
+        use_sql_comments: false
