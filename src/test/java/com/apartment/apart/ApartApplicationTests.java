@@ -5,12 +5,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class ApartApplicationTests {
-
-    @Test
-    public void test1(){
-
-    }
-
 }
 
 
