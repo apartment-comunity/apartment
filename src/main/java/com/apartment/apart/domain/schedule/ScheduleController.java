@@ -51,7 +51,7 @@ public class ScheduleController {
             model.addAttribute("scheduleList", scheduleFormList);
             model.addAttribute("nowDong", nowDong);
             model.addAttribute("request", request);
-            return "/schedule/schedule_list";
+            return "schedule/schedule_list";
         }
 
 
@@ -69,7 +69,7 @@ public class ScheduleController {
             model.addAttribute("scheduleList", scheduleFormList);
             model.addAttribute("nowDong", nowDong);
             model.addAttribute("request", request);
-            return "/schedule/schedule_list";
+            return "schedule/schedule_list";
         } else {
             List<Schedule> scheduleList = this.scheduleService.findByTargetDongAndTotal(targetDong);
             List<ScheduleForm> scheduleFormList = new ArrayList<>();
@@ -85,7 +85,7 @@ public class ScheduleController {
             model.addAttribute("scheduleList", scheduleFormList);
             model.addAttribute("nowDong", nowDong);
             model.addAttribute("request", request);
-            return "/schedule/schedule_list";
+            return "schedule/schedule_list";
         }
 
     }
@@ -96,14 +96,14 @@ public class ScheduleController {
                          HttpServletRequest request) {
         model.addAttribute("scheduleForm", new ScheduleForm());
         model.addAttribute("request", request);
-        return "/schedule/schedule_form";
+        return "schedule/schedule_form";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/schedule/create")
     public String create(@Valid ScheduleForm scheduleForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
-            return "/schedule/schedule_form";
+            return "schedule/schedule_form";
         }
         SiteUser siteUser = userService.getUser(principal.getName());
         this.scheduleService.save(scheduleForm, siteUser);
@@ -123,7 +123,7 @@ public class ScheduleController {
         }
         model.addAttribute("mySchedule", scheduleList);
         model.addAttribute("request", request);
-        return "/schedule/my_schedule";
+        return "schedule/my_schedule";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -157,7 +157,7 @@ public class ScheduleController {
 
             model.addAttribute("scheduleForm", modifyScheduleForm);
             model.addAttribute("request", request);
-            return "/schedule/schedule_form";
+            return "schedule/schedule_form";
         } else {
             return "redirect:/schedule/list";
         }

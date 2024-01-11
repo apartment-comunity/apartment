@@ -33,7 +33,7 @@
 <body class="bg-gray-100 flex flex-col min-h-screen">
 <div class="flex-1">
     <!-- 네비게이션바 -->
-    <nav th:replace="~{navbar_tailWind :: navbarFragment}"></nav>
+    <nav th:replace="~{navbarTailWind :: navbarFragment}"></nav>
     <!-- 기본 템플릿 안에 삽입될 내용 Start -->
     <th:block layout:fragment="content">
         <!-- 이 부분은 content를 재정의하면서 style.css를 상속받지 않도록 제거 -->
@@ -47,6 +47,6 @@
     <!-- 자바스크립트 End -->
 </div>
 <!--푸터(맨아래있는애)-->
-<footer th:replace="~{footer_tailWind :: footerFragment}" class="mt-auto"></footer>
+<footer th:replace="~{footerTailWind :: footerFragment}" class="mt-auto"></footer>
 </body>
 </html>
