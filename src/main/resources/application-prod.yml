@@ -1,9 +1,9 @@
 spring:
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://172.17.0.1:3306/apart?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
-    username: sbblocal
-    password: 1234
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://apartmenthyeonu2-db.internal:5432/postgres
+    username: postgres
+    password: oQr4zNqbRS332Di
   jpa:
     hibernate:
       ddl-auto: update
